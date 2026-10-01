@@ -680,3 +680,8 @@ button{cursor:pointer}
   .cn-text .cn-close{font-size:1.1rem;letter-spacing:.06em}
   .coach-note.is-collapsed .cn-text{max-height:15.5em;overflow:hidden;-webkit-mask-image:linear-gradient(180deg,#000 55%,transparent);mask-image:linear-gradient(180deg,#000 55%,transparent)}
 }
+/* coach note ending: keep the —— line, closing line and signature together in one column, small gap, no rule */
+.cn-end{break-inside:avoid;-webkit-column-break-inside:avoid}
+.cn-end p{margin-bottom:0}
+.cn-text .cn-close{column-span:none;margin:.55em 0 0;padding-top:0;border-top:0}
+.cn-sign{column-span:none;margin-top:.7em}
