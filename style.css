@@ -627,3 +627,6 @@ button{cursor:pointer}
 .coach-list li::before{content:"";position:absolute;left:0;top:.62em;width:5px;height:5px;border-radius:50%;background:linear-gradient(160deg,#F2F4F7,#AFB6C0);box-shadow:0 0 6px rgba(255,255,255,.35)}
 @media (max-width:600px){.coach-list{font-size:.78rem}}
 .coach-list li span{display:inline-block}
+/* coaches heading: English label in the same Montserrat letter-spaced style as .kicker */
+.coaches-head h3{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap}
+.coaches-en{font-family:var(--lat);font-size:.74rem;font-weight:400;letter-spacing:.38em;color:var(--blue-2)}
