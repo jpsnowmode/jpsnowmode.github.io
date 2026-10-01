@@ -813,3 +813,31 @@ button{cursor:pointer}
   .rv-text{font-size:.9rem;-webkit-line-clamp:8;line-clamp:8}
   .rv-pics img{width:72px;height:72px;border-radius:10px}
 }
+
+/* ===== coaches: single coach layout (Jay + 教練的話) — remove .is-solo when more coaches return ===== */
+.coach-row.is-solo{grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:28px;align-items:start}
+.is-solo>.coach{position:sticky;top:96px}
+.is-solo>.coach-note{grid-column:auto;order:0;margin-top:0;padding:44px 48px 40px}
+.is-solo>.coach-note::before{top:64px;left:-8px;transform:translateY(-50%) rotate(45deg);border-top:0;border-left:1px solid rgba(226,230,235,.2);border-bottom:1px solid rgba(226,230,235,.2)}
+.is-solo .cn-inner{grid-template-columns:minmax(0,1fr);gap:22px}
+.is-solo .cn-head{flex-direction:row;align-items:baseline;gap:14px;flex-wrap:wrap}
+.is-solo .cn-mark{height:auto;font-size:3.2rem;margin:0 0 -.35em;line-height:1}
+@media (max-width:1100px){
+  .coach-row.is-solo{grid-template-columns:minmax(0,1fr);gap:0}
+  .is-solo>.coach{position:static;display:grid;grid-template-columns:200px minmax(0,1fr);column-gap:28px;align-items:center;padding:22px}
+  .is-solo>.coach .avatar{grid-row:1/span 3;margin:0}
+  .is-solo>.coach .coach-name{align-self:end;font-size:1.2rem}
+  .is-solo>.coach .coach-list{align-self:start}
+  .is-solo>.coach-note{margin-top:18px;padding:38px 36px 34px}
+  .is-solo>.coach-note::before{top:-8px;left:calc(22px + 100px);transform:translateX(-50%) rotate(45deg);border-bottom:0;border-top:1px solid rgba(226,230,235,.2)}
+}
+@media (max-width:640px){
+  .is-solo>.coach{grid-template-columns:104px minmax(0,1fr);column-gap:16px;align-items:start;padding:16px}
+  .is-solo>.coach .coach-name{align-self:auto;font-size:1.1rem;margin-top:2px}
+  .is-solo>.coach .coach-role{margin-bottom:10px}
+  .is-solo>.coach .coach-list{grid-column:1/-1;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+  .is-solo>.coach .avatar{grid-row:1/span 2}
+  .is-solo>.coach-note{margin-top:14px;padding:28px 22px 24px}
+  .is-solo>.coach-note::before{left:calc(16px + 52px)}
+}
+.is-solo .cn-text p span,.is-solo .cn-text .cn-close{text-wrap:balance}
