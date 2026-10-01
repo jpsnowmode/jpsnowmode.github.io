@@ -543,6 +543,18 @@
     sync();
   })();
 
+  /* ---------- review screenshots: tap to enlarge ---------- */
+  (() => {
+    const lb = $('#rv-lightbox'); if (!lb || typeof lb.showModal !== 'function') return;
+    const big = $('img', lb); let opener = null;
+    $$('.rv-zoom').forEach(b => b.addEventListener('click', () => {
+      const im = $('img', b); big.src = im.src; big.alt = im.alt; opener = b; lb.showModal(); lb.scrollTop = 0;
+    }));
+    $('.rv-lb-close', lb).addEventListener('click', () => lb.close());
+    lb.addEventListener('click', e => { if (e.target === lb) lb.close(); });
+    lb.addEventListener('close', () => { if (opener) opener.focus({ preventScroll: true }); });
+  })();
+
   /* ---------- init ---------- */
   syncMethod(); renderCal(); renderDays(); setParty(1, 0); updateLive(); go(1, false);
   const y = $('#year'); if (y) y.textContent = new Date().getFullYear();

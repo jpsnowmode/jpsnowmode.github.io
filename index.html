@@ -18,7 +18,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=rv1">
+<link rel="stylesheet" href="style.css?v=rv2">
 </head>
 <body>
 <!--
@@ -273,7 +273,7 @@
           <legend class="step-title">確認內容</legend>
           <dl class="summary" id="summary"></dl>
           <div class="est"><span>預估費用</span><strong id="est-price">—</strong><em class="est-jpy" id="est-price-jpy" hidden></em><small>訂金 30%（銀行轉帳）：<b id="est-deposit">—</b><span class="jpy-inline" id="est-deposit-jpy"></span><br>尾款 70%：<b id="est-balance">—</b><span class="jpy-inline" id="est-balance-jpy"></span>（上課日前一個月內銀行轉帳，或上課當天以現金支付，日圓、台幣皆可，日圓依當天匯率換算）<br>早鳥回饋價 2026–27，整組總價；實際費用以我們的回覆為準</small></div>
-          <label class="agree"><input type="checkbox" name="agree" required><span>我了解這是預約「需求」，確認教練與時段後才算完成預約；並同意 SNOWMODE 的付款與取消政策：訂金須以銀行轉帳支付；尾款 70% 可於上課日前一個月內以銀行轉帳支付，或於上課當天以現金支付，日圓、台幣皆可，日圓依當天匯率換算；提前 60 天以上取消全額退款、提前 30–60 天退還訂金 50%、提前 1–30 天不退款；若因天候或雪場關閉取消課程，可改期或全額退款；並同意 SNOWMODE 使用上述資料與我聯繫。</span></label>
+          <label class="agree"><input type="checkbox" name="agree" required><span>我了解這是預約「需求」，確認教練與時段後才算完成預約；並同意 SNOWMODE 的付款與取消政策：訂金須以銀行轉帳支付；尾款 70% 可於上課日前一個月內以銀行轉帳支付，或於上課當天以現金支付，日圓、台幣皆可，日圓依當天匯率換算；提前 60 天以上取消全額退款；30–60 天內取消退還訂金 50%；30 天內取消不退款；若因天候或雪場關閉取消課程，可改期或全額退款；並同意 SNOWMODE 使用上述資料與我聯繫。</span></label>
           <span class="err" data-err="agree"></span>
         </fieldset>
 
@@ -373,45 +373,45 @@
   </div>
 </section>
 
-<!-- ===== 04 學員回饋（Klook 過往學員評價，文字轉錄；不使用評價照片） ===== -->
+<!-- ===== 04 學員回饋（Klook 過往學員評價截圖；學員臉部已模糊處理） ===== -->
 <section class="sec reviews" id="voices" aria-labelledby="voices-title">
   <div class="wrap">
     <header class="sec-head rv-head">
       <p class="kicker"><span>04</span>STUDENT REVIEWS</p>
       <h2 id="voices-title">學員<b>回饋</b></h2>
-      <p class="rv-note">評價來自 Klook 過往學員</p>
+      <p class="rv-note">以下為 Klook 過往學員評價截圖</p>
       <p class="rv-swipe" aria-hidden="true">左右滑動查看更多評價</p>
     </header>
-    <ul class="rv-row">
-        <li class="rv-card">
-          <p class="rv-stars" role="img" aria-label="5 星評價">★★★★★</p>
-          <blockquote class="rv-text"><p>出發前的忐忑在見到 Jay 教練安心很多，教練很有耐心，也很包容整群碎嘴的中年人，因為理解的不同會盡力用不同的說法教學。可以配合狀況調整課程內容，四個性格程度學習曲線不同的人也是會個別指導，陪同調整，辛苦教練一直爬山了。教練也很注意周遭安全。…</p></blockquote>
-          <footer class="rv-meta"><span class="rv-who">周**</span><span class="rv-date">2 月</span><span class="rv-tag">中文・6 小時</span></footer>
+    <ul class="rv-row rv-shots">
+        <li class="rv-shot">
+          <button type="button" class="rv-zoom" aria-label="放大檢視評價截圖">
+            <img src="img/reviews/r1-kid.jpg" alt="Klook 用戶 5 星評價（雙、單板滑雪 3 小時）：「很幸運遇到 Jay 教練，很專業對小孩也很有耐心，小孩玩得很開心，大推」，附上課照片" width="900" height="690" loading="lazy" decoding="async">
+          </button>
         </li>
-        <li class="rv-card">
-          <p class="rv-stars" role="img" aria-label="5 星評價">★★★★★</p>
-          <blockquote class="rv-text"><p>大力推薦 Jay 教練，是個小帥哥，很照顧學生的上課情況，也會很注意我們的安全，讓第一次接觸滑雪的我們玩的非常開心，上課的氣氛也是非常的好～以後去北海道一定會再找 Jay 教練上課的</p></blockquote>
-          <footer class="rv-meta"><span class="rv-who">Klook 用戶</span><span class="rv-date">2 月</span><span class="rv-tag">雙、單板滑雪・3 小時</span></footer>
+        <li class="rv-shot">
+          <button type="button" class="rv-zoom" aria-label="放大檢視評價截圖">
+            <img src="img/reviews/r2-group.jpg" alt="Klook 用戶 2 月 20 日 5 星評價（雙、單板滑雪 6 小時）：「超滿意這次的單板課程！Jay 教練是我們這兩天玩的這麼愉快的大功臣！」，附團體上課照片" width="900" height="1365" loading="lazy" decoding="async">
+          </button>
         </li>
-        <li class="rv-card">
-          <p class="rv-stars" role="img" aria-label="5 星評價">★★★★★</p>
-          <blockquote class="rv-text"><p>我們一家人第一次滑雪，超級幸運在零基礎的時候遇到 Jay 教練，很細心的照顧我們每一個人，讓我們在短時間內就有不錯的基礎，可以在自由活動期間玩來玩去，教練很帥很溫柔還很會拍照…</p></blockquote>
-          <footer class="rv-meta"><span class="rv-who">Klook 用戶</span><span class="rv-date">2 月</span><span class="rv-tag">雙、單板滑雪・3 小時</span></footer>
+        <li class="rv-shot">
+          <button type="button" class="rv-zoom" aria-label="放大檢視評價截圖">
+            <img src="img/reviews/r3-zhou.jpg" alt="周** 2 月 19 日 5 星評價（中文 6 小時）：教練很有耐心，會用不同的說法教學、配合狀況調整課程，也很注意周遭安全" width="900" height="990" loading="lazy" decoding="async">
+          </button>
         </li>
-        <li class="rv-card">
-          <p class="rv-stars" role="img" aria-label="5 星評價">★★★★★</p>
-          <blockquote class="rv-text"><p>本次教練是 Jay，與其他教練比起來，是看學生的動作就可以很快找到問題，讓學習更有效率！連我剛上國小的兒子都可以很快上手！且對孩子有極具耐心！願意幫忙孩子提板、穿鞋，是不可多得的好教練！下次會繼續指明找 Jay！</p></blockquote>
-          <footer class="rv-meta"><span class="rv-who">Klook 用戶</span><span class="rv-date">2 月</span><span class="rv-tag">中文・3 小時</span></footer>
+        <li class="rv-shot">
+          <button type="button" class="rv-zoom" aria-label="放大檢視評價截圖">
+            <img src="img/reviews/r4-lift.jpg" alt="Klook 用戶 2 月 12 日 5 星評價（中文 3 小時）：「在 Jay 教練指導下第三天孩子們終於上纜車～因為前面教練基礎教的穩，上去之後就滑開了～」" width="900" height="730" loading="lazy" decoding="async">
+          </button>
         </li>
-        <li class="rv-card">
-          <p class="rv-stars" role="img" aria-label="5 星評價">★★★★★</p>
-          <blockquote class="rv-text"><p>第二天教練依然是安排 Jay，第二次上課幫忙複習，並針對孩子較弱的部分加強，並且很有效率的學習！…看 Jay 這麼勤奮在指導孩子就覺得感動❤️ 下次會繼續指明找 Jay！</p></blockquote>
-          <footer class="rv-meta"><span class="rv-who">Klook 用戶</span><span class="rv-date">2 月</span><span class="rv-tag">中文・6 小時</span></footer>
+        <li class="rv-shot">
+          <button type="button" class="rv-zoom" aria-label="放大檢視評價截圖">
+            <img src="img/reviews/r5-day2.jpg" alt="Klook 用戶 2 月 12 日 5 星評價（中文 6 小時）：第二天上課幫忙複習，並針對孩子較弱的部分加強，「下次會繼續指明找 Jay！」" width="900" height="840" loading="lazy" decoding="async">
+          </button>
         </li>
-        <li class="rv-card">
-          <p class="rv-stars" role="img" aria-label="5 星評價">★★★★★</p>
-          <blockquote class="rv-text"><p>超滿意這次的單板課程！Jay 教練是我們這兩天玩的這麼愉快的大功臣！因為人數剛好是上限 4 位，教很多人一直跑上跑下很辛苦，也一直不厭其煩的幫我們檢查鞋子…</p></blockquote>
-          <footer class="rv-meta"><span class="rv-who">Klook 用戶</span><span class="rv-date">2 月</span><span class="rv-tag">雙、單板滑雪・6 小時</span></footer>
+        <li class="rv-shot">
+          <button type="button" class="rv-zoom" aria-label="放大檢視評價截圖">
+            <img src="img/reviews/r6-son.jpg" alt="Klook 用戶 2 月 12 日 5 星評價（中文 3 小時）：看學生的動作就可以很快找到問題，連剛上國小的兒子都可以很快上手，對孩子極具耐心" width="900" height="835" loading="lazy" decoding="async">
+          </button>
         </li>
     </ul>
   </div>
@@ -560,7 +560,7 @@
         <details><summary>課程費用包含纜車券嗎？</summary><p>待確認，確定後會標示在價格表中。（示意回答）</p></details>
         <details><summary>集合地點在哪裡？</summary><p>依雪場與課程而定，確認預約後會通知集合時間與地點。（待確認）</p></details>
         <details><summary>付款方式與時間？</summary><p>訂金須以銀行轉帳支付，於預約確認後支付總價 30%；尾款 70% 可於上課日前一個月內以銀行轉帳支付，或於上課當天以現金支付，日圓、台幣皆可，日圓依當天匯率換算。</p></details>
-        <details><summary>取消課程可以退款嗎？</summary><p>課程開始日前 60 天以上取消：全額退款；提前 30–60 天取消：退還訂金的 50%；提前 1–30 天取消：不退款。若因天候或雪場關閉取消課程，可改期或全額退款。</p></details>
+        <details><summary>取消課程可以退款嗎？</summary><p>提前 60 天以上取消全額退款；30–60 天內取消退還訂金 50%；30 天內取消不退款。若因天候或雪場關閉取消課程，可改期或全額退款。</p></details>
         <details><summary>課程適合哪些程度？</summary><p>課程會依你的程度與目標調整，從完全新手到進階都可以先留下需求，再由教練確認安排。</p></details>
       </div>
     </div>
@@ -570,7 +570,7 @@
         <li><b>收到需求</b><p>你會看到參考編號；我們收到你的日期與課程需求。</p></li>
         <li><b>確認教練與時段</b><p>我們用你選的聯絡方式（LINE 優先）回覆可安排的教練與時間。回覆時間待定。</p></li>
         <li><b>付款</b><p>預約確認後以銀行轉帳支付總價 30% 訂金；尾款 70% 可於上課日前一個月內以銀行轉帳支付，或於上課當天以現金支付，日圓、台幣皆可，日圓依當天匯率換算。訂金銀行轉帳資訊會於確認後透過 LINE／Email 傳送。</p></li>
-        <li><b>取消政策</b><p>提前 60 天以上取消全額退款；提前 30–60 天退還訂金 50%；提前 1–30 天不退款。</p></li>
+        <li><b>取消政策</b><p>提前 60 天以上取消全額退款；30–60 天內取消退還訂金 50%；30 天內取消不退款。</p></li>
         <li><b>行前通知</b><p>上課前提供集合時間、地點與準備事項。</p></li>
         <li><b>上課</b><p>和教練會合開始上課，課後整理重點給你。</p></li>
       </ol>
@@ -655,6 +655,10 @@
 </footer>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script src="script.js?v=rv1"></script>
+<dialog class="rv-lightbox" id="rv-lightbox" aria-label="評價截圖">
+  <button type="button" class="rv-lb-close" aria-label="關閉">×</button>
+  <img alt="">
+</dialog>
+<script src="script.js?v=rv2"></script>
 </body>
 </html>
