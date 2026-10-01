@@ -619,3 +619,4 @@ button{cursor:pointer}
   .go-chev b{animation:none;opacity:.75}
   .go-switch,.go-knob,.go-text{transition:none!important}
 }
+.go-switch{width:min(100%,264px);align-self:center;margin:0 auto}
