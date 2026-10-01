@@ -140,7 +140,7 @@
     booking.discipline = v;
     const sw = $('#disc-switch');
     if (sw) {
-      sw.setAttribute('aria-checked', String(v === '單板'));
+      sw.setAttribute('aria-checked', String(v === '雙板'));
       sw.closest('.disc-switch').dataset.state = v;
       $$('.disc-switch .ds-label').forEach(l => l.classList.toggle('on', l.dataset.disc === v));
     }
@@ -149,13 +149,13 @@
     const q = $(`#quick input[name="q-discipline"][value="${v}"]`); if (q) q.checked = true;
     updateLive();
   }
-  /* booking step-1 switch: knob left = 雙板 (off), right = 單板 (on).
+  /* booking step-1 switch: knob left = 單板 (off), right = 雙板 (on).
      Native <button> gives Space/Enter → click; ←/→ pick a side; each label selects its own side. */
   const discSwitch = $('#disc-switch');
   if (discSwitch) {
     discSwitch.addEventListener('click', () => setDiscipline(booking.discipline === '單板' ? '雙板' : '單板'));
     discSwitch.addEventListener('keydown', e => {
-      const v = { ArrowLeft: '雙板', ArrowRight: '單板', Home: '雙板', End: '單板' }[e.key];
+      const v = { ArrowLeft: '單板', ArrowRight: '雙板', Home: '單板', End: '雙板' }[e.key];
       if (v) { e.preventDefault(); setDiscipline(v); }
     });
   }

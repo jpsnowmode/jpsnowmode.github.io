@@ -18,7 +18,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=silver">
+<link rel="stylesheet" href="style.css?v=swap1">
 </head>
 <body>
 <!--
@@ -176,12 +176,12 @@
           <p class="lbl" id="disc-l">雪具</p>
           <input type="hidden" name="discipline" id="disc-val" value="雙板">
           <div class="disc-switch" data-state="雙板">
-            <span class="ds-label on" id="ds-ski" data-disc="雙板">雙板<small>SKI</small></span>
-            <button type="button" class="ds-track" id="disc-switch" role="switch" aria-checked="false" aria-labelledby="disc-l ds-board" aria-describedby="ds-hint">
+            <span class="ds-label" id="ds-board" data-disc="單板">單板<small>SNOWBOARD</small></span>
+            <button type="button" class="ds-track" id="disc-switch" role="switch" aria-checked="true" aria-labelledby="disc-l ds-ski" aria-describedby="ds-hint">
               <span class="ds-knob" aria-hidden="true"><img src="img/logo/c-carve-knob.svg?v=silver" alt="" width="30" height="30"></span>
             </button>
-            <span class="ds-label" id="ds-board" data-disc="單板">單板<small>SNOWBOARD</small></span>
-            <span class="sr-only" id="ds-hint">開啟為單板，關閉為雙板；也可用左右方向鍵選擇</span>
+            <span class="ds-label on" id="ds-ski" data-disc="雙板">雙板<small>SKI</small></span>
+            <span class="sr-only" id="ds-hint">開啟為雙板，關閉為單板；也可用左右方向鍵選擇</span>
           </div>
           <div class="row2">
             <label class="fld"><span class="fl">程度 <em>*</em></span>
@@ -501,6 +501,6 @@
 </footer>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script src="script.js?v=backend1"></script>
+<script src="script.js?v=swap1"></script>
 </body>
 </html>
