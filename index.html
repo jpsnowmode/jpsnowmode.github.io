@@ -18,7 +18,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=note5">
+<link rel="stylesheet" href="style.css?v=note6">
 </head>
 <body>
 <!--
@@ -83,8 +83,8 @@
     <ol class="mini-prog" aria-hidden="true"><li class="on"><span>1</span>設定</li><li><span>2</span>日期</li><li><span>3</span>聯絡</li><li><span>4</span>確認</li></ol>
     <p class="lbl" id="q-disc-l">板類</p>
     <div class="chips" role="radiogroup" aria-labelledby="q-disc-l">
-      <label><input type="radio" name="q-discipline" value="雙板" checked><span>雙板</span></label>
-      <label><input type="radio" name="q-discipline" value="單板"><span>單板</span></label>
+      <label><input type="radio" name="q-discipline" value="單板"><span>單板<small lang="en">Snowboard</small></span></label>
+      <label><input type="radio" name="q-discipline" value="雙板" checked><span>雙板<small lang="en">Ski</small></span></label>
     </div>
     <div class="row2">
       <label class="fld">第一天（選填）<input type="date" name="q-date" id="q-date"></label>
@@ -98,8 +98,7 @@
       </div>
     </div>
     <div class="quick-foot go-foot">
-      <p class="go-hint" id="go-hint">填好後，打開開關開始預約</p>
-      <button type="submit" class="go-switch" id="quick-go" aria-label="開始預約" aria-describedby="go-hint">
+      <button type="submit" class="go-switch" id="quick-go" aria-label="開始預約">
         <span class="go-fill" aria-hidden="true"></span>
         <span class="go-knob" aria-hidden="true"><img src="img/logo/c-carve-knob.svg?v=silver" alt="" width="44" height="44" draggable="false"></span>
         <span class="go-text" aria-hidden="true">滑動開始預約<i class="go-chev"><b>›</b><b>›</b><b>›</b></i></span>
