@@ -556,8 +556,15 @@ button{cursor:pointer}
 .snow-hint{align-self:start;font-family:var(--lat);font-size:.72rem;font-weight:400;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.62);
   padding-left:calc(clamp(2.6rem,6.2vw,7rem)*.08);transition:opacity .3s ease,transform .3s ease}
 .snow-hint span{display:inline-block;margin-right:.35em;font-size:1.25em;line-height:1}
-@keyframes ssNudge{0%,70%,100%{transform:translateY(0)}82%{transform:translateY(-4px)}}
-.hero:not(.is-on) .snow-hint{animation:ssNudge 2.8s ease-in-out 1.2s infinite}
+/* hint bob: quick hop (8px) + small rebound, then a rest; text brightens with a soft silver glow at the top of the hop */
+@keyframes ssNudge{
+  0%,58%{transform:translateY(0);color:rgba(255,255,255,.62);text-shadow:none;animation-timing-function:cubic-bezier(.2,.75,.3,1)}
+  68%{transform:translateY(-8px);color:rgba(255,255,255,.95);text-shadow:0 0 10px rgba(242,244,247,.55);animation-timing-function:cubic-bezier(.55,0,.8,.3)}
+  77%{transform:translateY(0);color:rgba(255,255,255,.8);text-shadow:0 0 6px rgba(242,244,247,.3);animation-timing-function:cubic-bezier(.2,.75,.3,1)}
+  83%{transform:translateY(-3px);color:rgba(255,255,255,.85);text-shadow:0 0 6px rgba(242,244,247,.3);animation-timing-function:cubic-bezier(.55,0,.8,.3)}
+  89%,100%{transform:translateY(0);color:rgba(255,255,255,.62);text-shadow:none}
+}
+.hero:not(.is-on) .snow-hint{animation:ssNudge 2.2s 1.2s infinite}
 .snow-on{display:flex;flex-direction:column;align-items:flex-start;gap:12px}
 .snow-status{font-family:var(--lat);font-size:.72rem;font-weight:600;letter-spacing:.24em;color:#E2E6EB;display:flex;align-items:center;gap:.7em;
   opacity:0;transition:opacity .5s ease .25s}
