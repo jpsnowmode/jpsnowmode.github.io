@@ -142,17 +142,22 @@
       sw.closest('.disc-switch').dataset.state = v;
       $$('.disc-switch .ds-label').forEach(l => l.classList.toggle('on', l.dataset.disc === v));
     }
+    const hv = $('#disc-val'); if (hv) hv.value = v;
     $$('.disc-name').forEach(s => s.textContent = v);
-    setRadio('discipline', v);
     const q = $(`#quick input[name="q-discipline"][value="${v}"]`); if (q) q.checked = true;
     updateLive();
   }
-  /* switch: native <button> gives Space/Enter → click; labels pick their own side */
+  /* booking step-1 switch: knob left = 雙板 (off), right = 單板 (on).
+     Native <button> gives Space/Enter → click; ←/→ pick a side; each label selects its own side. */
   const discSwitch = $('#disc-switch');
-  if (discSwitch) discSwitch.addEventListener('click', () => setDiscipline(booking.discipline === '單板' ? '雙板' : '單板'));
-  $$('.disc-switch .ds-label').forEach(l => l.addEventListener('click', () => {
-    setDiscipline(booking.discipline === l.dataset.disc ? (l.dataset.disc === '單板' ? '雙板' : '單板') : l.dataset.disc);
-  }));
+  if (discSwitch) {
+    discSwitch.addEventListener('click', () => setDiscipline(booking.discipline === '單板' ? '雙板' : '單板'));
+    discSwitch.addEventListener('keydown', e => {
+      const v = { ArrowLeft: '雙板', ArrowRight: '單板', Home: '雙板', End: '單板' }[e.key];
+      if (v) { e.preventDefault(); setDiscipline(v); }
+    });
+  }
+  $$('.disc-switch .ds-label').forEach(l => l.addEventListener('click', () => { setDiscipline(l.dataset.disc); discSwitch && discSwitch.focus({ preventScroll: true }); }));
 
   /* ---------- calendar (multi, non-consecutive) ---------- */
   const pad2 = n => String(n).padStart(2, '0');
@@ -255,7 +260,6 @@
     else readForm();
   });
   form.addEventListener('change', e => {
-    if (e.target.name === 'discipline') setDiscipline(e.target.value);
     if (e.target.matches('[data-person-input]')) setParty($('#adults').value, $('#children').value);
     readForm();
   });

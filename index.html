@@ -102,20 +102,10 @@
 <!-- ===== 01 課程方案 ===== -->
 <section class="sec lessons" id="lessons" aria-labelledby="lessons-title">
   <div class="wrap">
-    <header class="sec-head split">
-      <div>
-        <p class="kicker"><span>01</span>LESSONS</p>
-        <h2 id="lessons-title">認識 SNOWMODE<b>課程</b></h2>
-        <p class="ph">早鳥回饋價 2026–27・新台幣計價・價格為整組總價（非每人）。</p>
-      </div>
-      <div class="disc-switch" data-state="雙板">
-        <span class="ds-label on" id="ds-ski" data-disc="雙板">雙板 SKI</span>
-        <button type="button" class="ds-track" id="disc-switch" role="switch" aria-checked="false" aria-labelledby="ds-board" aria-describedby="ds-hint">
-          <span class="ds-knob" aria-hidden="true"><img src="img/logo/c-carve-knob.svg" alt="" width="30" height="30"></span>
-        </button>
-        <span class="ds-label" id="ds-board" data-disc="單板">單板 BOARD</span>
-        <span class="sr-only" id="ds-hint">雪具切換：開啟為單板，關閉為雙板</span>
-      </div>
+    <header class="sec-head">
+      <p class="kicker"><span>01</span>LESSONS</p>
+      <h2 id="lessons-title">認識 SNOWMODE<b>課程</b></h2>
+      <p class="ph">早鳥回饋價 2026–27・新台幣計價・價格為整組總價（非每人）。</p>
     </header>
 
     <div class="pkgs single-pkg">
@@ -184,9 +174,14 @@
         <fieldset class="step on" data-step="1">
           <legend class="step-title">課程設定</legend>
           <p class="lbl" id="disc-l">雪具</p>
-          <div class="chips" role="radiogroup" aria-labelledby="disc-l">
-            <label><input type="radio" name="discipline" value="雙板" checked><span>雙板 SKI</span></label>
-            <label><input type="radio" name="discipline" value="單板"><span>單板 SNOWBOARD</span></label>
+          <input type="hidden" name="discipline" id="disc-val" value="雙板">
+          <div class="disc-switch" data-state="雙板">
+            <span class="ds-label on" id="ds-ski" data-disc="雙板">雙板<small>SKI</small></span>
+            <button type="button" class="ds-track" id="disc-switch" role="switch" aria-checked="false" aria-labelledby="disc-l ds-board" aria-describedby="ds-hint">
+              <span class="ds-knob" aria-hidden="true"><img src="img/logo/c-carve-knob.svg" alt="" width="30" height="30"></span>
+            </button>
+            <span class="ds-label" id="ds-board" data-disc="單板">單板<small>SNOWBOARD</small></span>
+            <span class="sr-only" id="ds-hint">開啟為單板，關閉為雙板；也可用左右方向鍵選擇</span>
           </div>
           <div class="row2">
             <label class="fld"><span class="fl">程度 <em>*</em></span>
