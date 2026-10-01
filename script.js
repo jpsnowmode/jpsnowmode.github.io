@@ -667,7 +667,7 @@
     sw.setAttribute('aria-checked', on ? 'true' : 'false');
     onBox.setAttribute('aria-hidden', on ? 'false' : 'true');
     if (on) onBox.removeAttribute('inert'); else onBox.setAttribute('inert', '');
-    if (live) live.textContent = on ? 'SNOW MODE: ON，可以開始預約' : 'SNOW MODE: OFF';
+    if (live) live.textContent = on ? 'SNOW MODE: ON' : 'SNOW MODE: OFF';
     if (on) startSnow(); else stopSnow();
   }
   // <button> already fires click on Enter/Space
