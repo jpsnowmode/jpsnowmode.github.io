@@ -29,7 +29,8 @@
     // The static 約 ¥ values in index.html (price table, package card) use this same rate; update both together.
     JPY_PER_TWD: 4.958,
     durations: { half: '半日（3 小時）', full: '全日（6 小時，含午休 1 小時）' },
-    endpoint: null         // TODO: e.g. '/api/bookings'
+    // Google Apps Script web app (jpsnowmode@gmail.com) → Sheet「SNOWMODE 預約」+ email notification
+    endpoint: 'https://script.google.com/macros/s/AKfycbyD39ReMO2oVTR2xeL7jdfpwYkeOgSsJrtw1Qgy2IilnJnvKLG9VS2c0twrH7DG68T7/exec'
   };
 
   /* ---------- the booking data object ---------- */
@@ -98,11 +99,12 @@
 
   window.SNOWMODE = {
     booking, CONFIG, computePrice, buildPayload,
-    /** Replace with a real request, e.g.
-     *  return fetch(CONFIG.endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}).then(r=>r.json());
-     */
-    submitBooking(payload) {
-      return new Promise(res => setTimeout(() => res({ ok: true, ref: 'SM-' + Math.random().toString(36).slice(2, 6).toUpperCase(), payload }), 700));
+    async submitBooking(payload) {
+      // text/plain avoids a CORS preflight, which Apps Script doesn't support
+      const r = await fetch(CONFIG.endpoint, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) });
+      const data = await r.json();
+      if (!data.ok) throw new Error(data.error || 'submit failed');
+      return data;
     }
   };
 
@@ -382,7 +384,7 @@
       $('#done-ref').textContent = res.ref;
       $('#done-method').textContent = booking.contact.method;
       showDoneOrForm(true); done.focus();
-      toast('預約需求已送出（示意）');
+      toast('預約需求已送出');
     } catch (err) {
       msg('送出失敗，請稍後再試，或直接用 LINE 聯絡我們。');
     } finally { send.disabled = false; send.textContent = '送出預約需求'; }
