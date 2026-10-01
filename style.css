@@ -685,3 +685,6 @@ button{cursor:pointer}
 .cn-end p{margin-bottom:0}
 .cn-text .cn-close{column-span:none;margin:.55em 0 0;padding-top:0;border-top:0}
 .cn-sign{column-span:none;margin-top:.7em}
+/* hero tagline: two lines; line 2 only wraps at its commas (no orphaned characters) */
+.lead-l{display:block}
+.lead-l>span{display:inline-block}
