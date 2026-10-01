@@ -135,9 +135,26 @@
   const form = $('#book-form');
   const setRadio = (name, val) => { const r = form.querySelector(`input[name="${name}"][value="${val}"]`); if (r) r.checked = true; };
 
+  /* ---------- skill levels (descriptions depend on 單板 / 雙板; submitted value = "Lv.N 描述") ---------- */
+  const LEVELS = {
+    '單板': ['第一次滑雪，或學過但忘光光了', '能用後刃、前刃推落葉飄', '能在初級道連續轉彎，能自己搭纜車', '能在中級道穩定轉彎、控制速度', '能刻滑，開始挑戰陡坡、公園或粉雪'],
+    '雙板': ['第一次滑雪，或學過但忘光光了', '能用內八字停下、轉彎', '能在初級道連續內八字轉彎，開始併腿', '能在中級道併腿轉彎', '能刻滑，開始挑戰陡坡、蘑菇或粉雪']
+  };
+  function renderLevels(disc) {
+    const list = LEVELS[disc] || LEVELS['雙板'];
+    $$('#level-field input[name="level"]').forEach(r => {
+      const n = +r.dataset.lv, d = list[n - 1];
+      r.value = `Lv.${n} ${d}`;
+      r.nextElementSibling.nextElementSibling.textContent = d;
+    });
+    const sel = form.querySelector('input[name="level"]:checked');   // keeps the same Lv number
+    booking.level = sel ? sel.value : '';
+  }
+
   /* ---------- discipline (ski / board) sync ---------- */
   function setDiscipline(v) {
     booking.discipline = v;
+    renderLevels(v);
     const sw = $('#disc-switch');
     if (sw) {
       sw.setAttribute('aria-checked', String(v === '雙板'));
@@ -262,6 +279,7 @@
     else readForm();
   });
   form.addEventListener('change', e => {
+    if (e.target.name === 'level') setErr('level', '');
     if (e.target.matches('[data-person-input]')) setParty($('#adults').value, $('#children').value);
     readForm();
   });
@@ -298,7 +316,7 @@
   /* ---------- validation ---------- */
   const setErr = (k, t) => {
     const e = $(`[data-err="${k}"]`); if (e) e.textContent = t;
-    const el = form.elements[k];
+    const el = k === 'level' ? $('#level-field') : form.elements[k];
     if (el && el.setAttribute) el.setAttribute('aria-invalid', t ? 'true' : 'false');
   };
   const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;

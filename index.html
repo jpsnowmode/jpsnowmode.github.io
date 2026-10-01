@@ -18,7 +18,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=rs2">
+<link rel="stylesheet" href="style.css?v=lv2">
 </head>
 <body>
 <!--
@@ -194,14 +194,18 @@
             <span class="ds-label on" id="ds-ski" data-disc="雙板">雙板<small>SKI</small></span>
             <span class="sr-only" id="ds-hint">開啟為雙板，關閉為單板；也可用左右方向鍵選擇</span>
           </div>
+          <fieldset class="fld lv-field" id="level-field" aria-describedby="lv-hint">
+            <legend class="fl">程度 <em>*</em><span class="lv-hint" id="lv-hint">依<span class="disc-name">雙板</span>程度說明</span></legend>
+            <div class="lv-list" role="radiogroup" aria-required="true">
+                <label class="lv"><input type="radio" name="level" value="Lv.1 第一次滑雪，或學過但忘光光了" data-lv="1" required><span class="lv-no">Lv.1</span><span class="lv-desc">第一次滑雪，或學過但忘光光了</span></label>
+                <label class="lv"><input type="radio" name="level" value="Lv.2 能用內八字停下、轉彎" data-lv="2" required><span class="lv-no">Lv.2</span><span class="lv-desc">能用內八字停下、轉彎</span></label>
+                <label class="lv"><input type="radio" name="level" value="Lv.3 能在初級道連續內八字轉彎，開始併腿" data-lv="3" required><span class="lv-no">Lv.3</span><span class="lv-desc">能在初級道連續內八字轉彎，開始併腿</span></label>
+                <label class="lv"><input type="radio" name="level" value="Lv.4 能在中級道併腿轉彎" data-lv="4" required><span class="lv-no">Lv.4</span><span class="lv-desc">能在中級道併腿轉彎</span></label>
+                <label class="lv"><input type="radio" name="level" value="Lv.5 能刻滑，開始挑戰陡坡、蘑菇或粉雪" data-lv="5" required><span class="lv-no">Lv.5</span><span class="lv-desc">能刻滑，開始挑戰陡坡、蘑菇或粉雪</span></label>
+            </div>
+            <span class="err" data-err="level"></span>
+          </fieldset>
           <div class="row2">
-            <label class="fld"><span class="fl">程度 <em>*</em></span>
-              <select name="level" required>
-                <option value="">請選擇</option>
-                <option>完全新手</option><option>初級（能停下、慢速轉彎）</option><option>中級（能連續轉彎）</option><option>進階</option>
-              </select>
-              <span class="err" data-err="level"></span>
-            </label>
             <label class="fld">教學語言
               <select name="language"><option>中文</option><option>English</option><option>粵語</option></select>
             </label>
@@ -625,6 +629,6 @@
 </footer>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script src="script.js?v=note1"></script>
+<script src="script.js?v=lv1"></script>
 </body>
 </html>

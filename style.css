@@ -743,3 +743,20 @@ button{cursor:pointer}
 .rs-aside .rs-link{margin-top:auto;padding-top:14px;border-bottom:0}
 .rs-aside .rs-link{text-decoration:underline;text-decoration-color:rgba(226,230,235,.35);text-underline-offset:4px}
 .rs-fine{margin-top:18px}
+/* ===== booking step 1: numbered skill levels (text depends on 單板 / 雙板) ===== */
+.lv-field{border:0;padding:0;margin-inline:0}
+.lv-field legend{display:flex;align-items:baseline;gap:10px;padding:0;margin-bottom:8px;font-size:.82rem;color:rgba(255,255,255,.85)}
+.lv-hint{font-size:.72rem;color:#AFB6C0;letter-spacing:.04em}
+.lv-list{display:grid;gap:8px}
+.lv{position:relative;display:grid;grid-template-columns:3.6em 1fr;align-items:center;gap:12px;padding:11px 14px;border-radius:12px;cursor:pointer;
+  border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.05);transition:border-color .2s,background .2s,box-shadow .2s}
+.lv input{position:absolute;opacity:0;pointer-events:none}
+.lv:hover{border-color:rgba(255,255,255,.42)}
+.lv-no{font-family:var(--lat);font-weight:600;font-size:.95rem;letter-spacing:.06em;color:#AFB6C0;transition:color .2s}
+.lv-desc{font-size:.88rem;line-height:1.55;color:rgba(255,255,255,.82)}
+.lv:has(input:checked){border-color:rgba(242,244,247,.85);background:linear-gradient(160deg,rgba(242,244,247,.16),rgba(255,255,255,.05));box-shadow:0 0 16px rgba(255,255,255,.12)}
+.lv:has(input:checked) .lv-no{background:linear-gradient(180deg,#FFFFFF,#C4CAD2);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.lv:has(input:checked) .lv-desc{color:#fff}
+.lv:has(input:focus-visible){outline:2px solid var(--blue-2);outline-offset:2px}
+.lv-field[aria-invalid=true] .lv{border-color:rgba(255,154,154,.55)}
+@media (max-width:640px){.lv{grid-template-columns:3.2em 1fr;gap:10px;padding:10px 12px}.lv-desc{font-size:.84rem}}
