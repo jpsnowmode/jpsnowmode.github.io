@@ -305,13 +305,16 @@
   function validate(n) {
     readForm();
     const errs = [];
-    if (n === 1) { if (!booking.level) { setErr('level', '請選擇程度'); errs.push('level'); } else setErr('level', ''); }
-    if (n === 2) {
-      if (!booking.dates.length) { setErr('dates', '請至少選擇一天上課日期'); errs.push('dates'); }
-      if (booking.dates.some(d => d.date < todayISO)) { setErr('dates', '有日期已經過去，請重新選擇'); errs.push('dates'); }
+    if (n === 1) {
+      if (!booking.level) { setErr('level', '請選擇程度'); errs.push('level'); } else setErr('level', '');
+      // 人數 lives in step 1 (same as the hero quick card), so it is always reachable right after the quick-card slide
       if (booking.totalPeople < 1) { setErr('people', '至少需要 1 位大人或小孩'); errs.push('people'); } else setErr('people', '');
       const agesValid = booking.children === booking.childAges.length && booking.childAges.every(age => Number.isInteger(age) && age >= 3 && age <= 15);
       if (!agesValid) { setErr('childAges', '請填寫每位小孩的年齡（3–15 歲）'); errs.push('childAges'); } else setErr('childAges', '');
+    }
+    if (n === 2) {
+      if (!booking.dates.length) { setErr('dates', '請至少選擇一天上課日期'); errs.push('dates'); }
+      if (booking.dates.some(d => d.date < todayISO)) { setErr('dates', '有日期已經過去，請重新選擇'); errs.push('dates'); }
     }
     if (n === 3) {
       if (!booking.name) { setErr('name', '請填寫聯絡人姓名'); errs.push('name'); } else setErr('name', '');
@@ -407,7 +410,7 @@
     syncQuickParty();
     const partyError = booking.totalPeople < 1 ? '至少需要 1 位大人或小孩' : (booking.childAges.length !== booking.children || booking.childAges.some(age => !Number.isInteger(age) || age < 3 || age > 15) ? '請填寫每位小孩的年齡（3–15 歲）' : '');
     setErr('q-party', partyError);
-    if (partyError) { toast(partyError); return false; }
+    if (partyError) { toast(partyError); $('[data-err="q-party"]')?.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); return false; }
     setParty(booking.adults, booking.children);
     const d = qDate.value;
     if (d) {
@@ -418,7 +421,7 @@
     showDoneOrForm(false);
     go(booking.level ? 2 : 1, false);
     $('#booking').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    if (!booking.level) msg('先選擇程度，再到下一步挑日期。');
+    if (!booking.level) msg('確認人數、選擇程度後，再到下一步挑日期。');
     return true;
   }
   quick.addEventListener('submit', e => { e.preventDefault(); quickGo(); });

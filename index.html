@@ -18,7 +18,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=snow5">
+<link rel="stylesheet" href="style.css?v=party1">
 </head>
 <body>
 <!--
@@ -207,6 +207,14 @@
               <select name="language"><option>中文</option><option>English</option><option>粵語</option></select>
             </label>
           </div>
+          <div class="fld party-field step1-party"><span class="fl">人數 <em>*</em></span>
+            <div class="people-controls">
+              <div class="person-control"><span>大人</span><div class="stepper"><button type="button" data-person="adults" data-n="-1" aria-label="減少大人">−</button><input type="number" name="adults" id="adults" data-person-input="adults" value="1" min="0" inputmode="numeric" aria-label="大人人數"><button type="button" data-person="adults" data-n="1" aria-label="增加大人">＋</button></div></div>
+              <div class="person-control"><span>小孩</span><div class="stepper"><button type="button" data-person="children" data-n="-1" aria-label="減少小孩">−</button><input type="number" name="children" id="children" data-person-input="children" value="0" min="0" inputmode="numeric" aria-label="小孩人數"><button type="button" data-person="children" data-n="1" aria-label="增加小孩">＋</button></div></div>
+            </div>
+            <div id="child-ages" class="child-ages" aria-live="polite"></div>
+            <span class="err" data-err="people"></span><span class="err" data-err="childAges"></span>
+          </div>
         </fieldset>
 
         <!-- step 2 -->
@@ -226,14 +234,6 @@
           <p class="days-empty" id="days-empty">還沒有選日期。</p>
           <span class="err" data-err="dates"></span>
           <div class="row2">
-            <div class="fld party-field"><span class="fl">人數 <em>*</em></span>
-              <div class="people-controls">
-                <div class="person-control"><span>大人</span><div class="stepper"><button type="button" data-person="adults" data-n="-1" aria-label="減少大人">−</button><input type="number" name="adults" id="adults" data-person-input="adults" value="1" min="0" inputmode="numeric" aria-label="大人人數"><button type="button" data-person="adults" data-n="1" aria-label="增加大人">＋</button></div></div>
-                <div class="person-control"><span>小孩</span><div class="stepper"><button type="button" data-person="children" data-n="-1" aria-label="減少小孩">−</button><input type="number" name="children" id="children" data-person-input="children" value="0" min="0" inputmode="numeric" aria-label="小孩人數"><button type="button" data-person="children" data-n="1" aria-label="增加小孩">＋</button></div></div>
-              </div>
-              <div id="child-ages" class="child-ages" aria-live="polite"></div>
-              <span class="err" data-err="people"></span><span class="err" data-err="childAges"></span>
-            </div>
             <label class="fld">雪場（候選・待確認）
               <select name="resort"><option>由教練建議</option><option>岩原</option><option>石打丸山</option><option>神立</option><option>中里</option><option>苗場</option></select>
             </label>
@@ -317,7 +317,7 @@
         </figure>
       </header>
       <ol class="principles">
-        <li><span class="p-no">01</span><div><h3>聽得懂，才學得快</h3><p>用中文說明重心、站姿與轉彎的原理，不用一邊滑一邊猜教練的意思。其他教學語言待確認。</p></div></li>
+        <li><span class="p-no">01</span><div><h3>聽得懂，才學得快</h3><p>用最簡單的方式說明原理，不用一邊滑一邊猜教練的意思。</p></div></li>
         <li><span class="p-no">02</span><div><h3>先安全，再進階</h3><p>每堂課從暖身與安全規則開始，確定基本動作穩定了，才往下一個坡度走。</p></div></li>
         <li><span class="p-no">03</span><div><h3>課表跟著你的行程走</h3><p>半日、全日自由搭配，也能排在不連續的日子，配合你的東京行程或溫泉住宿。</p></div></li>
         <li><span class="p-no">04</span><div><h3>下課後還有功課</h3><p>課後整理重點與下次練習方向（形式待定），讓你自己滑的時候也知道該注意什麼。</p></div></li>
@@ -330,7 +330,14 @@
         <p class="ph">姓名、照片、證照與經歷皆為佔位</p>
       </div>
       <ul class="coach-row">
-        <li class="coach"><div class="avatar avatar-photo"><img src="img/coach/jay.jpg" alt="Jay 教練在雪場上的照片" width="600" height="600" loading="lazy" decoding="async"></div><p class="coach-name">Jay</p><p class="coach-role">主教練・單板 SNOWBOARD</p><p class="coach-bio">SBINZ Lv.1 紐西蘭滑雪指導員一級・CSIA Lv.1 加拿大滑雪指導員一級。4 年教學經驗，曾於星野、富良野、札幌國際、留壽都等日本雪場任教。</p><p class="coach-lang">本季主要駐點：越後湯澤</p></li>
+        <li class="coach"><div class="avatar avatar-photo"><img src="img/coach/jay.jpg" alt="Jay 教練在雪場上的照片" width="600" height="600" loading="lazy" decoding="async"></div><p class="coach-name">Jay</p><p class="coach-role">單板／雙板</p>
+          <ul class="coach-list">
+            <li>SBINZ Lv.1｜<span>紐西蘭滑雪指導員一級</span></li>
+            <li>CSIA Lv.1｜<span>加拿大滑雪指導員一級</span></li>
+            <li>4 年教學經驗</li>
+            <li>曾任教：<span>星野、富良野、</span><span>札幌國際、留壽都</span></li>
+            <li>本季駐點：越後湯澤</li>
+          </ul></li>
         <li class="coach"><div class="avatar" aria-hidden="true">B</div><p class="coach-name">教練 B（待填）</p><p class="coach-role">單板</p><p class="coach-bio">教學風格、證照待補。</p><p class="coach-lang">語言：中文（其他待補）</p></li>
         <li class="coach"><div class="avatar" aria-hidden="true">C</div><p class="coach-name">教練 C（待填）</p><p class="coach-role">兒童教學・雙板</p><p class="coach-bio">兒童教學經驗待補。</p><p class="coach-lang">語言：中文（其他待補）</p></li>
         <li class="coach"><div class="avatar" aria-hidden="true">D</div><p class="coach-name">教練 D（待填）</p><p class="coach-role">單板・進階技巧</p><p class="coach-bio">擅長項目、證照待補。</p><p class="coach-lang">語言：中文（其他待補）</p></li>
@@ -513,6 +520,6 @@
 </footer>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script src="script.js?v=snow5"></script>
+<script src="script.js?v=party1"></script>
 </body>
 </html>
