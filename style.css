@@ -630,3 +630,46 @@ button{cursor:pointer}
 /* coaches heading: English label in the same Montserrat letter-spaced style as .kicker */
 .coaches-head h3{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap}
 .coaches-en{font-family:var(--lat);font-size:.74rem;font-weight:400;letter-spacing:.38em;color:var(--blue-2)}
+/* ===== coach note (Jay・教練的話) — letter card under the row, caret points up to Jay's card ===== */
+.coach-note{grid-column:1/-1;order:5;position:relative;margin-top:14px;padding:44px 48px 40px;border-radius:var(--r);
+  border:1px solid rgba(226,230,235,.2);background:linear-gradient(160deg,rgba(242,244,247,.07),rgba(255,255,255,.012) 60%);
+  --caret:calc((100% - 60px) / 8)}
+.coach-note::before{content:"";position:absolute;top:-8px;left:var(--caret);width:14px;height:14px;transform:translateX(-50%) rotate(45deg);
+  background:#141c30;border-left:1px solid rgba(226,230,235,.2);border-top:1px solid rgba(226,230,235,.2)}
+.coach-note::after{content:"";position:absolute;left:48px;right:48px;top:0;height:1px;background:linear-gradient(90deg,transparent,rgba(242,244,247,.5),transparent)}
+.cn-inner{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,3.2fr);gap:20px 48px;margin:0}
+.cn-head{display:flex;flex-direction:column;align-items:flex-start;gap:6px}
+.cn-mark{font-family:Georgia,"Times New Roman",serif;font-size:4.2rem;line-height:.8;height:.5em;color:#E2E6EB;opacity:.55;margin-bottom:10px}
+.cn-title{font-weight:300;font-size:1.25rem;letter-spacing:.14em}
+.cn-who{font-family:var(--lat);font-size:.72rem;letter-spacing:.32em;color:#AFB6C0;text-transform:uppercase}
+.cn-who span{opacity:.7;margin-right:.2em}
+.cn-text{margin:0;column-count:2;column-gap:56px;column-rule:1px solid rgba(226,230,235,.12);font-size:.95rem;line-height:1.95;color:rgba(255,255,255,.82);font-weight:300;letter-spacing:.03em}
+.cn-text p{break-inside:avoid;margin:0 0 1.15em}
+.cn-text p span{display:block;text-wrap:pretty}
+.cn-text .cn-close{column-span:all;margin:1.1em 0 0;padding-top:1.3em;border-top:1px solid rgba(226,230,235,.22);
+  font-size:1.32rem;font-weight:500;letter-spacing:.1em;line-height:1.6;color:#fff;
+  background:linear-gradient(180deg,#FFFFFF,#C9CED6);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.cn-sign{column-span:all;margin-top:10px;font-family:var(--lat);font-size:.9rem;letter-spacing:.24em;color:#AFB6C0}
+.cn-more{display:inline-flex;align-items:center;gap:.5em;margin-top:14px;padding:8px 18px;border-radius:999px;border:1px solid rgba(226,230,235,.35);
+  background:transparent;color:#E2E6EB;font-size:.82rem;letter-spacing:.12em;transition:border-color .2s,background .2s}
+.cn-more::after{content:"";width:6px;height:6px;border-right:1px solid currentColor;border-bottom:1px solid currentColor;transform:translateY(-2px) rotate(45deg);transition:transform .2s}
+.cn-more[aria-expanded="true"]::after{transform:translateY(2px) rotate(-135deg)}
+.cn-more:hover{border-color:#fff;background:rgba(255,255,255,.06)}
+@media (max-width:1100px){
+  .coach-note{order:2;--caret:calc((100% - 20px) / 4);padding:38px 36px 34px}
+  .coach-row>.coach:nth-child(n+3){order:3}
+  .cn-inner{grid-template-columns:minmax(0,1fr)}
+  .cn-head{flex-direction:row;align-items:baseline;gap:14px;flex-wrap:wrap}
+  .cn-mark{height:auto;font-size:3rem;margin:0 0 -.35em;line-height:1}
+}
+@media (max-width:800px){.cn-text{column-count:1}}
+@media (max-width:640px){
+  .coach-note{--caret:calc((100% - 12px) / 4);margin-top:6px;padding:28px 22px 24px}
+  .coach-note::after{left:22px;right:22px}
+  .cn-mark{font-size:2.6rem}
+  .cn-title{font-size:1.1rem}
+  .cn-text{font-size:.9rem;line-height:1.9;letter-spacing:.02em}
+  .cn-text p{margin-bottom:1em}
+  .cn-text .cn-close{font-size:1.1rem;letter-spacing:.06em}
+  .coach-note.is-collapsed .cn-text{max-height:15.5em;overflow:hidden;-webkit-mask-image:linear-gradient(180deg,#000 55%,transparent);mask-image:linear-gradient(180deg,#000 55%,transparent)}
+}

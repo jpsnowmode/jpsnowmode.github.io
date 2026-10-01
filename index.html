@@ -18,7 +18,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=party2">
+<link rel="stylesheet" href="style.css?v=note1">
 </head>
 <body>
 <!--
@@ -81,7 +81,7 @@
   <form class="glass quick" id="quick" aria-labelledby="quick-title" novalidate>
     <p class="quick-title" id="quick-title">預約課程</p>
     <ol class="mini-prog" aria-hidden="true"><li class="on"><span>1</span>設定</li><li><span>2</span>日期</li><li><span>3</span>聯絡</li><li><span>4</span>確認</li></ol>
-    <p class="lbl" id="q-disc-l">雪具</p>
+    <p class="lbl" id="q-disc-l">板類</p>
     <div class="chips" role="radiogroup" aria-labelledby="q-disc-l">
       <label><input type="radio" name="q-discipline" value="雙板" checked><span>雙板</span></label>
       <label><input type="radio" name="q-discipline" value="單板"><span>單板</span></label>
@@ -159,11 +159,11 @@
     <div class="book-intro">
       <p class="kicker"><span>02</span>BOOKING</p>
       <h2 id="booking-title">四個步驟，<br><b>完成預約需求</b></h2>
-      <p class="book-lead">選雪具與程度、挑日期（可以選多個不連續的日子）、留下聯絡方式，最後確認一次。我們收到後會用你選擇的方式回覆。</p>
+      <p class="book-lead">選板類與程度、挑日期（可以選多個不連續的日子）、留下聯絡方式，最後確認一次。我們收到後會用你選擇的方式回覆。</p>
       <aside class="glass live" id="live" aria-label="目前選擇">
         <p class="live-title">你的預約</p>
         <dl>
-          <div><dt>雪具</dt><dd data-live="discipline">雙板</dd></div>
+          <div><dt>板類</dt><dd data-live="discipline">雙板</dd></div>
           <div><dt>程度</dt><dd data-live="level">—</dd></div>
           <div><dt>日期</dt><dd data-live="dates">尚未選擇</dd></div>
           <div><dt>人數</dt><dd data-live="people">大人 1・小孩 0（共 1 人）</dd></div>
@@ -185,7 +185,7 @@
         <!-- step 1 -->
         <fieldset class="step on" data-step="1">
           <legend class="step-title">課程設定</legend>
-          <p class="lbl" id="disc-l">雪具</p>
+          <p class="lbl" id="disc-l">板類</p>
           <input type="hidden" name="discipline" id="disc-val" value="雙板">
           <div class="disc-switch" data-state="雙板">
             <span class="ds-label" id="ds-board" data-disc="單板">單板<small>SNOWBOARD</small></span>
@@ -340,6 +340,29 @@
         <li class="coach"><div class="avatar" aria-hidden="true">B</div><p class="coach-name">教練 B（待填）</p><p class="coach-role">單板</p><p class="coach-bio">教學風格、證照待補。</p><p class="coach-lang">語言：中文（其他待補）</p></li>
         <li class="coach"><div class="avatar" aria-hidden="true">C</div><p class="coach-name">教練 C（待填）</p><p class="coach-role">兒童教學・雙板</p><p class="coach-bio">兒童教學經驗待補。</p><p class="coach-lang">語言：中文（其他待補）</p></li>
         <li class="coach"><div class="avatar" aria-hidden="true">D</div><p class="coach-name">教練 D（待填）</p><p class="coach-role">單板・進階技巧</p><p class="coach-bio">擅長項目、證照待補。</p><p class="coach-lang">語言：中文（其他待補）</p></li>
+        <li class="coach-note" id="coach-note-jay" aria-labelledby="coach-note-jay-title">
+          <figure class="cn-inner">
+            <figcaption class="cn-head">
+              <span class="cn-mark" aria-hidden="true">“</span>
+              <h4 class="cn-title" id="coach-note-jay-title">教練的話</h4>
+              <p class="cn-who"><span lang="en">FROM</span> Jay</p>
+            </figcaption>
+            <div class="cn-text-wrap">
+              <blockquote class="cn-text" id="coach-note-jay-text">
+                <p><span>我沒有七年、八年，甚至十年以上的華麗資歷。</span><span>但這幾年的雪季，我也實際教過了數百位學生。</span></p>
+                <p><span>而我覺得現在的我，有一個很大的優勢——</span><span>我還很熱愛「教人滑雪」這件事。</span></p>
+                <p><span>我還會在意你為什麼一直卡在同一個地方，</span><span>會想辦法換不同的說法讓你懂，</span><span>會因為你終於成功換刃、第一次順順滑下來，而真的替你開心。</span></p>
+                <p><span>我沒有資深教練的包袱，</span><span>有的是年輕人的體力、耐心，以及對這份工作的熱情。</span></p>
+                <p><span>我不敢說自己是資歷最漂亮的教練，</span><span>但我敢保證，我不會因為你是初學者，就隨便帶你滑完一天。</span></p>
+                <p><span>價格親民，不代表教學打折。</span><span>你花的是更容易入手的價格，我想給你的，卻是高規格的學習體驗。</span></p>
+                <p><span>因為我想累積的，不只是「教了幾年」，</span><span>而是幾年後，你還會記得——</span></p>
+                <p class="cn-close">當初是誰，讓你真正喜歡上滑雪。</p>
+                <footer class="cn-sign">— Jay</footer>
+              </blockquote>
+              <button type="button" class="cn-more" aria-expanded="true" aria-controls="coach-note-jay-text" hidden>繼續閱讀</button>
+            </div>
+          </figure>
+        </li>
       </ul>
     </div>
   </div>
@@ -519,6 +542,6 @@
 </footer>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script src="script.js?v=party1"></script>
+<script src="script.js?v=note1"></script>
 </body>
 </html>

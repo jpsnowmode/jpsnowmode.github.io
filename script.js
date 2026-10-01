@@ -356,7 +356,7 @@
     const price = computePrice(booking);
     const c = booking.contact;
     const agesText = booking.children ? booking.childAges.map((age, i) => `小孩 ${i + 1}：${age ? age + ' 歲' : '未填'}`).join('、') : '—';
-    const rows = [['雪具', booking.discipline], ['程度', booking.level], ['語言', booking.language],
+    const rows = [['板類', booking.discipline], ['程度', booking.level], ['語言', booking.language],
       ['日期', datesText(false)], ['時數', booking.durationLabel || '—'], ['大人', booking.adults + ' 人'], ['小孩', booking.children + ' 人'], ['小孩年齡', agesText], ['總人數', booking.totalPeople + ' 人'], ['雪場', booking.resort],
       ['聯絡人', booking.name], [c.method, c.id]];
     if (c.method !== 'Email') rows.push(['Email', c.email || '（未填）']);
@@ -505,11 +505,25 @@
 
   /* ---------- reveal on scroll ---------- */
   if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const els = $$('.pkg,.principles li,.coach,.yz-facts li,.voice,.qa details,.timeline li,.ct-list li,.line-card,.route,.method-photo');
+    const els = $$('.pkg,.principles li,.coach,.coach-note,.yz-facts li,.voice,.qa details,.timeline li,.ct-list li,.line-card,.route,.method-photo');
     els.forEach(el => el.classList.add('rv'));
     const io = new IntersectionObserver(es => es.forEach(en => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } }), { threshold: .08, rootMargin: '0px 0px -40px 0px' });
     els.forEach(el => io.observe(el));
   }
+
+  /* ---------- coach note: "繼續閱讀" collapse on small screens ---------- */
+  (() => {
+    const note = $('.coach-note'); if (!note) return;
+    const btn = $('.cn-more', note); const mq = matchMedia('(max-width:640px)');
+    const set = open => { note.classList.toggle('is-collapsed', !open); btn.setAttribute('aria-expanded', open ? 'true' : 'false'); btn.textContent = open ? '收合' : '繼續閱讀'; };
+    const sync = () => { btn.hidden = !mq.matches; set(!mq.matches); };
+    btn.addEventListener('click', () => {
+      const open = btn.getAttribute('aria-expanded') !== 'true'; set(open);
+      if (!open) note.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    });
+    mq.addEventListener ? mq.addEventListener('change', sync) : mq.addListener(sync);
+    sync();
+  })();
 
   /* ---------- init ---------- */
   syncMethod(); renderCal(); renderDays(); setParty(1, 0); updateLive(); go(1, false);
