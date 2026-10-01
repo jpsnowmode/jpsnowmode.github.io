@@ -154,6 +154,10 @@ button{cursor:pointer}
 .pt-note{font-size:.78rem;color:var(--mute);margin-top:14px}
 .pt-note code{font-family:var(--lat);color:var(--blue-2)}
 .prices tbody tr.pt-more td{font-family:var(--sans);font-weight:500;color:var(--blue-2)}
+/* approximate JPY reference (small, muted; NTD stays dominant) */
+.jpy{display:block;margin-top:3px;font-family:var(--lat);font-weight:400;font-size:.74rem;letter-spacing:.01em;color:var(--mute);white-space:nowrap}
+.pkg-price .jpy{font-size:.8rem;margin-top:4px}
+.pt-jpy-note{font-size:.76rem;color:var(--mute);margin-top:10px}
 
 /* booking */
 .booking{background:radial-gradient(1000px 500px at 85% 20%,rgba(47,107,255,.16),transparent 60%),linear-gradient(180deg,var(--night-2),var(--night))}
@@ -225,6 +229,9 @@ button{cursor:pointer}
 .est span{font-size:.85rem;color:rgba(255,255,255,.8)}
 .est strong{font-family:var(--lat);font-size:1.6rem}
 .est small{font-size:.76rem;color:var(--mute)}
+.est-jpy{font-style:normal;font-family:var(--lat);font-size:.88rem;color:rgba(255,255,255,.62);white-space:nowrap}
+.est small{flex-basis:100%}
+.est .jpy-inline{font-size:inherit;color:var(--mute);margin-left:6px;white-space:nowrap}
 .agree{display:flex;gap:10px;align-items:flex-start;margin-top:16px;font-size:.85rem;color:rgba(255,255,255,.85);cursor:pointer}
 .agree input{width:18px;height:18px;margin-top:3px;accent-color:var(--blue);flex:none}
 .wiz-msg{font-size:.86rem;min-height:1.4em;margin-top:14px;color:var(--warn)}
