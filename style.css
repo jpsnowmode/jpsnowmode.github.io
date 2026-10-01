@@ -499,3 +499,89 @@ button{cursor:pointer}
 
 .avatar-photo{overflow:hidden;padding:0}
 .avatar-photo img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* ===== hero snow mode switch (OFF: calm hero · ON: colour + bokeh snow + booking CTA) ===== */
+.hero-copy,.hero .quick{position:relative;z-index:1}
+.hero .scroll-cue{z-index:1}
+
+/* the switch itself (replaces the static symbol img) */
+.hero h1 .hero-switch{appearance:none;background:none;border:0;padding:0;margin:0;color:inherit;
+  height:.72em;width:auto;aspect-ratio:3/2;border-radius:999px;cursor:pointer;-webkit-tap-highlight-color:transparent;
+  position:relative;touch-action:manipulation}
+.hero-switch .ss-svg{display:block;height:100%;width:auto;overflow:visible}
+.hero-switch:focus{outline:none}
+.hero-switch:focus-visible{outline:2px solid var(--blue-2);outline-offset:6px}
+/* bigger tap target than the drawn glyph */
+.hero-switch::before{content:"";position:absolute;inset:-10px -6px}
+
+.ss-fill{fill:#0B0D10;fill-opacity:0;transition:fill-opacity .35s ease}
+.ss-track{fill:url(#ssTc);transition:fill .35s ease}
+.ss-knob{transform:translateX(0);transition:transform .35s cubic-bezier(.3,.7,.2,1)}
+.ss-knob-bg{fill:url(#ssKc);transition:fill .35s ease}
+.ss-knob-s{fill:#2F3540;transition:fill .35s ease}
+.hero-switch .ss-svg{transition:filter .5s ease}
+
+/* OFF (only once JS has armed the hero) */
+.hero.ss:not(.is-on) .ss-track{fill:rgba(255,255,255,.42)}
+.hero.ss:not(.is-on) .ss-knob{transform:translateX(-160px)}
+.hero.ss:not(.is-on) .ss-knob-bg{fill:#7d869c}
+.hero.ss:not(.is-on) .ss-knob-s{fill:rgba(255,255,255,.85)}
+.hero.ss:not(.is-on) .ss-knob-in{transform-box:fill-box;transform-origin:center;animation:ssPulse 2.8s ease-in-out 1.2s infinite}
+@keyframes ssPulse{0%,70%,100%{transform:scale(1)}82%{transform:scale(.9)}}
+.hero-switch:hover .ss-knob-in{animation-play-state:paused}
+/* ON: lit silver track (gap ring around the knob darkened like the logo) + soft white glow */
+.hero.is-on .ss-fill{fill-opacity:.35}
+.hero.is-on .ss-svg{filter:drop-shadow(0 0 .12em rgba(255,255,255,.45))}
+
+/* hero photo calm → full colour */
+.hero-bg{transition:filter .8s ease}
+.hero::before{content:"";position:absolute;inset:0;z-index:-1;background:rgba(8,12,26,.42);opacity:0;transition:opacity .8s ease;pointer-events:none}
+.hero.ss:not(.is-on) .hero-bg{filter:grayscale(.55) saturate(.7) brightness(.82)}
+.hero.ss:not(.is-on)::before{opacity:1}
+
+/* snowfall canvas: above photo + overlay, below copy */
+.snow-canvas{position:absolute;left:0;top:0;width:100%;height:100%;-webkit-mask-image:linear-gradient(#000 72%,transparent);mask-image:linear-gradient(#000 72%,transparent);z-index:0;pointer-events:none;opacity:0;transition:opacity .8s ease}
+.hero.is-on .snow-canvas{opacity:1}
+/* v2: snowfall level is faded in JS (~1.5s); keep the canvas itself always visible while flakes drift out */
+.hero.ss .snow-canvas{opacity:1;transition:none}
+/* v2: very subtle cool light haze + slightly brighter grade when ON */
+.hero-bg::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 70% at 62% 12%,rgba(225,236,255,.16),rgba(225,236,255,.05) 45%,transparent 75%);opacity:0;transition:opacity 1.6s ease}
+.hero.is-on .hero-bg::after{opacity:1}
+.hero.is-on .hero-bg{filter:brightness(1.04) saturate(1.04)}
+
+/* slot under the wordmark: hint (off) / status + CTA (on) share one cell → no layout shift */
+.snow-slot{display:grid;margin:22px 0 4px;min-height:0}
+.snow-slot>*{grid-area:1/1}
+.hero:not(.ss) .snow-slot{display:none}
+.snow-hint{align-self:start;font-family:var(--lat);font-size:.72rem;font-weight:400;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.62);
+  padding-left:calc(clamp(2.6rem,6.2vw,7rem)*.08);transition:opacity .3s ease,transform .3s ease}
+.snow-hint span{display:inline-block;margin-right:.35em;font-size:1.25em;line-height:1;animation:ssNudge 2.8s ease-in-out 1.2s infinite}
+@keyframes ssNudge{0%,70%,100%{transform:translateY(0)}82%{transform:translateY(-3px)}}
+.snow-on{display:flex;flex-direction:column;align-items:flex-start;gap:12px}
+.snow-status{font-family:var(--lat);font-size:.72rem;font-weight:600;letter-spacing:.24em;color:#E2E6EB;display:flex;align-items:center;gap:.7em;
+  opacity:0;transition:opacity .5s ease .25s}
+.snow-status i{width:6px;height:6px;border-radius:50%;background:#F2F4F7;box-shadow:0 0 8px 2px rgba(255,255,255,.6)}
+.snow-cta{opacity:0;transform:translateY(10px);transition:opacity .5s ease .85s,transform .5s cubic-bezier(.3,.7,.2,1) .85s,box-shadow .2s,background .2s;visibility:hidden}
+.snow-on .snow-cta:hover{transform:translateY(-2px)}
+.hero.is-on .snow-hint{opacity:0;transform:translateY(-4px);pointer-events:none}
+.hero.is-on .snow-status{opacity:1}
+.hero.is-on .snow-cta{opacity:1;transform:none;visibility:visible}
+/* turning OFF: hide quickly, no delays */
+.hero:not(.is-on) .snow-status{transition-delay:0s;transition-duration:.25s}
+.hero:not(.is-on) .snow-cta{transition:opacity .25s ease,transform .25s ease,visibility 0s linear .25s}
+.hero:not(.is-on) .snow-hint{transition-delay:.25s}
+
+@media (max-width:600px){
+  .snow-slot{margin:16px 0 0}
+  .snow-hint{font-size:.66rem;padding-left:calc(10.8vw*.06)}
+  .snow-on{gap:10px}
+}
+@media (prefers-reduced-motion:reduce){
+  .snow-canvas{display:none}
+  .hero.ss .ss-knob-in,.snow-hint span{animation:none!important}
+}
+/* reduced motion: switch state changes instantly (no slide / fades / delayed CTA) */
+@media (prefers-reduced-motion:reduce){
+  .hero.ss .hero-bg,.hero.ss::before,.hero.ss .hero-bg::after,.hero-switch .ss-svg,.ss-knob,.ss-fill,.ss-track,.ss-knob-bg,.ss-knob-s,
+  .hero.ss .snow-hint,.hero.ss .snow-status,.hero.ss .snow-cta{transition:none!important}
+}

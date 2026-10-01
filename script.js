@@ -443,3 +443,175 @@
   syncMethod(); renderCal(); renderDays(); setParty(1, 0); updateLive(); go(1, false);
   const y = $('#year'); if (y) y.textContent = new Date().getFullYear();
 })();
+
+/* SNOWMODE hero snow switch — off: calm hero; on: colour + snowfall + booking CTA */
+(function () {
+  'use strict';
+  var hero = document.querySelector('.hero');
+  var sw = document.getElementById('snow-switch');
+  var onBox = document.getElementById('snow-on');
+  var live = document.getElementById('snow-live');
+  var canvas = document.getElementById('snow-canvas');
+  if (!hero || !sw || !onBox) return;
+
+  var mqReduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  hero.classList.add('ss');
+
+  /* ---------- snowfall v2: 3 parallax layers of soft pre-rendered sprites ---------- */
+  var ctx = canvas && canvas.getContext ? canvas.getContext('2d') : null;
+  var flakes = [], W = 0, H = 0, dpr = 1, raf = 0, last = 0, clock = 0;
+  var falling = false;      // spawning / respawning flakes
+  var heroVisible = true;
+  var level = 0, levelTarget = 0;   // global fade 0..1 (≈1.5s in / out)
+  var FADE = 1.5;
+
+  // soft radial sprites, rendered once (blur baked into the gradient → no ctx.filter per frame)
+  function sprite(px, stops) {
+    var c = document.createElement('canvas');
+    c.width = c.height = px;
+    var g = c.getContext('2d'), r = px / 2;
+    var grd = g.createRadialGradient(r, r, 0, r, r, r);
+    for (var i = 0; i < stops.length; i++) grd.addColorStop(stops[i][0], stops[i][1]);
+    g.fillStyle = grd; g.fillRect(0, 0, px, px);
+    return c;
+  }
+  var SPR = {
+    // far: tiny, already blurry
+    far: sprite(32, [[0, 'rgba(255,255,255,1)'], [0.25, 'rgba(255,255,255,.7)'], [0.6, 'rgba(240,246,255,.18)'], [1, 'rgba(240,246,255,0)']]),
+    // mid: soft-edged flake with a brighter core
+    mid: sprite(64, [[0, 'rgba(255,255,255,1)'], [0.35, 'rgba(255,255,255,.85)'], [0.62, 'rgba(245,249,255,.3)'], [1, 'rgba(245,249,255,0)']]),
+    // near: bokeh disc — flat plateau, very wide falloff, faint cool tint
+    near: sprite(128, [[0, 'rgba(255,255,255,.75)'], [0.45, 'rgba(250,252,255,.6)'], [0.72, 'rgba(232,240,255,.22)'], [1, 'rgba(232,240,255,0)']])
+  };
+  //            share  size(px dia)  alpha       fall px/s   sway    wind
+  var LAYERS = {
+    far:  { d: [6, 11],   a: [0.3, 0.55], v: [9, 16],   s: [4, 10],  w: 0.35 },
+    mid:  { d: [12, 20],  a: [0.5, 0.8],   v: [20, 32],  s: [8, 18],  w: 0.7 },
+    near: { d: [36, 72],  a: [0.16, 0.32], v: [48, 72],  s: [14, 30], w: 1.35 }
+  };
+  function rnd(a) { return a[0] + Math.random() * (a[1] - a[0]); }
+
+  function size() {
+    if (!ctx) return;
+    var r = hero.getBoundingClientRect();
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = r.width;
+    // only snow over the first screen of the hero (tall mobile hero = wasted pixels)
+    H = Math.min(r.height, Math.round(window.innerHeight * 1.1));
+    canvas.style.height = H + 'px';
+    canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  function counts() {
+    var n = Math.round(Math.max(44, Math.min(85, W * H / 7500)));   // ~48 mobile, ~85 desktop
+    var near = W < 600 ? 3 : 5;
+    var far = Math.round((n - near) * 0.58);
+    return { far: far, mid: n - near - far, near: near };
+  }
+  function makeFlake(kind, initial) {
+    var L = LAYERS[kind], d = rnd(L.d);
+    return {
+      k: kind, img: SPR[kind], d: d,
+      x: Math.random() * (W + 2 * d) - d,
+      y: initial ? Math.random() * (H + d) - d : -d - Math.random() * H * (kind === 'near' ? 0.8 : 0.25),
+      vy: rnd(L.v), sway: rnd(L.s), wf: L.w * (0.8 + Math.random() * 0.4),
+      ph: Math.random() * 6.283, fq: 0.25 + Math.random() * 0.5,
+      a: rnd(L.a), sx: 0
+    };
+  }
+  // wind: slow base drift + two slow sines + occasional smoothed gusts (px/s)
+  var gust = 0, gustTarget = 0, nextGust = 4;
+  function wind(dt) {
+    if (clock > nextGust) {
+      gustTarget = gustTarget ? 0 : (8 + Math.random() * 14) * (Math.random() < 0.8 ? 1 : -0.6);
+      nextGust = clock + (gustTarget ? 1.8 + Math.random() * 2 : 5 + Math.random() * 6);
+    }
+    gust += (gustTarget - gust) * Math.min(1, dt * 0.9);
+    return 7 + Math.sin(clock * 0.11) * 6 + Math.sin(clock * 0.29 + 1.3) * 3 + gust;
+  }
+  var ORDER = { far: 0, mid: 1, near: 2 };
+  function frame(t) {
+    raf = 0;
+    var dt = last ? Math.min((t - last) / 1000, 0.05) : 0.016;
+    last = t; clock += dt;
+    // global fade
+    if (level < levelTarget) level = Math.min(levelTarget, level + dt / FADE);
+    else if (level > levelTarget) level = Math.max(levelTarget, level - dt / FADE);
+    var wv = wind(dt);
+    ctx.clearRect(0, 0, W, H);
+    for (var i = 0; i < flakes.length; i++) {
+      var f = flakes[i];
+      f.y += f.vy * dt;
+      f.ph += f.fq * dt;
+      f.x += wv * f.wf * dt;
+      var x = f.x + Math.sin(f.ph) * f.sway, d = f.d;
+      if (x > W + d) f.x -= W + 2 * d; else if (x < -2 * d) f.x += W + 2 * d;
+      if (f.y - d > H) {
+        flakes[i] = makeFlake(f.k, false);   // recycle (fade-out hides any respawns)
+        continue;
+      }
+      ctx.globalAlpha = f.a * level;
+      ctx.drawImage(f.img, x - d / 2, f.y - d / 2, d, d);
+    }
+    ctx.globalAlpha = 1;
+    if (level > 0 || levelTarget > 0) schedule();
+    else { ctx.clearRect(0, 0, W, H); flakes = []; last = 0; }
+  }
+  function schedule() {
+    if (!raf && !document.hidden && heroVisible && flakes.length) raf = requestAnimationFrame(frame);
+  }
+  function startSnow() {
+    if (!ctx || mqReduce.matches) return;
+    size();
+    falling = true; levelTarget = 1;
+    if (!flakes.length) {
+      var c = counts();
+      ['far', 'mid', 'near'].forEach(function (k) { for (var i = 0; i < c[k]; i++) flakes.push(makeFlake(k, true)); });
+      flakes.sort(function (a, b) { return ORDER[a.k] - ORDER[b.k]; });   // paint far → near
+    }
+    schedule();
+  }
+  function stopSnow() { falling = false; levelTarget = 0; schedule(); /* flakes keep drifting while fading out */ }
+
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) { if (raf) cancelAnimationFrame(raf); raf = 0; last = 0; } else schedule();
+  });
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (es) {
+      heroVisible = es[0].isIntersecting;
+      if (!heroVisible && raf) { cancelAnimationFrame(raf); raf = 0; last = 0; } else schedule();
+    }).observe(hero);
+  }
+  var rt;
+  window.addEventListener('resize', function () {
+    clearTimeout(rt);
+    rt = setTimeout(function () { if (flakes.length) size(); }, 150);
+  });
+  mqReduce.addEventListener && mqReduce.addEventListener('change', function (e) {
+    if (e.matches) { flakes = []; falling = false; level = levelTarget = 0; if (ctx) ctx.clearRect(0, 0, W, H); }
+    else if (hero.classList.contains('is-on')) startSnow();
+  });
+
+  /* ---------- switch ---------- */
+  function setOn(on) {
+    hero.classList.toggle('is-on', on);
+    sw.setAttribute('aria-checked', on ? 'true' : 'false');
+    onBox.setAttribute('aria-hidden', on ? 'false' : 'true');
+    if (on) onBox.removeAttribute('inert'); else onBox.setAttribute('inert', '');
+    if (live) live.textContent = on ? 'SNOW MODE: ON，可以開始預約' : 'SNOW MODE: OFF';
+    if (on) startSnow(); else stopSnow();
+  }
+  // <button> already fires click on Enter/Space
+  sw.addEventListener('click', function () {
+    setOn(sw.getAttribute('aria-checked') !== 'true');
+  });
+
+  var cta = onBox.querySelector('.snow-cta');
+  if (cta) cta.addEventListener('click', function (e) {
+    var target = document.getElementById('booking');
+    if (!target) return;
+    e.preventDefault();
+    target.scrollIntoView({ behavior: mqReduce.matches ? 'auto' : 'smooth', block: 'start' });
+    if (history.replaceState) history.replaceState(null, '', '#booking');
+  });
+})();
