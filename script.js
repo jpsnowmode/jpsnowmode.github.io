@@ -210,7 +210,7 @@
     const i = booking.dates.findIndex(x => x.date === s);
     if (i > -1 && force !== true) booking.dates.splice(i, 1);
     else if (i === -1 && force !== false) {
-      if (booking.dates.length >= CONFIG.maxDays) { toast(`最多可選 ${CONFIG.maxDays} 天，更多天數請在「其他需求」說明`); return; }
+      if (booking.dates.length >= CONFIG.maxDays) { toast(`最多可選 ${CONFIG.maxDays} 天，更多天數請在備註說明`); return; }
       booking.dates.push({ date: s, slot: '全日' });
     }
     booking.dates.sort((a, b) => a.date.localeCompare(b.date));
@@ -378,7 +378,7 @@
       ['日期', datesText(false)], ['時數', booking.durationLabel || '—'], ['大人', booking.adults + ' 人'], ['小孩', booking.children + ' 人'], ['小孩年齡', agesText], ['總人數', booking.totalPeople + ' 人'], ['雪場', booking.resort],
       ['聯絡人', booking.name], [c.method, c.id]];
     if (c.method !== 'Email') rows.push(['Email', c.email || '（未填）']);
-    rows.push(['其他需求', booking.notes || '（無）']);
+    rows.push(['備註', booking.notes || '（無）']);
     $('#summary').innerHTML = rows.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v || '—')}</dd>`).join('');
     $('#est-price').textContent = price.display;
     $('#est-deposit').textContent = price.depositDisplay;
