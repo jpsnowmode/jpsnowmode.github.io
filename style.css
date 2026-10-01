@@ -152,6 +152,8 @@ button{cursor:pointer}
 .prices td{font-family:var(--lat);font-weight:600}
 .prices tbody th{font-weight:500}
 .pt-note{font-size:.78rem;color:var(--mute);margin-top:14px}
+.pt-note code{font-family:var(--lat);color:var(--blue-2)}
+.prices tbody tr.pt-more td{font-family:var(--sans);font-weight:500;color:var(--blue-2)}
 
 /* booking */
 .booking{background:radial-gradient(1000px 500px at 85% 20%,rgba(47,107,255,.16),transparent 60%),linear-gradient(180deg,var(--night-2),var(--night))}

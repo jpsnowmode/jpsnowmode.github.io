@@ -11,15 +11,19 @@
 
   /* ---------- config / placeholders ---------- */
   const CONFIG = {
-    currency: 'JPY',
+    currency: 'TWD',
     maxDays: 14,
     monthsAhead: 12,
     slots: ['半日（上午）', '半日（下午）', '全日'],
-    // PRICE_TABLE[half|full][totalPeople] = amount in JPY. All null = 暫定 (placeholder).
+    // 早鳥回饋價 2026–27 — PRICE_TABLE[half|full][totalPeople - 1] = group total in TWD (not per person).
+    // half = 半日 3 小時, full = 全日 6 小時（含午休 1 小時）. 5 人以上 → 私訊報價.
+    priceLabel: '早鳥回饋價 2026–27',
     PRICE_TABLE: {
-      half: [null, null, null, null],
-      full: [null, null, null, null]
+      half: [7000, 8000, 9000, 10000],
+      full: [12000, 14000, 15000, 16000]
     },
+    maxPricedPeople: 4,
+    durations: { half: '半日（3 小時）', full: '全日（6 小時，含午休 1 小時）' },
     endpoint: null         // TODO: e.g. '/api/bookings'
   };
 
@@ -37,41 +41,48 @@
     totalPeople: 1,
     resort: '由教練建議',
     notes: '',
-    price: { currency: CONFIG.currency, amount: null, display: '¥XX,XXX', provisional: true },
+    price: { currency: CONFIG.currency, amount: null, display: '—' },
+    duration: null,       // 'half' | 'full' | 'mixed' (per-day slot lives in dates[].slot)
+    durationLabel: '',
     depositRate: 0.3,
     deposit: null,
     balance: null,
-    balanceDue: '上課日前一個月內（銀行轉帳或上課當天日幣現金）'
+    balanceDue: '上課日前一個月內銀行轉帳，或上課當天以現金支付，日圓、台幣皆可，日圓依當天匯率換算'
   };
 
+  const ntd = v => 'NT$' + Math.round(v).toLocaleString('en-US');
+  const slotKey = slot => slot === '全日' ? 'full' : 'half';
   function computePrice(b) {
-    const p = Math.max(0, (Number(b.totalPeople) || 0) - 1);
-    let total = 0, known = true;
-    b.dates.forEach(d => {
-      const values = CONFIG.PRICE_TABLE[d.slot === '全日' ? 'full' : 'half'];
-      const v = values && values[p];
-      if (v == null) known = false; else total += v;
-    });
-    const amount = known && b.dates.length ? total : null;
+    const people = Number(b.totalPeople) || 0;
+    const halfDays = b.dates.filter(d => slotKey(d.slot) === 'half').length;
+    const fullDays = b.dates.filter(d => slotKey(d.slot) === 'full').length;
+    const duration = !b.dates.length ? null : (halfDays && fullDays ? 'mixed' : (fullDays ? 'full' : 'half'));
+    b.duration = duration;
+    b.durationLabel = duration === 'mixed' ? `半日 ${halfDays} 天・全日 ${fullDays} 天` : (duration ? `${CONFIG.durations[duration]} × ${b.dates.length} 天` : '');
+    const overMax = people > CONFIG.maxPricedPeople;
+    let amount = null;
+    if (!overMax && people >= 1 && b.dates.length) {
+      amount = b.dates.reduce((sum, d) => sum + CONFIG.PRICE_TABLE[slotKey(d.slot)][people - 1], 0);
+    }
     const deposit = amount == null ? null : Math.round(amount * b.depositRate);
     const balance = amount == null ? null : amount - deposit;
     b.deposit = deposit;
     b.balance = balance;
-    const displayAmount = value => value == null ? '¥XX,XXX' : '¥' + value.toLocaleString('ja-JP');
+    const quote = overMax ? '5 人以上請私訊報價' : '—';
+    const show = value => value == null ? quote : ntd(value);
     return {
       currency: CONFIG.currency,
+      label: CONFIG.priceLabel,
       amount,
-      display: displayAmount(amount),
+      display: show(amount),
       deposit,
       balance,
-      depositDisplay: displayAmount(deposit),
-      balanceDisplay: displayAmount(balance),
-      provisional: true,
-      breakdown: {
-        halfDays: b.dates.filter(d => d.slot !== '全日').length,
-        fullDays: b.dates.filter(d => d.slot === '全日').length,
-        totalPeople: b.totalPeople
-      }
+      depositDisplay: overMax ? '私訊報價' : show(deposit),
+      balanceDisplay: overMax ? '私訊報價' : show(balance),
+      quoteRequired: overMax,
+      duration,
+      durationLabel: b.durationLabel,
+      breakdown: { halfDays, fullDays, totalPeople: people }
     };
   }
   function buildPayload() {
@@ -317,14 +328,14 @@
     if (focus) { const t = $('.step.on .step-title', form); if (t) { t.tabIndex = -1; t.focus({ preventScroll: true }); } if ($('#wizard').getBoundingClientRect().top < 0) $('#wizard').scrollIntoView({ behavior: 'smooth', block: 'start' }); }
   }
   function buildSummary() {
+    const price = computePrice(booking);
     const c = booking.contact;
     const agesText = booking.children ? booking.childAges.map((age, i) => `小孩 ${i + 1}：${age ? age + ' 歲' : '未填'}`).join('、') : '—';
     const rows = [['雪具', booking.discipline], ['程度', booking.level], ['語言', booking.language],
-      ['日期', datesText(false)], ['大人', booking.adults + ' 人'], ['小孩', booking.children + ' 人'], ['小孩年齡', agesText], ['總人數', booking.totalPeople + ' 人'], ['雪場', booking.resort],
+      ['日期', datesText(false)], ['時數', booking.durationLabel || '—'], ['大人', booking.adults + ' 人'], ['小孩', booking.children + ' 人'], ['小孩年齡', agesText], ['總人數', booking.totalPeople + ' 人'], ['雪場', booking.resort],
       ['聯絡人', booking.name], [c.method, c.id]];
     if (c.method !== 'Email') rows.push(['Email', c.email || '（未填）']);
     rows.push(['備註', booking.notes || '（無）']);
-    const price = computePrice(booking);
     $('#summary').innerHTML = rows.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v || '—')}</dd>`).join('');
     $('#est-price').textContent = price.display;
     $('#est-deposit').textContent = price.depositDisplay;
