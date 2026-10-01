@@ -6,7 +6,7 @@
 - `index.html` — 所有區塊（Hero＋快速預約 → 課程方案 → 預約流程 → 教學・教練 → 越後湯澤 → 學員回饋（範例）→ Q&A＋送出預約之後 → 聯絡 → 頁尾）
 - `style.css` — 樣式（顏色變數在 `:root`，主色 `--blue`）
 - `script.js` — 互動；預約資料集中在 `window.SNOWMODE.booking`
-- `img/` — 暫用照片（Unsplash License），來源寫在 `index.html` 開頭註解；上線前替換
+- `img/` — 首頁照片 hero-yuzawa.jpg 為 CC BY 2.0（Takuya ASADA，頁尾已標示）；其他暫用照片為 Unsplash License，來源寫在 `index.html` 開頭註解；上線前替換
 - `shoot.py` — 截圖與檢查（Playwright）
 
 ## 換 Logo

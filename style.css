@@ -834,7 +834,8 @@ button{cursor:pointer}
 @media (max-width:640px){
   .is-solo>.coach{grid-template-columns:104px minmax(0,1fr);column-gap:16px;align-items:start;padding:16px}
   .is-solo>.coach .coach-name{align-self:auto;font-size:1.1rem;margin-top:2px}
-  .is-solo>.coach .coach-role{margin-bottom:10px}
+  .is-solo>.coach{grid-template-rows:auto 1fr auto}
+  .is-solo>.coach .coach-role{margin:4px 0 0;align-self:start}
   .is-solo>.coach .coach-list{grid-column:1/-1;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
   .is-solo>.coach .avatar{grid-row:1/span 2}
   .is-solo>.coach-note{margin-top:14px;padding:28px 22px 24px}
