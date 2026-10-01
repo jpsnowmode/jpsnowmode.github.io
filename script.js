@@ -136,13 +136,23 @@
   /* ---------- discipline (ski / board) sync ---------- */
   function setDiscipline(v) {
     booking.discipline = v;
-    $$('.seg [data-disc]').forEach(b => { const on = b.dataset.disc === v; b.classList.toggle('on', on); b.setAttribute('aria-checked', on); });
+    const sw = $('#disc-switch');
+    if (sw) {
+      sw.setAttribute('aria-checked', String(v === '單板'));
+      sw.closest('.disc-switch').dataset.state = v;
+      $$('.disc-switch .ds-label').forEach(l => l.classList.toggle('on', l.dataset.disc === v));
+    }
     $$('.disc-name').forEach(s => s.textContent = v);
     setRadio('discipline', v);
     const q = $(`#quick input[name="q-discipline"][value="${v}"]`); if (q) q.checked = true;
     updateLive();
   }
-  $$('.seg [data-disc]').forEach(b => b.addEventListener('click', () => setDiscipline(b.dataset.disc)));
+  /* switch: native <button> gives Space/Enter → click; labels pick their own side */
+  const discSwitch = $('#disc-switch');
+  if (discSwitch) discSwitch.addEventListener('click', () => setDiscipline(booking.discipline === '單板' ? '雙板' : '單板'));
+  $$('.disc-switch .ds-label').forEach(l => l.addEventListener('click', () => {
+    setDiscipline(booking.discipline === l.dataset.disc ? (l.dataset.disc === '單板' ? '雙板' : '單板') : l.dataset.disc);
+  }));
 
   /* ---------- calendar (multi, non-consecutive) ---------- */
   const pad2 = n => String(n).padStart(2, '0');

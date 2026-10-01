@@ -108,9 +108,13 @@
         <h2 id="lessons-title">認識 SNOWMODE<b>課程</b></h2>
         <p class="ph">早鳥回饋價 2026–27・新台幣計價・價格為整組總價（非每人）。</p>
       </div>
-      <div class="seg" role="radiogroup" aria-label="雪具">
-        <button type="button" class="on" role="radio" aria-checked="true" data-disc="雙板">雙板 SKI</button>
-        <button type="button" role="radio" aria-checked="false" data-disc="單板">單板 BOARD</button>
+      <div class="disc-switch" data-state="雙板">
+        <span class="ds-label on" id="ds-ski" data-disc="雙板">雙板 SKI</span>
+        <button type="button" class="ds-track" id="disc-switch" role="switch" aria-checked="false" aria-labelledby="ds-board" aria-describedby="ds-hint">
+          <span class="ds-knob" aria-hidden="true"><img src="img/logo/c-carve-knob.svg" alt="" width="30" height="30"></span>
+        </button>
+        <span class="ds-label" id="ds-board" data-disc="單板">單板 BOARD</span>
+        <span class="sr-only" id="ds-hint">雪具切換：開啟為單板，關閉為雙板</span>
       </div>
     </header>
 
