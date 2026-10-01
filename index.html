@@ -18,7 +18,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=snow1">
+<link rel="stylesheet" href="style.css?v=snow2">
 </head>
 <body>
 <!--
@@ -98,9 +98,14 @@
         <span class="err" data-err="q-party"></span>
       </div>
     </div>
-    <div class="quick-foot">
+    <div class="quick-foot go-foot">
+      <p class="go-hint" id="go-hint">填好後，打開開關開始預約</p>
+      <button type="submit" class="go-switch" id="quick-go" aria-label="開始預約" aria-describedby="go-hint">
+        <span class="go-fill" aria-hidden="true"></span>
+        <span class="go-knob" aria-hidden="true"><img src="img/logo/c-carve-knob.svg?v=silver" alt="" width="44" height="44" draggable="false"></span>
+        <span class="go-text" aria-hidden="true">滑動開始預約<i class="go-chev"><b>›</b><b>›</b><b>›</b></i></span>
+      </button>
       <p class="fine">下一步可以加入多個不連續的日期</p>
-      <button type="submit" class="btn btn-main">開始預約 <span aria-hidden="true">→</span></button>
     </div>
   </form>
 
@@ -509,6 +514,6 @@
 </footer>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script src="script.js?v=snow1"></script>
+<script src="script.js?v=snow2"></script>
 </body>
 </html>

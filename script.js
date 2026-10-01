@@ -402,16 +402,16 @@
     if (e.target.matches('[data-child-age]')) syncQuickParty();
   });
   const qDate = $('#q-date'); qDate.min = todayISO;
-  quick.addEventListener('submit', e => {
-    e.preventDefault();
+  /* returns true when the visitor was sent on to the full booking flow */
+  function quickGo() {
     syncQuickParty();
     const partyError = booking.totalPeople < 1 ? '至少需要 1 位大人或小孩' : (booking.childAges.length !== booking.children || booking.childAges.some(age => !Number.isInteger(age) || age < 3 || age > 15) ? '請填寫每位小孩的年齡（3–15 歲）' : '');
     setErr('q-party', partyError);
-    if (partyError) { toast(partyError); return; }
+    if (partyError) { toast(partyError); return false; }
     setParty(booking.adults, booking.children);
     const d = qDate.value;
     if (d) {
-      if (d < todayISO) { toast('請選擇今天之後的日期'); qDate.focus(); return; }
+      if (d < todayISO) { toast('請選擇今天之後的日期'); qDate.focus(); return false; }
       toggleDate(d, true);
       const dd = new Date(d + 'T00:00:00'); view = new Date(dd.getFullYear(), dd.getMonth(), 1); renderCal();
     }
@@ -419,7 +419,76 @@
     go(booking.level ? 2 : 1, false);
     $('#booking').scrollIntoView({ behavior: 'smooth', block: 'start' });
     if (!booking.level) msg('先選擇程度，再到下一步挑日期。');
-  });
+    return true;
+  }
+  quick.addEventListener('submit', e => { e.preventDefault(); quickGo(); });
+
+  /* hero quick card: slide-to-book switch (tap / Enter / Space / drag right).
+     Knob slides, track lights up, then ~400ms later runs exactly what the old submit button did. */
+  const goSw = $('#quick-go');
+  if (goSw) {
+    let goBusy = false, goTimer = 0, goLeft = false, drag = null, lastDrag = 0;
+    const goReset = () => {
+      clearTimeout(goTimer); goBusy = false; goLeft = false; drag = null;
+      goSw.classList.remove('is-on', 'dragging');
+      goSw.style.removeProperty('--x'); goSw.style.removeProperty('--p');
+    };
+    const goFire = () => {
+      if (goBusy) return;
+      goBusy = true; drag = null;
+      goSw.classList.remove('dragging'); goSw.style.removeProperty('--x'); goSw.style.removeProperty('--p');
+      goSw.classList.add('is-on');
+      goTimer = setTimeout(() => {
+        if (!quickGo()) { goTimer = setTimeout(goReset, 450); return; }   // validation failed → snap back
+        // still looking at the card a moment later (nothing scrolled)? reset so it can be used again
+        goTimer = setTimeout(() => { if (!goLeft && isInView(quick)) goReset(); }, 2500);
+      }, 400);
+    };
+    const isInView = el => { const r = el.getBoundingClientRect(); return r.bottom > 0 && r.top < innerHeight; };
+    // implicit form submission (Enter in a field) also arrives here as a click on the default button
+    goSw.addEventListener('click', e => {
+      e.preventDefault();
+      if (Date.now() - lastDrag < 450) return;   // the click that ends a drag
+      goFire();
+    });
+    goSw.addEventListener('pointerdown', e => {
+      if (goBusy || (e.pointerType === 'mouse' && e.button !== 0)) return;
+      const knob = goSw.querySelector('.go-knob'), r = goSw.getBoundingClientRect(), k = knob.getBoundingClientRect();
+      drag = { id: e.pointerId, x0: e.clientX, y0: e.clientY, max: r.width - k.width - 2 * (k.left - r.left), dx: 0, moved: false };
+    });
+    goSw.addEventListener('pointermove', e => {
+      if (!drag || e.pointerId !== drag.id) return;
+      const raw = e.clientX - drag.x0;
+      if (!drag.moved) {
+        if (Math.abs(raw) < 6 || Math.abs(raw) < Math.abs(e.clientY - drag.y0)) return;
+        drag.moved = true; goSw.classList.add('dragging');
+        try { goSw.setPointerCapture(e.pointerId); } catch (_) {}
+      }
+      drag.dx = Math.max(0, Math.min(drag.max, raw));
+      goSw.style.setProperty('--x', drag.dx + 'px');
+      goSw.style.setProperty('--p', (drag.dx / drag.max).toFixed(3));
+    });
+    const endDrag = (e, cancelled) => {
+      if (!drag || e.pointerId !== drag.id) return;
+      const d = drag; drag = null;
+      if (!d.moved) return;          // plain tap → click handler
+      lastDrag = Date.now();
+      if (!cancelled && d.dx > d.max * 0.6) goFire();
+      else { goSw.classList.remove('dragging'); goSw.style.removeProperty('--x'); goSw.style.removeProperty('--p'); }
+    };
+    goSw.addEventListener('pointerup', e => endDrag(e, false));
+    goSw.addEventListener('pointercancel', e => endDrag(e, true));
+    goSw.addEventListener('dragstart', e => e.preventDefault());
+    // reset to OFF when the visitor comes back to the card (scrolled away and back, or back/forward cache)
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(es => {
+        if (!goBusy) return;
+        if (!es[0].isIntersecting) goLeft = true;
+        else if (goLeft) goReset();
+      }).observe(quick);
+    }
+    addEventListener('pageshow', e => { if (e.persisted) goReset(); });
+  }
 
   /* ---------- WeChat copy (inline, no modal) ---------- */
   $$('[data-copy]').forEach(b => b.addEventListener('click', async () => {

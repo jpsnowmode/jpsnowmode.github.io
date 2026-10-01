@@ -585,3 +585,36 @@ button{cursor:pointer}
   .hero.ss .hero-bg,.hero.ss::before,.hero.ss .hero-bg::after,.hero-switch .ss-svg,.ss-knob,.ss-fill,.ss-track,.ss-knob-bg,.ss-knob-s,
   .hero.ss .snow-hint,.hero.ss .snow-status,.hero.ss .snow-cta{transition:none!important}
 }
+
+/* ===== hero quick card: slide-to-book switch (silver logo knob, like the 雪具 switch) ===== */
+.go-foot{flex-direction:column;align-items:stretch;gap:8px}
+.go-foot .fine{max-width:none;text-align:center;order:0}
+.go-hint{font-size:.8rem;color:rgba(255,255,255,.72);text-align:center;letter-spacing:.04em}
+.go-switch{--x:0px;--p:0;position:relative;display:flex;align-items:center;width:100%;height:56px;padding:0;margin:0;border-radius:999px;
+  border:2px solid rgba(255,255,255,.55);background:rgba(255,255,255,.07);color:#fff;font:inherit;cursor:pointer;overflow:hidden;container-type:inline-size;
+  touch-action:pan-y;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none;
+  transition:background .3s ease,border-color .3s ease,box-shadow .3s ease}
+.go-switch:hover{border-color:rgba(255,255,255,.85);box-shadow:0 0 18px rgba(255,255,255,.16)}
+.go-switch:focus{outline:none}
+.go-switch:focus-visible{outline:2px solid var(--blue-2);outline-offset:4px}
+.go-fill{position:absolute;left:0;top:0;bottom:0;width:calc(var(--x) + 52px);border-radius:999px;background:rgba(255,255,255,.14);opacity:var(--p);pointer-events:none}
+.go-knob{position:absolute;z-index:1;top:4px;left:4px;width:44px;height:44px;border-radius:50%;background:#2F3540;box-shadow:0 2px 8px rgba(0,0,0,.45);
+  transform:translateX(var(--x));transition:transform .35s cubic-bezier(.3,.7,.2,1),box-shadow .3s ease;pointer-events:none}
+.go-knob img{display:block;width:100%;height:100%;pointer-events:none}
+.go-text{flex:1;display:flex;align-items:center;justify-content:center;gap:.45em;padding:0 16px 0 56px;font-size:1rem;font-weight:700;letter-spacing:.08em;white-space:nowrap;
+  opacity:calc(1 - var(--p) * 2.2);transition:opacity .25s ease;pointer-events:none}
+.go-chev{display:inline-flex;font-style:normal;font-family:var(--lat);font-size:1.3em;line-height:1;margin-top:-.08em}
+.go-chev b{font-weight:300;opacity:.3;animation:goChev 1.6s ease-in-out infinite}
+.go-chev b:nth-child(2){animation-delay:.18s}
+.go-chev b:nth-child(3){animation-delay:.36s}
+@keyframes goChev{0%,60%,100%{opacity:.3;transform:translateX(0)}30%{opacity:1;transform:translateX(3px)}}
+.go-switch.dragging{cursor:grabbing}
+.go-switch.dragging .go-knob,.go-switch.dragging .go-text{transition:none}
+.go-switch.is-on{background:linear-gradient(180deg,#F2F4F7,#C4CAD2);border-color:rgba(255,255,255,.95);box-shadow:0 0 22px rgba(255,255,255,.4),0 0 4px rgba(255,255,255,.5),inset 0 1px 0 rgba(255,255,255,.9)}
+.go-switch.is-on .go-knob{transform:translateX(calc(100cqw - 52px));box-shadow:0 0 0 2px #0B0D10,0 2px 6px rgba(0,0,0,.3)}
+.go-switch.is-on .go-text{opacity:0}
+.go-switch.is-on .go-fill{opacity:0}
+@media (prefers-reduced-motion:reduce){
+  .go-chev b{animation:none;opacity:.75}
+  .go-switch,.go-knob,.go-text{transition:none!important}
+}
