@@ -543,16 +543,22 @@
     sync();
   })();
 
-  /* ---------- review screenshots: tap to enlarge ---------- */
+  /* ---------- reviews: 展開 / 收合 long texts ---------- */
   (() => {
-    const lb = $('#rv-lightbox'); if (!lb || typeof lb.showModal !== 'function') return;
-    const big = $('img', lb); let opener = null;
-    $$('.rv-zoom').forEach(b => b.addEventListener('click', () => {
-      const im = $('img', b); big.src = im.src; big.alt = im.alt; opener = b; lb.showModal(); lb.scrollTop = 0;
+    const items = $$('.rv-body');
+    const check = () => items.forEach(b => {
+      const t = $('.rv-text', b), btn = $('.rv-more', b);
+      if (b.classList.contains('open')) return;
+      btn.hidden = t.scrollHeight <= t.clientHeight + 2;
+    });
+    items.forEach(b => $('.rv-more', b).addEventListener('click', e => {
+      const open = b.classList.toggle('open');
+      e.currentTarget.textContent = open ? '收合' : '展開';
+      e.currentTarget.setAttribute('aria-expanded', open);
+      if (!open) b.closest('.rv-card').scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
     }));
-    $('.rv-lb-close', lb).addEventListener('click', () => lb.close());
-    lb.addEventListener('click', e => { if (e.target === lb) lb.close(); });
-    lb.addEventListener('close', () => { if (opener) opener.focus({ preventScroll: true }); });
+    check(); window.addEventListener('resize', check);
+    if (document.fonts) document.fonts.ready.then(check);
   })();
 
   /* ---------- init ---------- */
