@@ -857,14 +857,34 @@ button{cursor:pointer}
 }
 @keyframes rvIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 @media (max-width:640px){.rv-all-wrap{display:none}}
-/* resort cards: 雪道地圖 (official course map, external) + 官方網站 */
-.rs-links{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:auto;padding-top:18px}
+/* resort cards: official course-map thumbnail (opens full image) + source caption + 官方網站 */
+.rs-mapfig{margin:16px 0 0}
+.rs-mapthumb{position:relative;display:block;aspect-ratio:3/2;border-radius:12px;overflow:hidden;border:1px solid rgba(226,230,235,.18);
+  background:radial-gradient(120% 90% at 50% 0%,rgba(242,244,247,.08),rgba(10,18,34,.6)),#0B1424;box-shadow:inset 0 1px 0 rgba(242,244,247,.08);
+  transition:border-color .2s,box-shadow .2s}
+.rs-mapthumb img{display:block;width:100%;height:100%;object-fit:contain;transition:transform .35s ease,opacity .2s}
+.rs-zoom{flex:none;display:inline-flex;align-items:center;gap:6px;padding:4px 10px 4px 9px;border-radius:999px;font-size:.68rem;letter-spacing:.12em;
+  color:#E2E6EB;border:1px solid rgba(226,230,235,.28);background:rgba(242,244,247,.05);transition:border-color .2s,background .2s}
+.rs-zoom::before{content:"";width:10px;height:10px;border:1.3px solid currentColor;border-radius:50%;box-shadow:4px 4px 0 -3.4px currentColor;opacity:.9}
+.rs-zoom:hover{border-color:#fff;background:rgba(255,255,255,.12)}
+.rs-mapthumb:hover{border-color:rgba(242,244,247,.5);box-shadow:0 0 18px rgba(255,255,255,.1)}
+.rs-mapthumb:hover img{transform:scale(1.02)}
+.rs-mapthumb:focus-visible{outline:2px solid var(--blue-2);outline-offset:3px}
+.rs-mapfig figcaption{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:8px;font-size:.7rem;letter-spacing:.06em;line-height:1.5;color:#AFB6C0}
+.rs-mapfig figcaption span a{color:#C9CFD7;text-decoration:underline;text-decoration-color:rgba(226,230,235,.3);text-underline-offset:3px;transition:color .2s,text-decoration-color .2s}
+.rs-mapfig figcaption span a::after{content:" ↗";font-family:var(--lat)}
+.rs-mapfig figcaption span a:hover{color:#fff;text-decoration-color:#fff}
+.rs-mapfig figcaption a:focus-visible{outline:2px solid var(--blue-2);outline-offset:2px}
+.rs-links{display:flex;align-items:center;justify-content:flex-end;gap:12px;flex-wrap:wrap;padding-top:14px}
 .rs-links .rs-link{margin-top:0;align-self:center}
+.rs-link:focus-visible{outline:2px solid var(--blue-2);outline-offset:3px}
+.rs-aside .rs-mapfig{margin-top:auto;padding-top:16px}
+.rs-aside .rs-links .rs-link{padding-top:0}
+@media (prefers-reduced-motion:reduce){.rs-mapthumb img{transition:none}.rs-mapthumb:hover img{transform:none}}
+/* legacy 雪道地圖 pill (still used by unlinked preview pages) */
 .rs-map{display:inline-flex;align-items:center;gap:8px;padding:9px 16px 9px 13px;border-radius:999px;border:1px solid rgba(226,230,235,.32);
   background:linear-gradient(180deg,rgba(242,244,247,.1),rgba(242,244,247,.03));color:#F2F4F7;font-size:.82rem;letter-spacing:.12em;white-space:nowrap;
   transition:border-color .2s,background .2s,box-shadow .2s}
 .rs-map svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.3;stroke-linejoin:round;opacity:.85}
 .rs-map::after{content:"↗";font-family:var(--lat);font-size:.8rem;letter-spacing:0;opacity:.75;margin-left:2px}
 .rs-map:hover{border-color:#fff;background:rgba(255,255,255,.12);box-shadow:0 0 16px rgba(255,255,255,.12)}
-.rs-map:focus-visible,.rs-link:focus-visible{outline:2px solid var(--blue-2);outline-offset:3px}
-.rs-aside .rs-links .rs-link{padding-top:0}
