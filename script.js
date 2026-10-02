@@ -519,25 +519,40 @@
     const dock = $('.social-float');
     if (!dock) return;
     const wechatToggle = $('[data-wechat-toggle]', dock);
-    const popover = $('#wechat-popover');
+    const wechatPopover = $('#wechat-popover');
+    const whatsappToggle = $('[data-whatsapp-toggle]', dock);
+    const whatsappPopover = $('#whatsapp-popover');
     const dockToggle = $('.social-toggle', dock);
     const mobile = matchMedia('(max-width:768px)');
+    const desktopWhatsApp = matchMedia('(min-width:769px) and (hover:hover)');
     const setPopover = open => {
-      if (!wechatToggle || !popover) return;
-      popover.hidden = !open;
+      if (!wechatToggle || !wechatPopover) return;
+      wechatPopover.hidden = !open;
       wechatToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    };
+    const setWhatsAppPopover = open => {
+      if (!whatsappToggle || !whatsappPopover) return;
+      whatsappPopover.hidden = !open;
+      whatsappToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
     };
     const setDockOpen = open => {
       const active = Boolean(open && mobile.matches);
       dock.classList.toggle('is-open', active);
       dockToggle?.setAttribute('aria-expanded', active ? 'true' : 'false');
       dockToggle?.setAttribute('aria-label', active ? '關閉快速聯絡' : '開啟快速聯絡');
-      if (!active) setPopover(false);
+      if (!active) { setPopover(false); setWhatsAppPopover(false); }
     };
-    wechatToggle?.addEventListener('click', () => setPopover(popover.hidden));
+    wechatToggle?.addEventListener('click', () => { setWhatsAppPopover(false); setPopover(wechatPopover.hidden); });
+    whatsappToggle?.addEventListener('click', e => {
+      if (!desktopWhatsApp.matches) return;
+      e.preventDefault();
+      setPopover(false);
+      setWhatsAppPopover(whatsappPopover.hidden);
+    });
     dockToggle?.addEventListener('click', () => setDockOpen(!dock.classList.contains('is-open')));
     mobile.addEventListener?.('change', () => setDockOpen(false));
-    addEventListener('keydown', e => { if (e.key === 'Escape') { setPopover(false); setDockOpen(false); } });
+    desktopWhatsApp.addEventListener?.('change', () => setWhatsAppPopover(false));
+    addEventListener('keydown', e => { if (e.key === 'Escape') setDockOpen(false); });
     addEventListener('click', e => { if (!dock.contains(e.target)) setDockOpen(false); });
     addEventListener('scroll', () => setDockOpen(false), { passive: true });
 
