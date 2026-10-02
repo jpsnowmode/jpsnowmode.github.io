@@ -1,0 +1,48 @@
+/* SNOWMODE — legal pages (privacy.html / tokushoho.html); loaded after style.css */
+.lg-nav{justify-content:space-between}
+.lg-home{border:1px solid rgba(255,255,255,.5);padding:8px 18px;border-radius:999px;font-size:.84rem;letter-spacing:.06em;white-space:nowrap;transition:.2s}
+.lg-home:hover{background:#fff;color:var(--night)}
+.lg{padding-top:150px;max-width:920px;margin:0 auto}
+.lg h1{font-weight:300;font-size:clamp(1.8rem,3.6vw,2.7rem);letter-spacing:.06em;line-height:1.35}
+.lg h1 b{font-weight:700;color:#E2E6EB}
+.lg h1 small{display:block;margin-top:10px;font-family:var(--lat);font-size:.74rem;font-weight:400;letter-spacing:.32em;color:#AFB6C0;text-transform:uppercase}
+.lg-meta{margin-top:18px;font-size:.82rem;color:var(--mute)}
+.lg-lead{margin-top:26px;color:rgba(255,255,255,.86);font-size:.95rem}
+.lg-card{margin-top:28px;padding:34px 38px;background:rgba(255,255,255,.035);box-shadow:none;border-color:rgba(226,230,235,.16)}
+.lg-card h2{font-size:1.06rem;font-weight:500;letter-spacing:.06em;color:#F2F4F7;display:flex;align-items:baseline;gap:12px;margin-top:34px}
+.lg-card h2:first-child{margin-top:0}
+.lg-card h2 span{font-family:var(--lat);font-size:.72rem;font-weight:600;letter-spacing:.14em;color:#AFB6C0}
+.lg-card p,.lg-card li{font-size:.92rem;color:rgba(255,255,255,.82)}
+.lg-card p{margin-top:10px}
+.lg-card ul{margin-top:10px;display:grid;gap:6px}
+.lg-card ul li{position:relative;padding-left:18px}
+.lg-card ul li::before{content:"";position:absolute;left:2px;top:.72em;width:5px;height:5px;border-radius:50%;background:linear-gradient(160deg,#F2F4F7,#AFB6C0)}
+.lg-card a,.lg-table a{color:#E2E6EB;text-decoration:underline;text-decoration-color:rgba(226,230,235,.35);text-underline-offset:3px}
+.lg-card a:hover,.lg-table a:hover{color:#fff;text-decoration-color:#fff}
+.lg-card code,.lg-table code{font-family:var(--lat);color:#E2E6EB}
+.lg-note{font-size:.8rem!important;color:var(--mute)!important}
+/* bilingual table (tokushoho) */
+.lg-table{width:100%;border-collapse:collapse;margin-top:28px;border:1px solid rgba(226,230,235,.16);border-radius:var(--r);overflow:hidden;background:rgba(255,255,255,.035)}
+.lg-table>tbody>tr>th,.lg-table>tbody>tr>td{text-align:left;vertical-align:top;padding:20px 24px;border-bottom:1px solid var(--line)}
+.lg-table>tbody>tr:last-child>th,.lg-table>tbody>tr:last-child>td{border-bottom:0}
+.lg-table>tbody>tr>th{width:30%;font-weight:500;font-size:.9rem;color:#F2F4F7;background:rgba(255,255,255,.03)}
+.lg-table th .zh{display:block;margin-top:2px;font-size:.78rem;font-weight:400;color:#AFB6C0}
+.lg-table>tbody>tr>td{font-size:.9rem;color:rgba(255,255,255,.88)}
+.lg-table td .ja + .zh{margin-top:8px}
+.lg-table td .zh{display:block;color:#AFB6C0;font-size:.84rem}
+.lg-table td ul{display:grid;gap:4px;margin:6px 0 0}
+.lg-table td ul li{position:relative;padding-left:14px}
+.lg-table td ul li::before{content:"・";position:absolute;left:-2px;color:#AFB6C0}
+.lg-price{margin-top:6px;border-collapse:collapse;font-family:var(--lat);font-size:.84rem}
+.lg-price th,.lg-price td{padding:5px 14px 5px 0;border:0;background:none;width:auto;font-weight:500;color:inherit}
+.lg-price thead th{font-family:var(--sans);font-size:.74rem;color:#AFB6C0}
+:lang(ja){font-family:"Noto Sans JP",var(--sans)}
+:lang(zh-Hant-TW){font-family:var(--sans)}
+@media (max-width:640px){
+  .lg{padding-top:112px}
+  .lg-card{padding:24px 20px}
+  .lg-home{padding:7px 14px;font-size:.8rem}
+  .lg-table,.lg-table>tbody,.lg-table>tbody>tr,.lg-table>tbody>tr>th,.lg-table>tbody>tr>td{display:block;width:100%}
+  .lg-table>tbody>tr>th{padding:16px 18px 10px;border-bottom:0}
+  .lg-table>tbody>tr>td{padding:6px 18px 18px}
+}
