@@ -889,7 +889,7 @@ button{cursor:pointer}
 .social-float.is-hidden{opacity:0;visibility:hidden;pointer-events:none;transform:translateY(10px)}
 .social-float-btn{display:grid;place-items:center;width:46px;height:46px;padding:0;border:0;border-radius:50%;color:#fff;box-shadow:0 6px 16px rgba(0,0,0,.28);transition:transform .2s,box-shadow .2s,filter .2s}
 .social-float-btn:hover{transform:translateY(-3px);filter:brightness(1.08);box-shadow:0 10px 22px rgba(0,0,0,.38)}
-.social-float-btn:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.social-float-btn:focus-visible,.social-toggle:focus-visible{outline:2px solid #fff;outline-offset:3px}
 .social-line{background:#06C755}
 .social-whatsapp{background:#25D366}
 .social-wechat{background:#07C160}
@@ -897,16 +897,21 @@ button{cursor:pointer}
 .social-float-btn .sf-icon{width:28px;height:28px;display:block}
 .social-line .sf-icon{width:31px;height:31px}
 .social-instagram .sf-icon{width:27px;height:27px}
-.wechat-popover{position:absolute;right:56px;bottom:108px;display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px 14px;min-width:184px;padding:13px 14px;border:1px solid rgba(255,255,255,.28);border-radius:14px;background:rgba(10,16,32,.96);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 12px 30px rgba(0,0,0,.38);white-space:nowrap}
+.social-toggle{display:none}
+.wechat-popover{position:absolute;right:56px;bottom:55px;display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px 14px;min-width:184px;padding:13px 14px;border:1px solid rgba(255,255,255,.28);border-radius:14px;background:rgba(10,16,32,.96);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 12px 30px rgba(0,0,0,.38);white-space:nowrap}
 .wechat-popover::after{content:"";position:absolute;right:-7px;bottom:22px;width:12px;height:12px;background:rgba(10,16,32,.96);border-top:1px solid rgba(255,255,255,.28);border-right:1px solid rgba(255,255,255,.28);transform:rotate(45deg)}
 .wechat-popover p{grid-column:1/-1;font-family:var(--lat);font-size:.72rem;letter-spacing:.14em;color:var(--blue-2)}
 .wechat-popover code{font-size:.98rem;color:#fff}
 .wechat-popover .copy{position:relative;z-index:1;padding:5px 10px;font-size:.76rem}
-@media (max-width:640px){
+@media (max-width:768px){
   .social-float{right:14px;bottom:16px;gap:8px}
-  .social-float-btn{width:44px;height:44px}
-  .social-float-btn .sf-icon{width:27px;height:27px}
-  .social-line .sf-icon{width:30px;height:30px}
-  .social-instagram .sf-icon{width:26px;height:26px}
-  .wechat-popover{right:52px;bottom:104px}
+  .social-float-btn{width:44px;height:44px;opacity:0;pointer-events:none;transform:translateY(12px) scale(.78);transition:opacity .2s,transform .2s,box-shadow .2s,filter .2s}
+  .social-float.is-open .social-float-btn{opacity:1;pointer-events:auto;transform:none}
+  .social-toggle{display:grid;place-items:center;position:relative;width:44px;height:44px;padding:0;border:1px solid rgba(226,230,235,.72);border-radius:50%;background:#0a1020;color:#E2E6EB;box-shadow:0 7px 20px rgba(0,0,0,.42);cursor:pointer;transition:background .2s,border-color .2s,transform .2s}
+  .social-toggle:hover{border-color:#fff;background:#111c34}
+  .toggle-chat{width:24px;height:24px;fill:currentColor;transition:opacity .15s,transform .2s}
+  .toggle-close{position:absolute;font-size:2rem;font-weight:200;line-height:1;opacity:0;transform:scale(.7) rotate(-45deg);transition:opacity .15s,transform .2s}
+  .social-float.is-open .toggle-chat{opacity:0;transform:scale(.7) rotate(45deg)}
+  .social-float.is-open .toggle-close{opacity:1;transform:none}
+  .wechat-popover{right:52px;bottom:140px}
 }

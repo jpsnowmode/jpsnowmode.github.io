@@ -518,23 +518,35 @@
   (() => {
     const dock = $('.social-float');
     if (!dock) return;
-    const toggle = $('[data-wechat-toggle]', dock);
+    const wechatToggle = $('[data-wechat-toggle]', dock);
     const popover = $('#wechat-popover');
+    const dockToggle = $('.social-toggle', dock);
+    const mobile = matchMedia('(max-width:768px)');
     const setPopover = open => {
-      if (!toggle || !popover) return;
+      if (!wechatToggle || !popover) return;
       popover.hidden = !open;
-      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      wechatToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
     };
-    toggle?.addEventListener('click', () => setPopover(popover.hidden));
-    addEventListener('keydown', e => { if (e.key === 'Escape') setPopover(false); });
-    addEventListener('click', e => { if (!dock.contains(e.target)) setPopover(false); });
+    const setDockOpen = open => {
+      const active = Boolean(open && mobile.matches);
+      dock.classList.toggle('is-open', active);
+      dockToggle?.setAttribute('aria-expanded', active ? 'true' : 'false');
+      dockToggle?.setAttribute('aria-label', active ? '關閉快速聯絡' : '開啟快速聯絡');
+      if (!active) setPopover(false);
+    };
+    wechatToggle?.addEventListener('click', () => setPopover(popover.hidden));
+    dockToggle?.addEventListener('click', () => setDockOpen(!dock.classList.contains('is-open')));
+    mobile.addEventListener?.('change', () => setDockOpen(false));
+    addEventListener('keydown', e => { if (e.key === 'Escape') { setPopover(false); setDockOpen(false); } });
+    addEventListener('click', e => { if (!dock.contains(e.target)) setDockOpen(false); });
+    addEventListener('scroll', () => setDockOpen(false), { passive: true });
 
     const targets = ['#top', '#booking', '#contact'].map(sel => $(sel)).filter(Boolean);
     const inView = new Map(targets.map(el => [el, false]));
     const sync = () => {
       const hidden = [...inView.values()].some(Boolean);
       dock.classList.toggle('is-hidden', hidden);
-      if (hidden) setPopover(false);
+      if (hidden) setDockOpen(false);
     };
     if ('IntersectionObserver' in window) {
       const io = new IntersectionObserver(entries => {
