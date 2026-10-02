@@ -15,7 +15,7 @@
 
 ## 串接後端
 `script.js` 內：
-- `CONFIG.PRICE_TABLE` — 早鳥回饋價 2026–27（新台幣，整組總價；`half`/`full` 依總人數 1–4 人，5 人以上顯示「5 人以上請私訊報價」）
+- `CONFIG.PRICE_TABLE` — 早鳥回饋價 2026–27（NT$，整組總價；`half`/`full` 依總人數 1–4 人，5 人以上顯示「5 人以上請私訊報價」）
 - `CONFIG.endpoint` + `SNOWMODE.submitBooking(payload)` — 換成真正的 `fetch()`
 - `SNOWMODE.buildPayload()` 產生的資料格式：
 ```json
@@ -28,11 +28,11 @@
              "quoteRequired": false, "duration": "full", "durationLabel": "全日（6 小時，含午休 1 小時） × 1 天",
              "breakdown": { "halfDays": 0, "fullDays": 1, "totalPeople": 1 } },
   "duration": "full", "durationLabel": "全日（6 小時，含午休 1 小時） × 1 天",
-  "depositRate": 0.3, "deposit": 3600, "balance": 8400, "balanceDue": "上課日前一個月內銀行轉帳，或上課當天以現金支付，日圓、台幣皆可，日圓依當天匯率換算",
+  "depositRate": 0.3, "deposit": 3600, "balance": 8400, "balanceDue": "於上課前結清",
   "submittedAt": "ISO-8601 (UTC)", "source": "snowmode-site" }
 ```
 `adults` 與 `children` 分別記錄大人、小孩人數；`childAges` 為每位小孩的 3–15 歲年齡陣列，`totalPeople` 為兩者總和，至少須有 1 人。價格依 `totalPeople` 與半日／全日時段估算。
 
-`depositRate` 為 30%；當 `price.amount` 有數值時，`deposit` 與 `balance` 會分別記錄訂金與尾款（新台幣 TWD，四捨五入至整數元），否則為 `null`（例如 5 人以上需私訊報價）。訂金須於預約確認後以銀行轉帳支付；尾款 70% 可於上課日前一個月內以銀行轉帳支付，或於上課當天以現金支付，日圓、台幣皆可，日圓依當天匯率換算。取消退款依網站公布政策辦理；若因天候或雪場關閉取消課程，可改期或全額退款。
+`depositRate` 為 30%；當 `price.amount` 有數值時，`deposit` 與 `balance` 會分別記錄訂金與尾款（NT$，四捨五入至整數元），否則為 `null`（例如 5 人以上需私訊報價）。預約確認後支付總價 30% 訂金，尾款於上課前結清；付款方式與相關資訊將由教練另行提供。取消退款依網站公布政策辦理；若因天候或雪場關閉取消課程，可改期或全額退款。
 
 前端驗證只是輔助，後端仍需自行驗證。

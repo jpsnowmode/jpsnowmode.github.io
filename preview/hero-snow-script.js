@@ -24,11 +24,6 @@
       full: [12000, 14000, 15000, 16000]
     },
     maxPricedPeople: 4,
-    // Approximate JPY reference only (actual JPY cash = rate on the payment day).
-    // 1 TWD ≈ 4.958 JPY — Bank of Taiwan spot rate, JPY buy 0.1992 / sell 0.2042 TWD → mid 0.2017
-    // (1 / 0.2017), quoted 2026-10-01 21:00 (Asia/Taipei), https://rate.bot.com.tw/xrt
-    // The static 約 ¥ values in index.html (price table, package card) use this same rate; update both together.
-    JPY_PER_TWD: 4.958,
     durations: { half: '半日（3 小時）', full: '全日（6 小時，含午休 1 小時）' },
     // Google Apps Script web app (jpsnowmode@gmail.com) → Sheet「SNOWMODE 預約」+ email notification
     endpoint: 'https://script.google.com/macros/s/AKfycbyD39ReMO2oVTR2xeL7jdfpwYkeOgSsJrtw1Qgy2IilnJnvKLG9VS2c0twrH7DG68T7/exec'
@@ -54,11 +49,10 @@
     depositRate: 0.3,
     deposit: null,
     balance: null,
-    balanceDue: '上課日前一個月內銀行轉帳，或上課當天以現金支付，日圓、台幣皆可，日圓依當天匯率換算'
+    balanceDue: '於上課前結清'
   };
 
   const ntd = v => 'NT$' + Math.round(v).toLocaleString('en-US');
-  const jpy = v => '約 ¥' + (Math.round(v * CONFIG.JPY_PER_TWD / 1000) * 1000).toLocaleString('en-US');
   const slotKey = slot => slot === '全日' ? 'full' : 'half';
   function computePrice(b) {
     const people = Number(b.totalPeople) || 0;
@@ -384,10 +378,6 @@
     $('#est-price').textContent = price.display;
     $('#est-deposit').textContent = price.depositDisplay;
     $('#est-balance').textContent = price.balanceDisplay;
-    const yen = (id, v) => { const el = $(id); if (!el) return; const t = v == null || price.quoteRequired ? '' : jpy(v); el.textContent = t; el.hidden = !t; };
-    yen('#est-price-jpy', price.amount);
-    yen('#est-deposit-jpy', price.deposit);
-    yen('#est-balance-jpy', price.balance);
   }
   next.addEventListener('click', () => { if (validate(cur)) go(cur + 1); });
   back.addEventListener('click', () => go(cur - 1));
