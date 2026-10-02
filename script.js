@@ -543,6 +543,20 @@
     sync();
   })();
 
+  /* ---------- reviews: 顯示更多評價 (desktop) ---------- */
+  (() => {
+    const btn = $('.rv-all'), row = $('.rv-row'); if (!btn || !row) return;
+    const n = $$('.rv-extra', row).length; if (!n) { btn.parentElement.remove(); return; }
+    btn.addEventListener('click', () => {
+      const open = row.classList.toggle('show-all');
+      btn.setAttribute('aria-expanded', open);
+      btn.firstChild.textContent = open ? '收合評價' : '顯示更多評價';
+      $('.rv-all-n', btn).hidden = open;
+      window.dispatchEvent(new Event('resize'));
+      if (!open) $('#voices').scrollIntoView({ block: 'start', behavior: 'smooth' });
+    });
+  })();
+
   /* ---------- reviews: 展開 / 收合 long texts ---------- */
   (() => {
     const items = $$('.rv-body');

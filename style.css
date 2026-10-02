@@ -842,3 +842,18 @@ button{cursor:pointer}
   .is-solo>.coach-note::before{left:calc(16px + 52px)}
 }
 .is-solo .cn-text p span,.is-solo .cn-text .cn-close{text-wrap:balance}
+/* reviews: desktop shows 6, "顯示更多評價" reveals the rest; mobile keeps every card in the swipe row */
+.rv-all-wrap{display:flex;justify-content:center;margin-top:36px}
+.rv-all{display:inline-flex;align-items:center;gap:.55em;padding:11px 26px;border-radius:999px;border:1px solid rgba(226,230,235,.32);background:rgba(226,230,235,.04);
+  color:#E2E6EB;font:inherit;font-size:.86rem;letter-spacing:.14em;cursor:pointer;transition:border-color .2s,background .2s}
+.rv-all::after{content:"";width:6px;height:6px;border-right:1px solid currentColor;border-bottom:1px solid currentColor;transform:translateY(-2px) rotate(45deg);transition:transform .2s}
+.rv-all[aria-expanded="true"]::after{transform:translateY(2px) rotate(-135deg)}
+.rv-all:hover{border-color:#fff;background:rgba(255,255,255,.07)}
+.rv-all:focus-visible{outline:2px solid var(--blue-2);outline-offset:3px}
+.rv-all-n{font-family:var(--lat);font-size:.78rem;letter-spacing:.06em;color:#AFB6C0}
+@media (min-width:641px){
+  .rv-row:not(.show-all)>.rv-extra{display:none}
+  .rv-row.show-all>.rv-extra{animation:rvIn .5s ease both}
+}
+@keyframes rvIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@media (max-width:640px){.rv-all-wrap{display:none}}
