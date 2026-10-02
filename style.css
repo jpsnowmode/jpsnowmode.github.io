@@ -883,3 +883,19 @@ button{cursor:pointer}
 .rs-map::after{content:"↗";font-family:var(--lat);font-size:.8rem;letter-spacing:0;opacity:.75;margin-left:2px}
 .rs-map:hover{border-color:#fff;background:rgba(255,255,255,.12);box-shadow:0 0 16px rgba(255,255,255,.12)}
 .agree a{color:#E2E6EB;text-decoration:underline;text-decoration-color:rgba(226,230,235,.4);text-underline-offset:3px}.agree a:hover{color:#fff;text-decoration-color:#fff}
+
+/* ---------- floating contact dock ---------- */
+.social-defs{position:absolute;width:0;height:0;overflow:hidden}
+.social-float{position:fixed;right:20px;bottom:24px;z-index:48;display:flex;flex-direction:column;align-items:center;gap:10px}
+.social-float-btn{display:grid;place-items:center;width:46px;height:46px;padding:0;border:1px solid rgba(220,228,238,.72);border-radius:50%;background:rgba(7,12,24,.9);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 8px 24px rgba(0,0,0,.35);transition:transform .2s,box-shadow .2s,border-color .2s}
+.social-float-btn:hover{transform:translateY(-3px);border-color:#fff;box-shadow:0 12px 28px rgba(0,0,0,.48)}
+.social-float-btn.is-primary{width:54px;height:54px;border-color:rgba(235,242,255,.9);box-shadow:0 10px 30px rgba(0,0,0,.48)}
+.social-float-btn .sf-icon{width:23px;height:23px;fill:url(#social-gradient)}
+.social-float-btn.is-primary .sf-icon{width:27px;height:27px}
+@media (max-width:640px){
+  .social-float{right:14px;bottom:16px;gap:8px}
+  .social-float-btn{width:42px;height:42px}
+  .social-float-btn.is-primary{width:50px;height:50px}
+  .social-float-btn .sf-icon{width:21px;height:21px}
+  .social-float-btn.is-primary .sf-icon{width:25px;height:25px}
+}
