@@ -438,7 +438,9 @@
     }
     showDoneOrForm(false);
     go(booking.level ? 2 : 1, false);
-    $('#booking').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const toBooking = () => $('#booking').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+    // hero-snow.js: SWITCH ON light-up + full-screen snow, scroll after ~800ms (falls back to a plain scroll)
+    window.SMHeroSnow ? window.SMHeroSnow.run(toBooking) : toBooking();
     if (!booking.level) msg('確認人數、選擇程度後，再到下一步挑日期。');
     return true;
   }
@@ -462,8 +464,8 @@
       goTimer = setTimeout(() => {
         if (!quickGo()) { goTimer = setTimeout(goReset, 450); return; }   // validation failed → snap back
         // still looking at the card a moment later (nothing scrolled)? reset so it can be used again
-        goTimer = setTimeout(() => { if (!goLeft && isInView(quick)) goReset(); }, 2500);
-      }, 400);
+        goTimer = setTimeout(() => { if (!goLeft && isInView(quick)) goReset(); }, 3500);
+      }, 0);   // validate + prefill at once; hero-snow.js holds the scroll ~800ms while the hero lights up
     };
     const isInView = el => { const r = el.getBoundingClientRect(); return r.bottom > 0 && r.top < innerHeight; };
     // implicit form submission (Enter in a field) also arrives here as a click on the default button
