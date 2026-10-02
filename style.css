@@ -350,6 +350,7 @@ button{cursor:pointer}
 .ct-k{font-family:var(--lat);font-size:.8rem;letter-spacing:.14em;color:var(--blue-2)}
 .ct-v{overflow-wrap:anywhere}
 .ct-v small{color:var(--mute);font-size:.78rem;margin-left:4px}
+.wechat-qr{grid-column:2/-1;justify-self:start;width:110px;height:110px;padding:6px;border-radius:12px;background:#fff;object-fit:contain;margin-top:2px}
 .copy,.ct-a{border:1px solid var(--line-2);background:none;border-radius:999px;padding:7px 16px;font-size:.82rem;white-space:nowrap;transition:.2s}
 .copy:hover,.ct-a:hover{background:#fff;color:var(--night);border-color:#fff}
 
@@ -456,6 +457,7 @@ button{cursor:pointer}
   .line-card .btn{width:100%}
   .ct-list li{grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;padding:16px 2px}
   .ct-k{grid-column:1/-1}
+  .wechat-qr{grid-column:1/-1;width:110px;height:110px;margin-top:8px}
   .foot{padding:60px var(--pad) 28px}
   .foot-grid{grid-template-columns:minmax(0,1fr);gap:30px}
   .foot-bottom{flex-direction:column;gap:6px;margin-top:40px}
@@ -898,11 +900,13 @@ button{cursor:pointer}
 .social-line .sf-icon{width:31px;height:31px}
 .social-instagram .sf-icon{width:27px;height:27px}
 .social-toggle{display:none}
-.wechat-popover{position:absolute;right:56px;bottom:55px;display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px 14px;min-width:184px;padding:13px 14px;border:1px solid rgba(255,255,255,.28);border-radius:14px;background:rgba(10,16,32,.96);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 12px 30px rgba(0,0,0,.38);white-space:nowrap}
+.wechat-popover{position:absolute;right:56px;bottom:55px;display:grid;grid-template-columns:1fr;align-items:center;gap:8px;width:220px;min-width:0;padding:13px 14px;border:1px solid rgba(255,255,255,.28);border-radius:14px;background:rgba(10,16,32,.96);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 12px 30px rgba(0,0,0,.38);white-space:nowrap}
 .wechat-popover::after{content:"";position:absolute;right:-7px;bottom:22px;width:12px;height:12px;background:rgba(10,16,32,.96);border-top:1px solid rgba(255,255,255,.28);border-right:1px solid rgba(255,255,255,.28);transform:rotate(45deg)}
-.wechat-popover p{grid-column:1/-1;font-family:var(--lat);font-size:.72rem;letter-spacing:.14em;color:var(--blue-2)}
-.wechat-popover code{font-size:.98rem;color:#fff}
-.wechat-popover .copy{position:relative;z-index:1;padding:5px 10px;font-size:.76rem}
+.wechat-popover-qr{width:160px;height:160px;padding:7px;border-radius:12px;background:#fff;object-fit:contain;justify-self:center}
+.wechat-popover p{font-family:var(--lat);font-size:.72rem;letter-spacing:.1em;color:var(--blue-2);text-align:center}
+.wechat-popover code{font-size:.98rem;color:#fff;letter-spacing:0}
+.wechat-popover .copy{position:relative;z-index:1;padding:5px 10px;font-size:.76rem;justify-self:center}
+.wechat-popover-hint{font-family:var(--sans)!important;font-size:.7rem!important;letter-spacing:0!important;color:var(--mute)!important}
 @media (max-width:768px){
   .social-float{right:14px;bottom:16px;gap:8px}
   .social-float-btn{width:44px;height:44px;opacity:0;pointer-events:none;transform:translateY(12px) scale(.78);transition:opacity .2s,transform .2s,box-shadow .2s,filter .2s}
