@@ -885,17 +885,28 @@ button{cursor:pointer}
 .agree a{color:#E2E6EB;text-decoration:underline;text-decoration-color:rgba(226,230,235,.4);text-underline-offset:3px}.agree a:hover{color:#fff;text-decoration-color:#fff}
 
 /* ---------- floating contact dock ---------- */
-.social-defs{position:absolute;width:0;height:0;overflow:hidden}
-.social-float{position:fixed;right:20px;bottom:24px;z-index:48;display:flex;flex-direction:column;align-items:center;gap:10px}
-.social-float-btn{display:grid;place-items:center;width:46px;height:46px;padding:0;border:1px solid rgba(220,228,238,.72);border-radius:50%;background:rgba(7,12,24,.9);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 8px 24px rgba(0,0,0,.35);transition:transform .2s,box-shadow .2s,border-color .2s}
-.social-float-btn:hover{transform:translateY(-3px);border-color:#fff;box-shadow:0 12px 28px rgba(0,0,0,.48)}
-.social-float-btn.is-primary{width:54px;height:54px;border-color:rgba(235,242,255,.9);box-shadow:0 10px 30px rgba(0,0,0,.48)}
-.social-float-btn .sf-icon{width:23px;height:23px;fill:url(#social-gradient)}
-.social-float-btn.is-primary .sf-icon{width:27px;height:27px}
+.social-float{position:fixed;right:20px;bottom:24px;z-index:48;display:flex;flex-direction:column;align-items:center;gap:9px;transition:opacity .25s,visibility .25s,transform .25s}
+.social-float.is-hidden{opacity:0;visibility:hidden;pointer-events:none;transform:translateY(10px)}
+.social-float-btn{display:grid;place-items:center;width:46px;height:46px;padding:0;border:0;border-radius:50%;color:#fff;box-shadow:0 6px 16px rgba(0,0,0,.28);transition:transform .2s,box-shadow .2s,filter .2s}
+.social-float-btn:hover{transform:translateY(-3px);filter:brightness(1.08);box-shadow:0 10px 22px rgba(0,0,0,.38)}
+.social-float-btn:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.social-line{background:#06C755}
+.social-whatsapp{background:#25D366}
+.social-wechat{background:#07C160}
+.social-instagram{background:linear-gradient(135deg,#F58529 0%,#DD2A7B 45%,#8134AF 75%,#515BD4 100%)}
+.social-float-btn .sf-icon{width:28px;height:28px;display:block}
+.social-line .sf-icon{width:31px;height:31px}
+.social-instagram .sf-icon{width:27px;height:27px}
+.wechat-popover{position:absolute;right:56px;bottom:108px;display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px 14px;min-width:184px;padding:13px 14px;border:1px solid rgba(255,255,255,.28);border-radius:14px;background:rgba(10,16,32,.96);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 12px 30px rgba(0,0,0,.38);white-space:nowrap}
+.wechat-popover::after{content:"";position:absolute;right:-7px;bottom:22px;width:12px;height:12px;background:rgba(10,16,32,.96);border-top:1px solid rgba(255,255,255,.28);border-right:1px solid rgba(255,255,255,.28);transform:rotate(45deg)}
+.wechat-popover p{grid-column:1/-1;font-family:var(--lat);font-size:.72rem;letter-spacing:.14em;color:var(--blue-2)}
+.wechat-popover code{font-size:.98rem;color:#fff}
+.wechat-popover .copy{position:relative;z-index:1;padding:5px 10px;font-size:.76rem}
 @media (max-width:640px){
   .social-float{right:14px;bottom:16px;gap:8px}
-  .social-float-btn{width:42px;height:42px}
-  .social-float-btn.is-primary{width:50px;height:50px}
-  .social-float-btn .sf-icon{width:21px;height:21px}
-  .social-float-btn.is-primary .sf-icon{width:25px;height:25px}
+  .social-float-btn{width:44px;height:44px}
+  .social-float-btn .sf-icon{width:27px;height:27px}
+  .social-line .sf-icon{width:30px;height:30px}
+  .social-instagram .sf-icon{width:26px;height:26px}
+  .wechat-popover{right:52px;bottom:104px}
 }

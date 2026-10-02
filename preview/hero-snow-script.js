@@ -503,15 +503,54 @@
     addEventListener('pageshow', e => { if (e.persisted) goReset(); });
   }
 
-  /* ---------- WeChat copy (inline, no modal) ---------- */
+  /* ---------- WeChat copy + floating contact dock ---------- */
   $$('[data-copy]').forEach(b => b.addEventListener('click', async () => {
-    const txt = $(b.dataset.copy).textContent.trim();
+    const target = $(b.dataset.copy);
+    if (!target) return;
+    const txt = target.textContent.trim();
     try { await navigator.clipboard.writeText(txt); toast(`已複製 WeChat ID：${txt}`); }
     catch (_) {
-      const r = document.createRange(); r.selectNodeContents($(b.dataset.copy)); const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+      const r = document.createRange(); r.selectNodeContents(target); const s = getSelection(); s.removeAllRanges(); s.addRange(r);
       toast('已選取 ID，請按複製');
     }
   }));
+
+  (() => {
+    const dock = $('.social-float');
+    if (!dock) return;
+    const toggle = $('[data-wechat-toggle]', dock);
+    const popover = $('#wechat-popover');
+    const setPopover = open => {
+      if (!toggle || !popover) return;
+      popover.hidden = !open;
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    };
+    toggle?.addEventListener('click', () => setPopover(popover.hidden));
+    addEventListener('keydown', e => { if (e.key === 'Escape') setPopover(false); });
+    addEventListener('click', e => { if (!dock.contains(e.target)) setPopover(false); });
+
+    const targets = ['#top', '#booking', '#contact'].map(sel => $(sel)).filter(Boolean);
+    const inView = new Map(targets.map(el => [el, false]));
+    const sync = () => {
+      const hidden = [...inView.values()].some(Boolean);
+      dock.classList.toggle('is-hidden', hidden);
+      if (hidden) setPopover(false);
+    };
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(entry => inView.set(entry.target, entry.isIntersecting));
+        sync();
+      }, { threshold: .05 });
+      targets.forEach(el => io.observe(el));
+    } else {
+      const syncFallback = () => targets.forEach(el => {
+        const r = el.getBoundingClientRect();
+        inView.set(el, r.bottom > 0 && r.top < innerHeight);
+      });
+      addEventListener('scroll', () => { syncFallback(); sync(); }, { passive: true });
+      syncFallback(); sync();
+    }
+  })();
 
   /* ---------- reveal on scroll ---------- */
   if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
