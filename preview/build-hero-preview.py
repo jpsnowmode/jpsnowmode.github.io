@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Regenerate preview-hero-snow.html + preview/hero-snow-script.js from index.html / script.js.
-Preview only (noindex, not linked). Change: hero quick-booking slide → full-screen snow → scroll to #booking."""
+Preview only (noindex, not linked). Change: hero quick-booking slide → SWITCH ON light-up + full-screen snow → scroll to #booking."""
 import re, pathlib
 root = pathlib.Path(__file__).resolve().parent.parent
 
@@ -31,11 +31,11 @@ rep('<meta name="viewport" content="width=device-width, initial-scale=1.0">',
     '<meta name="viewport" content="width=device-width, initial-scale=1.0">\n<meta name="robots" content="noindex, nofollow">')
 s = re.sub(r'<title>(.*?)</title>', r'<title>（預覽）\1</title>', s, count=1)
 s = re.sub(r'<link rel="canonical"[^>]*>\n?', '', s)
-s = re.sub(r'(<link rel="stylesheet" href="style\.css[^"]*">)', r'\1\n<link rel="stylesheet" href="preview/hero-snow.css?v=1">', s, count=1)
+s = re.sub(r'(<link rel="stylesheet" href="style\.css[^"]*">)', r'\1\n<link rel="stylesheet" href="preview/hero-snow.css?v=2">', s, count=1)
 n0 = len(s)
 s = re.sub(r'<script src="script\.js[^"]*"></script>',
            '<p class="hs-badge" aria-hidden="true">PREVIEW・HERO SNOW</p>\n'
-           '<script src="preview/hero-snow.js?v=1"></script>\n<script src="preview/hero-snow-script.js?v=1"></script>', s, count=1)
+           '<script src="preview/hero-snow.js?v=2"></script>\n<script src="preview/hero-snow-script.js?v=2"></script>', s, count=1)
 assert len(s) != n0
 (root / 'preview-hero-snow.html').write_text(s)
 print('wrote preview-hero-snow.html + preview/hero-snow-script.js')

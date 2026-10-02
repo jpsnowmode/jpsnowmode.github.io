@@ -1,6 +1,6 @@
 /* PREVIEW ONLY (preview-hero-snow.html): hero quick-booking slide → full-screen snowfall → scroll to #booking.
    Same 3-layer sprite snow as the SNOW MODE switch, but on a fixed, pointer-events:none overlay.
-   Timeline: slide complete → snow starts at once → ~800ms → smooth scroll (prefill unchanged)
+   Timeline: slide complete → hero lights up (SWITCH ON) + snow start at once → ~800ms → smooth scroll (prefill unchanged)
              → snow keeps falling during the scroll → fades out ~2.5s after arriving.
    prefers-reduced-motion: no snow, scroll straight away. */
 (function () {
@@ -123,10 +123,19 @@
     })();
   }
 
+  /* light the page up exactly like SWITCH ON: flip the real hero switch through its own click handler
+     (setOn(true) → .hero.is-on colour/glow, switch glow, SNOW MODE: ON status + CTA, hero snowfall).
+     SWITCH ON is a toggle (not persisted), so it simply stays ON after the slide; never toggles it OFF. */
+  function lightUp() {
+    var sw = document.getElementById('snow-switch');
+    if (sw && sw.getAttribute('aria-checked') !== 'true') sw.click();
+  }
+
   /* called by the (patched) quick-card flow once validation + prefill passed; scrollFn does the real scroll */
   window.SMHeroSnow = {
     run: function (scrollFn) {
       clearTimers();
+      lightUp();
       if (mqReduce.matches || !start()) { scrollFn(); return; }
       document.documentElement.setAttribute('data-hero-snow', 'falling');
       later(function () {
