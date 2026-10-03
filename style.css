@@ -1000,3 +1000,31 @@ button{cursor:pointer}
   .is-trio>.coach-note{margin-top:2px;--caret:calc(16px + 52px)}
   .avatar-soon span{font-size:.6rem;letter-spacing:.24em;padding-left:.24em}
 }
+
+/* ===== Resorts: area tabs (越後湯澤 / 北海道) ===== */
+.rs-tabs{display:inline-flex;gap:4px;padding:4px;margin:0 0 22px;border-radius:999px;border:1px solid rgba(226,230,235,.2);background:rgba(255,255,255,.04);max-width:100%}
+.rs-tab{display:inline-flex;align-items:baseline;gap:10px;padding:10px 22px;border:0;border-radius:999px;background:transparent;color:rgba(255,255,255,.7);font:inherit;font-size:.95rem;letter-spacing:.12em;cursor:pointer;transition:background .2s,color .2s}
+.rs-tab span{font-family:var(--lat);font-size:.62rem;letter-spacing:.24em;color:#AFB6C0}
+.rs-tab:hover{color:#fff}
+.rs-tab[aria-selected="true"]{background:rgba(242,244,247,.92);color:#0b0d10;font-weight:500}
+.rs-tab[aria-selected="true"] span{color:#4a525c}
+.rs-tab:focus-visible{outline:2px solid var(--blue-2);outline-offset:2px}
+.rs-panel:focus-visible{outline:2px solid var(--blue-2);outline-offset:6px;border-radius:8px}
+.rs-panel[hidden]{display:none}
+.rs-plead{max-width:760px;margin-bottom:22px}
+.rs-plead b{display:block;font-weight:500;color:#E2E6EB;letter-spacing:.14em;margin-bottom:4px}
+.rs-panel .rs-swipe{margin:-12px 0 12px}
+.rs-hk{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}
+.rs-hk-card{padding:22px 20px 20px}
+.rs-hk-card .rs-name{font-size:1.4rem;margin:8px 0 2px}
+.rs-hk-card .rs-links{display:flex;flex-wrap:wrap;gap:4px 16px;margin-top:auto}
+.rs-hk-card .rs-link{margin-top:10px}
+@media (max-width:1100px){.rs-hk{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:640px){
+  .rs-tabs{display:flex}
+  .rs-tab{flex:1 1 0;justify-content:center;flex-direction:column;align-items:center;gap:2px;padding:9px 10px}
+  .rs-hk{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .rs-hk-card{padding:18px 16px 16px}
+  .rs-hk-card .rs-name{font-size:1.25rem}
+  .rs-hk-card .rs-jp [lang="en"]{letter-spacing:.14em}
+}
