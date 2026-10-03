@@ -147,6 +147,10 @@ button{cursor:pointer}
 .prices summary::-webkit-details-marker{display:none}
 .pt-title{font-weight:700;font-size:1.1rem}
 .pt-sub{font-size:.82rem;color:var(--mute)}
+.pt-head{display:flex;flex-direction:column;gap:6px}
+.pt-deadline{display:inline-flex;align-items:center;gap:10px;font-size:.78rem;font-weight:500;letter-spacing:.08em;color:var(--blue-2)}
+.pt-deadline::before{content:"";width:18px;height:1px;background:var(--blue-2);opacity:.7}
+.pt-deadline time{font-family:var(--lat);font-weight:600;letter-spacing:.06em;color:#fff}
 .pt-ico{margin-left:auto;width:30px;height:30px;border-radius:50%;border:1px solid var(--line-2);position:relative;flex:none}
 .pt-ico::before,.pt-ico::after{content:"";position:absolute;left:9px;right:9px;top:14px;height:1px;background:#fff;transition:transform .25s}
 .pt-ico::after{transform:rotate(90deg)}

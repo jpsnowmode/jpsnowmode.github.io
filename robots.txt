@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://jpsnowmode.com/sitemap.xml
