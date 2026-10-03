@@ -33,7 +33,7 @@
     name: '',
     contact: { method: 'LINE', id: '', email: '' },
     dates: [],            // [{ date: 'YYYY-MM-DD', slot: '全日' }]
-    discipline: '雙板',
+    discipline: '',       // no default: the visitor must pick 單板 or 雙板
     level: '',
     language: '中文',
     adults: 1,
@@ -147,30 +147,47 @@
 
   /* ---------- discipline (ski / board) sync ---------- */
   function setDiscipline(v) {
+    v = v === '單板' || v === '雙板' ? v : '';
     booking.discipline = v;
     renderLevels(v);
-    const sw = $('#disc-switch');
-    if (sw) {
-      sw.setAttribute('aria-checked', String(v === '雙板'));
-      sw.closest('.disc-switch').dataset.state = v;
-      $$('.disc-switch .ds-label').forEach(l => l.classList.toggle('on', l.dataset.disc === v));
+    const box = $('.disc-switch');
+    if (box) {
+      box.dataset.state = v;
+      $$('.disc-switch .ds-label').forEach((l, i) => {
+        const on = l.dataset.disc === v;
+        l.classList.toggle('on', on);
+        l.setAttribute('aria-checked', String(on));
+        l.tabIndex = (v ? on : i === 0) ? 0 : -1;   // roving tabindex; first option focusable when nothing is picked
+      });
     }
     const hv = $('#disc-val'); if (hv) hv.value = v;
-    $$('.disc-name').forEach(s => s.textContent = v);
-    const q = $(`#quick input[name="q-discipline"][value="${v}"]`); if (q) q.checked = true;
+    $$('.disc-name').forEach(s => s.textContent = v || '所選板類');
+    $$('#quick input[name="q-discipline"]').forEach(q => { q.checked = q.value === v; });
+    if (v) { setErr('discipline', ''); setErr('q-discipline', ''); }
     updateLive();
   }
-  /* booking step-1 switch: knob left = 單板 (off), right = 雙板 (on).
-     Native <button> gives Space/Enter → click; ←/→ pick a side; each label selects its own side. */
+  /* booking step-1 板類: radiogroup of two labels (單板 left, 雙板 right) with the track in between.
+     No default. Track click: picks the clicked side when nothing is chosen yet, otherwise toggles.
+     Keyboard: Tab to the group, Space/Enter picks the focused option, ←/→/Home/End move + pick. */
   const discSwitch = $('#disc-switch');
+  const discLabels = $$('.disc-switch .ds-label');
+  const focusDisc = v => { const l = discLabels.find(x => x.dataset.disc === v); if (l) l.focus({ preventScroll: true }); };
   if (discSwitch) {
-    discSwitch.addEventListener('click', () => setDiscipline(booking.discipline === '單板' ? '雙板' : '單板'));
-    discSwitch.addEventListener('keydown', e => {
-      const v = { ArrowLeft: '單板', ArrowRight: '雙板', Home: '單板', End: '雙板' }[e.key];
-      if (v) { e.preventDefault(); setDiscipline(v); }
+    discSwitch.addEventListener('click', e => {
+      let v;
+      if (!booking.discipline) { const r = discSwitch.getBoundingClientRect(); v = (e.clientX && e.clientX < r.left + r.width / 2) ? '單板' : '雙板'; }
+      else v = booking.discipline === '單板' ? '雙板' : '單板';
+      setDiscipline(v); focusDisc(v);
     });
   }
-  $$('.disc-switch .ds-label').forEach(l => l.addEventListener('click', () => { setDiscipline(l.dataset.disc); discSwitch && discSwitch.focus({ preventScroll: true }); }));
+  discLabels.forEach(l => {
+    l.addEventListener('click', () => { setDiscipline(l.dataset.disc); focusDisc(l.dataset.disc); });
+    l.addEventListener('keydown', e => {
+      let v = { ArrowLeft: '單板', ArrowUp: '單板', ArrowRight: '雙板', ArrowDown: '雙板', Home: '單板', End: '雙板' }[e.key];
+      if (!v && (e.key === ' ' || e.key === 'Enter')) v = l.dataset.disc;
+      if (v) { e.preventDefault(); setDiscipline(v); focusDisc(v); }
+    });
+  });
 
   /* ---------- calendar (multi, non-consecutive) ---------- */
   const pad2 = n => String(n).padStart(2, '0');
@@ -303,14 +320,14 @@
   }
   function updateLive() {
     booking.price = computePrice(booking);
-    const map = { discipline: booking.discipline, level: booking.level || '—', dates: datesText(true), people: `大人 ${booking.adults}・小孩 ${booking.children}（共 ${booking.totalPeople} 人）`, price: booking.price.display };
+    const map = { discipline: booking.discipline || '尚未選擇', level: booking.level || '—', dates: datesText(true), people: `大人 ${booking.adults}・小孩 ${booking.children}（共 ${booking.totalPeople} 人）`, price: booking.price.display };
     $$('[data-live]').forEach(el => { el.textContent = map[el.dataset.live]; });
   }
 
   /* ---------- validation ---------- */
   const setErr = (k, t) => {
     const e = $(`[data-err="${k}"]`); if (e) e.textContent = t;
-    const el = k === 'level' ? $('#level-field') : form.elements[k];
+    const el = k === 'level' ? $('#level-field') : k === 'discipline' ? $('.disc-switch') : k === 'q-discipline' ? $('#quick .chips') : form.elements[k];
     if (el && el.setAttribute) el.setAttribute('aria-invalid', t ? 'true' : 'false');
   };
   const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -318,6 +335,7 @@
     readForm();
     const errs = [];
     if (n === 1) {
+      if (!booking.discipline) { setErr('discipline', '請選擇板類'); errs.push('discipline'); } else setErr('discipline', '');
       if (!booking.level) { setErr('level', '請選擇程度'); errs.push('level'); } else setErr('level', '');
       // 人數 lives in step 1 (same as the hero quick card), so it is always reachable right after the quick-card slide
       if (booking.totalPeople < 1) { setErr('people', '至少需要 1 位大人或小孩'); errs.push('people'); } else setErr('people', '');
@@ -341,7 +359,8 @@
     if (errs.length) {
       msg('請檢查標示的欄位。');
       const el = form.elements[errs[0]];
-      if (el && el.focus) el.focus(); else if (errs[0] === 'dates') calGrid.querySelector('button:not(:disabled)')?.focus();
+      if (errs[0] === 'discipline') focusDisc(discLabels[0].dataset.disc);
+      else if (el && el.focus) el.focus(); else if (errs[0] === 'dates') calGrid.querySelector('button:not(:disabled)')?.focus();
       return false;
     }
     msg(''); return true;
@@ -401,7 +420,7 @@
     } finally { send.disabled = false; send.textContent = '送出預約需求'; }
   });
   $('#done-again').addEventListener('click', () => {
-    form.reset(); booking.dates = []; booking.childAges = []; setParty(1, 0); syncMethod(); setDiscipline('雙板');
+    form.reset(); booking.dates = []; booking.childAges = []; setParty(1, 0); syncMethod(); setDiscipline('');
     renderCal(); renderDays(); readForm(); showDoneOrForm(false); go(1);
   });
 
@@ -416,6 +435,12 @@
   /* returns true when the visitor was sent on to the full booking flow */
   function quickGo() {
     syncQuickParty();
+    if (!booking.discipline) {
+      setErr('q-discipline', '請選擇板類'); toast('請選擇板類');
+      const first = $('#quick input[name="q-discipline"]'); if (first) first.focus({ preventScroll: true });
+      $('#quick .chips')?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      return false;
+    }
     const partyError = booking.totalPeople < 1 ? '至少需要 1 位大人或小孩' : (booking.childAges.length !== booking.children || booking.childAges.some(age => !Number.isInteger(age) || age < 3 || age > 15) ? '請填寫每位小孩的年齡（3–15 歲）' : '');
     setErr('q-party', partyError);
     if (partyError) { toast(partyError); $('[data-err="q-party"]')?.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); return false; }

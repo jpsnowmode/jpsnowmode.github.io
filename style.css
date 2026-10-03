@@ -123,8 +123,8 @@ button{cursor:pointer}
 .ds-track:focus-visible{outline:2px solid var(--blue-2);outline-offset:4px;border-radius:999px}
 .ds-knob{position:absolute;top:2px;left:2px;width:30px;height:30px;border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,.4);transition:transform .25s cubic-bezier(.4,0,.2,1)}
 .ds-knob img{display:block;width:100%;height:100%}
-.ds-track[aria-checked="true"]{background:linear-gradient(180deg,#F2F4F7,#C4CAD2);border-color:rgba(255,255,255,.95);box-shadow:0 0 18px rgba(255,255,255,.35),0 0 4px rgba(255,255,255,.5),inset 0 1px 0 rgba(255,255,255,.9)}
-.ds-track[aria-checked="true"] .ds-knob{transform:translateX(38px);box-shadow:0 0 0 2px #0B0D10,0 2px 6px rgba(0,0,0,.3)}
+.disc-switch[data-state="雙板"] .ds-track{background:linear-gradient(180deg,#F2F4F7,#C4CAD2);border-color:rgba(255,255,255,.95);box-shadow:0 0 18px rgba(255,255,255,.35),0 0 4px rgba(255,255,255,.5),inset 0 1px 0 rgba(255,255,255,.9)}
+.disc-switch[data-state="雙板"] .ds-knob{transform:translateX(38px);box-shadow:0 0 0 2px #0B0D10,0 2px 6px rgba(0,0,0,.3)}
 @media (max-width:380px){.disc-switch{gap:10px}.ds-label small{display:none}}
 .pkgs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
 .pkg{position:relative;display:flex;flex-direction:column;border-radius:var(--r);padding:32px 28px;background:linear-gradient(160deg,rgba(255,255,255,.08),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.12);transition:transform .25s,border-color .25s,box-shadow .25s}
@@ -1046,3 +1046,9 @@ button{cursor:pointer}
 .about-photo img{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;filter:grayscale(1)}
 @media (max-width:900px){.about-grid{grid-template-columns:1fr;gap:36px}.about-photo{max-width:620px}}
 @media (max-width:640px){.about-text p{font-size:.95rem;line-height:1.9}.about-text .about-close{font-size:1.02rem}}
+
+/* 板類: no default selection — knob parks in the middle, dimmed, until 單板 / 雙板 is picked */
+.disc-switch[data-state=""] .ds-knob{transform:translateX(19px);opacity:.55}
+.ds-label:focus-visible{outline:2px solid var(--blue-2);outline-offset:4px;border-radius:6px}
+.disc-switch[aria-invalid="true"] .ds-track,#quick .chips[aria-invalid="true"] span{border-color:var(--bad)}
+.lbl em{color:var(--blue-2);font-style:normal}

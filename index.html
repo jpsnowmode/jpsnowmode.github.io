@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SNOWMODE｜越後湯澤・北海道滑雪課程</title>
+<title>SNOWMODE 滑雪學校｜越後湯澤・北海道</title>
 <meta name="description" content="SNOWMODE：越後湯澤、北海道的雙板・單板滑雪課程，可選多個不連續日期線上預約。">
 <meta property="og:site_name" content="SNOWMODE">
-<meta property="og:title" content="SNOWMODE｜越後湯澤・北海道滑雪課程">
+<meta property="og:title" content="SNOWMODE 滑雪學校｜越後湯澤・北海道">
 <meta property="og:description" content="離東京一段新幹線的距離，這個冬天，開啟滑雪模式，滑進越後湯澤。">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="zh_TW">
@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=hokkaido3">
+<link rel="stylesheet" href="style.css?v=board1">
 <link rel="stylesheet" href="hero-snow.css?v=1">
 </head>
 <body>
@@ -91,11 +91,12 @@
   <form class="glass quick" id="quick" aria-labelledby="quick-title" novalidate>
     <p class="quick-title" id="quick-title">預約課程</p>
     <ol class="mini-prog" aria-hidden="true"><li class="on"><span>1</span>設定</li><li><span>2</span>日期</li><li><span>3</span>聯絡</li><li><span>4</span>確認</li></ol>
-    <p class="lbl" id="q-disc-l">板類</p>
-    <div class="chips" role="radiogroup" aria-labelledby="q-disc-l">
+    <p class="lbl" id="q-disc-l">板類 <em>*</em></p>
+    <div class="chips" role="radiogroup" aria-labelledby="q-disc-l" aria-required="true" aria-describedby="q-disc-err">
       <label><input type="radio" name="q-discipline" value="單板"><span>單板<small lang="en">Snowboard</small></span></label>
-      <label><input type="radio" name="q-discipline" value="雙板" checked><span>雙板<small lang="en">Ski</small></span></label>
+      <label><input type="radio" name="q-discipline" value="雙板"><span>雙板<small lang="en">Ski</small></span></label>
     </div>
+    <span class="err" id="q-disc-err" data-err="q-discipline" aria-live="polite"></span>
     <div class="row2">
       <label class="fld">第一天（選填）<input type="date" name="q-date" id="q-date"></label>
       <div class="fld quick-party"><span class="fl">人數 <em>*</em></span>
@@ -193,7 +194,7 @@
       <aside class="glass live" id="live" aria-label="目前選擇">
         <p class="live-title">您的預約</p>
         <dl>
-          <div><dt>板類</dt><dd data-live="discipline">雙板</dd></div>
+          <div><dt>板類</dt><dd data-live="discipline">尚未選擇</dd></div>
           <div><dt>程度</dt><dd data-live="level">—</dd></div>
           <div><dt>日期</dt><dd data-live="dates">尚未選擇</dd></div>
           <div><dt>人數</dt><dd data-live="people">大人 1・小孩 0（共 1 人）</dd></div>
@@ -215,18 +216,18 @@
         <!-- step 1 -->
         <fieldset class="step on" data-step="1">
           <legend class="step-title">課程設定</legend>
-          <p class="lbl" id="disc-l">板類</p>
-          <input type="hidden" name="discipline" id="disc-val" value="雙板">
-          <div class="disc-switch" data-state="雙板">
-            <span class="ds-label" id="ds-board" data-disc="單板">單板<small>SNOWBOARD</small></span>
-            <button type="button" class="ds-track" id="disc-switch" role="switch" aria-checked="true" aria-labelledby="disc-l ds-ski" aria-describedby="ds-hint">
+          <p class="lbl" id="disc-l">板類 <em>*</em></p>
+          <input type="hidden" name="discipline" id="disc-val" value="">
+          <div class="disc-switch" data-state="" role="radiogroup" aria-labelledby="disc-l" aria-required="true" aria-describedby="disc-err">
+            <span class="ds-label" id="ds-board" data-disc="單板" role="radio" aria-checked="false" tabindex="0">單板<small>SNOWBOARD</small></span>
+            <button type="button" class="ds-track" id="disc-switch" tabindex="-1" aria-hidden="true">
               <span class="ds-knob" aria-hidden="true"><img src="img/logo/c-carve-knob.svg?v=silver" alt="" width="30" height="30"></span>
             </button>
-            <span class="ds-label on" id="ds-ski" data-disc="雙板">雙板<small>SKI</small></span>
-            <span class="sr-only" id="ds-hint">開啟為雙板，關閉為單板；也可用左右方向鍵選擇</span>
+            <span class="ds-label" id="ds-ski" data-disc="雙板" role="radio" aria-checked="false" tabindex="-1">雙板<small>SKI</small></span>
           </div>
+          <span class="err" id="disc-err" data-err="discipline" aria-live="polite"></span>
           <fieldset class="fld lv-field" id="level-field" aria-describedby="lv-hint">
-            <legend class="fl">程度 <em>*</em><span class="lv-hint" id="lv-hint">依<span class="disc-name">雙板</span>程度說明</span></legend>
+            <legend class="fl">程度 <em>*</em><span class="lv-hint" id="lv-hint">依<span class="disc-name">所選板類</span>程度說明</span></legend>
             <div class="lv-list" role="radiogroup" aria-required="true">
                 <label class="lv"><input type="radio" name="level" value="Lv.1 第一次滑雪，或學過但忘光光了" data-lv="1" required><span class="lv-no">Lv.1</span><span class="lv-desc">第一次滑雪，或學過但忘光光了</span></label>
                 <label class="lv"><input type="radio" name="level" value="Lv.2 能用八字停下、轉彎" data-lv="2" required><span class="lv-no">Lv.2</span><span class="lv-desc">能用八字停下、轉彎</span></label>
@@ -860,6 +861,6 @@ Jay教練是我們這兩天玩的這麼愉快的大功臣！
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script src="hero-snow.js?v=1"></script>
-<script src="script.js?v=hokkaido2"></script>
+<script src="script.js?v=board1"></script>
 </body>
 </html>
