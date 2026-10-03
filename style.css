@@ -1033,3 +1033,15 @@ button{cursor:pointer}
 }
 
 .eyebrow .nw{white-space:nowrap}
+
+/* ===== 01 關於 About ===== */
+.about{background:var(--night)}
+.about-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:64px;align-items:center}
+.about .sec-head{margin-bottom:28px}
+.about-text p{font-size:1rem;font-weight:300;line-height:1.95;color:rgba(255,255,255,.82);margin-top:16px;max-width:34em}
+.about-text p:first-child{margin-top:0}
+.about-text .about-close{margin-top:28px;padding-left:16px;border-left:2px solid var(--blue-2);font-size:1.12rem;font-weight:500;letter-spacing:.06em;color:#fff}
+.about-photo{border-radius:var(--r);overflow:hidden;border:1px solid var(--line);position:relative}
+.about-photo img{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;filter:grayscale(1)}
+@media (max-width:900px){.about-grid{grid-template-columns:1fr;gap:36px}.about-photo{max-width:620px}}
+@media (max-width:640px){.about-text p{font-size:.95rem;line-height:1.9}.about-text .about-close{font-size:1.02rem}}

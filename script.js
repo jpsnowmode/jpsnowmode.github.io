@@ -263,7 +263,7 @@
 
   /* ---------- contact method label ---------- */
   const cid = form.elements.contactId, cidL = $('#cid-l');
-  const CID = { LINE: ['LINE ID', '你的 LINE ID'], WeChat: ['WeChat ID', '你的 WeChat ID'], WhatsApp: ['WhatsApp 號碼', '+886 912 345 678'], Email: ['Email', 'jpsnowmode@gmail.com'], '電話': ['電話號碼', '+886 912 345 678'] };
+  const CID = { LINE: ['LINE ID', '您的 LINE ID'], WeChat: ['WeChat ID', '您的 WeChat ID'], WhatsApp: ['WhatsApp 號碼', '+886 912 345 678'], Email: ['Email', 'jpsnowmode@gmail.com'], '電話': ['電話號碼', '+886 912 345 678'] };
   function syncMethod() { const m = form.elements.contactMethod.value; booking.contact.method = m; cidL.textContent = CID[m][0]; cid.placeholder = CID[m][1]; cid.type = m === 'Email' ? 'email' : 'text'; form.elements.email.closest('label').hidden = m === 'Email'; }
   form.elements.contactMethod.addEventListener('change', syncMethod);
 
