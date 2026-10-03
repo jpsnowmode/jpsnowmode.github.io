@@ -1014,22 +1014,9 @@ button{cursor:pointer}
 .rs-plead{max-width:760px;margin-bottom:22px}
 .rs-plead b{display:block;font-weight:500;color:#E2E6EB;letter-spacing:.14em;margin-bottom:4px}
 .rs-panel .rs-swipe{margin:-12px 0 12px}
-.rs-hk{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}
-.rs-hk-card{padding:22px 20px 20px}
-.rs-hk-card .rs-name{font-size:1.4rem;margin:8px 0 2px}
-.rs-hk-card .rs-links{display:flex;flex-wrap:wrap;gap:4px 16px;margin-top:auto}
-.rs-hk-card .rs-link{margin-top:10px}
-@media (max-width:1100px){.rs-hk{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media (max-width:640px){
   .rs-tabs{display:flex}
   .rs-tab{flex:1 1 0;justify-content:center;flex-direction:column;align-items:center;gap:2px;padding:9px 10px}
-  .rs-hk{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-  .rs-hk-card{padding:18px 14px 14px}
-  .rs-hk-card::before{left:14px;right:14px}
-  .rs-hk-card .rs-links{gap:4px 10px;justify-content:flex-start}
-  .rs-hk-card .rs-link{font-size:.76rem;letter-spacing:.04em}
-  .rs-hk-card .rs-name{font-size:1.25rem}
-  .rs-hk-card .rs-jp [lang="en"]{letter-spacing:.14em}
 }
 
 .eyebrow .nw{white-space:nowrap}
@@ -1054,3 +1041,20 @@ button{cursor:pointer}
 .lbl em{color:var(--blue-2);font-style:normal}
 .links a{white-space:nowrap}
 @media (min-width:861px) and (max-width:1000px){.links{gap:14px;font-size:.84rem}}
+
+/* ===== Nav: Chinese label + small English label underneath ===== */
+.links a,.nav-cta{display:inline-flex;flex-direction:column;align-items:center;line-height:1.25}
+.nl-en{font-family:var(--lat);font-size:.54rem;font-weight:400;letter-spacing:.22em;margin-top:3px;margin-right:-.22em;color:rgba(255,255,255,.5);white-space:nowrap}
+.links a:hover .nl-en{color:rgba(255,255,255,.75)}
+.links a::after{bottom:-5px}
+.nav-cta{padding:7px 22px 6px}
+.nav-cta .nl-en{margin-top:2px;font-size:.5rem}
+.nav-cta:hover .nl-en{color:rgba(10,16,32,.6)}
+@media (max-width:860px){
+  .links a{align-items:flex-start}
+  .links .nl-en{font-size:.62rem;letter-spacing:.26em;margin-top:2px}
+  .links .menu-cta{align-items:center}
+  .links .menu-cta .nl-en{color:rgba(255,255,255,.75);font-size:.56rem}
+}
+.brand{flex-shrink:0}
+@media (min-width:861px) and (max-width:1000px){.links{gap:12px}.links .nl-en{letter-spacing:.12em;margin-right:-.12em;font-size:.5rem}.nav-cta{padding:7px 16px 6px}}
