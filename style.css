@@ -357,7 +357,7 @@ button{cursor:pointer}
 
 /* contact card redesign */
 
-.contact-preview{padding-top:54px;padding-bottom:58px;min-height:100vh}
+.sec.contact-preview{padding-top:54px;padding-bottom:58px;min-height:100vh}
 .contact-preview .sec-head{margin-bottom:28px}
 .contact-card-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
 .contact-card{display:flex;flex-direction:column;min-width:0;padding:20px;border:1px solid rgba(226,230,235,.2);border-radius:18px;background:linear-gradient(155deg,rgba(242,244,247,.1),rgba(242,244,247,.035));box-shadow:0 18px 45px rgba(0,0,0,.25)}
@@ -380,7 +380,7 @@ button{cursor:pointer}
 .contact-email-row>a:not(.contact-card-action){overflow-wrap:anywhere;color:rgba(255,255,255,.82)}
 @media (max-width:1000px){.contact-card-grid{grid-template-columns:repeat(2,minmax(0,1fr));max-width:720px;margin:0 auto}}
 @media (max-width:640px){
-  .contact-preview{padding-top:34px;padding-bottom:34px}
+  .sec.contact-preview{padding-top:34px;padding-bottom:34px}
   .contact-preview .sec-head{margin-bottom:18px}
   .contact-card-grid{gap:10px}
   .contact-card{padding:13px 11px;border-radius:14px}
