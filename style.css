@@ -1052,3 +1052,5 @@ button{cursor:pointer}
 .ds-label:focus-visible{outline:2px solid var(--blue-2);outline-offset:4px;border-radius:6px}
 .disc-switch[aria-invalid="true"] .ds-track,#quick .chips[aria-invalid="true"] span{border-color:var(--bad)}
 .lbl em{color:var(--blue-2);font-style:normal}
+.links a{white-space:nowrap}
+@media (min-width:861px) and (max-width:1000px){.links{gap:14px;font-size:.84rem}}
