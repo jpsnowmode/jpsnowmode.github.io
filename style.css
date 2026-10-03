@@ -1033,6 +1033,7 @@ button{cursor:pointer}
 }
 
 .eyebrow .nw{white-space:nowrap}
+@media (max-width:640px){.eyebrow .nw{display:block}.eyebrow .eb-sep{display:none}}
 
 /* ===== 01 關於 About ===== */
 .about{background:var(--night)}
