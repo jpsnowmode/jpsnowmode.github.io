@@ -973,3 +973,30 @@ button{cursor:pointer}
   .wechat-popover{right:52px;bottom:140px}
   .whatsapp-popover{display:none!important}
 }
+
+/* ===== coaches: Jay + 2 "Coming soon" placeholders — row of 3 on desktop, Jay full-width + 2-up below on tablet/mobile ===== */
+.coach-row.is-trio{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.is-trio>.coach-note{--caret:calc((100% - 40px) / 6)}
+.coach-soon{display:flex;flex-direction:column}
+.coach-soon .avatar.avatar-soon{flex:1;margin:0;background:linear-gradient(160deg,rgba(255,255,255,.035),rgba(0,0,0,.25));border:1px solid var(--line);align-items:center}
+.avatar-soon span{font-family:var(--lat);font-size:.7rem;font-weight:400;letter-spacing:.32em;text-transform:uppercase;color:rgba(226,230,235,.45);padding-left:.32em}
+.coach-soon:hover{border-color:var(--line);box-shadow:none;transform:none}
+@media (max-width:1100px){
+  .coach-row.is-trio{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .is-trio>.coach:first-child{grid-column:1/-1;order:1;display:grid;grid-template-columns:200px minmax(0,1fr);column-gap:28px;align-items:center;padding:22px}
+  .is-trio>.coach:first-child .avatar{grid-row:1/span 3;margin:0}
+  .is-trio>.coach:first-child .coach-name{align-self:end;font-size:1.2rem}
+  .is-trio>.coach:first-child .coach-list{align-self:start}
+  .is-trio>.coach-note{order:2;margin-top:0;--caret:calc(22px + 100px)}
+  .is-trio>.coach-soon{order:3}
+}
+@media (max-width:640px){
+  .coach-row.is-trio{gap:12px}
+  .is-trio>.coach:first-child{grid-template-columns:104px minmax(0,1fr);grid-template-rows:auto 1fr auto;column-gap:16px;align-items:start;padding:16px}
+  .is-trio>.coach:first-child .coach-name{align-self:auto;font-size:1.1rem;margin-top:2px}
+  .is-trio>.coach:first-child .coach-role{margin:4px 0 0;align-self:start}
+  .is-trio>.coach:first-child .coach-list{grid-column:1/-1;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+  .is-trio>.coach:first-child .avatar{grid-row:1/span 2}
+  .is-trio>.coach-note{margin-top:2px;--caret:calc(16px + 52px)}
+  .avatar-soon span{font-size:.6rem;letter-spacing:.24em;padding-left:.24em}
+}
