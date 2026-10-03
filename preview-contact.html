@@ -839,13 +839,5 @@ Jay教練是我們這兩天玩的這麼愉快的大功臣！
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script src="hero-snow.js?v=1"></script>
 <script src="script.js?v=pay1"></script>
-<script>
-(() => {
-  document.querySelectorAll('[data-qr-toggle]').forEach(btn => btn.addEventListener('click', () => {
-    const panel=document.getElementById(btn.getAttribute('aria-controls')); const open=panel.hidden;
-    panel.hidden=!open; btn.setAttribute('aria-expanded',open?'true':'false'); btn.textContent=open?'隱藏 QR':'顯示 QR';
-  }));
-})();
-</script>
 </body>
 </html>

@@ -354,6 +354,53 @@ button{cursor:pointer}
 .copy,.ct-a{border:1px solid var(--line-2);background:none;border-radius:999px;padding:7px 16px;font-size:.82rem;white-space:nowrap;transition:.2s}
 .copy:hover,.ct-a:hover{background:#fff;color:var(--night);border-color:#fff}
 
+
+/* contact card redesign */
+
+.contact-preview{padding-top:54px;padding-bottom:58px;min-height:100vh}
+.contact-preview .sec-head{margin-bottom:28px}
+.contact-card-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.contact-card{display:flex;flex-direction:column;min-width:0;padding:20px;border:1px solid rgba(226,230,235,.2);border-radius:18px;background:linear-gradient(155deg,rgba(242,244,247,.1),rgba(242,244,247,.035));box-shadow:0 18px 45px rgba(0,0,0,.25)}
+.contact-card.is-recommended{border-color:rgba(143,176,255,.65);box-shadow:0 18px 45px rgba(0,0,0,.25),0 0 0 1px rgba(143,176,255,.14),0 0 26px rgba(47,107,255,.12)}
+.contact-card-head{display:flex;align-items:center;gap:12px;min-height:50px}
+.contact-card-head h3{font-family:var(--lat);font-size:1.15rem;letter-spacing:.08em;font-weight:600;line-height:1.2}
+.contact-card-head p{font-size:.8rem;color:var(--mute);overflow-wrap:anywhere;line-height:1.45;margin-top:3px}
+.contact-card-head code{font-family:var(--lat);font-weight:600;color:#fff}
+.contact-card-icon{flex:none;width:42px;height:42px}
+.contact-card-qr-space{display:grid;place-items:center;min-height:132px;margin:12px 0 14px;border-radius:12px;background:rgba(0,0,0,.13)}
+.contact-card-qr{width:110px;height:110px;padding:5px;border-radius:12px;background:#fff;object-fit:contain}
+.contact-card-note{text-align:center;font-family:var(--lat);font-size:.66rem;letter-spacing:.14em;line-height:1.6;color:var(--blue-2)}
+.contact-card-actions{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:auto}
+.contact-card-action{display:inline-flex;align-items:center;justify-content:center;min-height:36px;padding:7px 13px;border:1px solid rgba(226,230,235,.34);border-radius:999px;background:rgba(242,244,247,.07);color:#fff;font-size:.78rem;white-space:nowrap;text-decoration:none;transition:.2s}
+.contact-card-action:hover{background:#fff;color:var(--night);border-color:#fff}
+.qr-toggle{display:none;border:0;background:none;color:var(--blue-2);font-size:.72rem;padding:6px 3px;white-space:nowrap}
+.contact-card-qr-mobile{display:none}
+.contact-email-row{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px;margin-top:16px;padding:13px 18px;border:1px solid rgba(226,230,235,.18);border-radius:14px;background:rgba(242,244,247,.045)}
+.contact-email-row>span{font-family:var(--lat);font-size:.76rem;letter-spacing:.16em;color:var(--blue-2)}
+.contact-email-row>a:not(.contact-card-action){overflow-wrap:anywhere;color:rgba(255,255,255,.82)}
+@media (max-width:1000px){.contact-card-grid{grid-template-columns:repeat(2,minmax(0,1fr));max-width:720px;margin:0 auto}}
+@media (max-width:640px){
+  .contact-preview{padding-top:34px;padding-bottom:34px}
+  .contact-preview .sec-head{margin-bottom:18px}
+  .contact-card-grid{gap:10px}
+  .contact-card{padding:13px 11px;border-radius:14px}
+  .contact-card-head{gap:7px;min-height:42px;align-items:flex-start}
+  .contact-card-icon{width:34px;height:34px}
+  .contact-card-head h3{font-size:.92rem;letter-spacing:.04em}
+  .contact-card-head p{font-size:.68rem;line-height:1.3;margin-top:2px}
+  .contact-card-qr-space{min-height:0;margin:8px 0 7px;background:none}
+  .contact-card-qr-space>.contact-card-qr{display:none}
+  .contact-card-qr-space>.contact-card-note{font-size:.56rem;min-height:34px;display:grid;place-items:center}
+  .contact-card-actions{gap:3px;flex-wrap:wrap}
+  .contact-card-action{width:100%;min-height:31px;padding:5px 6px;font-size:.7rem}
+  .qr-toggle{display:block}
+  .contact-card-qr-mobile{margin-top:8px;justify-items:center}
+  .contact-card-qr-mobile[hidden]{display:none}
+  .contact-card-qr-mobile:not([hidden]){display:grid}
+  .contact-card-qr-mobile .contact-card-qr{width:104px;height:104px}
+  .contact-email-row{grid-template-columns:auto 1fr;gap:3px 10px;margin-top:10px;padding:10px 12px;font-size:.74rem}
+  .contact-email-row .contact-card-action{grid-column:1/-1;width:auto;justify-self:start}
+}
 /* footer */
 .foot{padding:80px var(--pad) 36px;border-top:1px solid var(--line);background:#070c18}
 .foot-grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,1fr);gap:40px}

@@ -515,6 +515,15 @@
     }
   }));
 
+  $$('[data-qr-toggle]').forEach(btn => btn.addEventListener('click', () => {
+    const panel = document.getElementById(btn.getAttribute('aria-controls'));
+    if (!panel) return;
+    const open = panel.hidden;
+    panel.hidden = !open;
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    btn.textContent = open ? '隱藏 QR' : '顯示 QR';
+  }));
+
   (() => {
     const dock = $('.social-float');
     if (!dock) return;
