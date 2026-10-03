@@ -1024,7 +1024,12 @@ button{cursor:pointer}
   .rs-tabs{display:flex}
   .rs-tab{flex:1 1 0;justify-content:center;flex-direction:column;align-items:center;gap:2px;padding:9px 10px}
   .rs-hk{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-  .rs-hk-card{padding:18px 16px 16px}
+  .rs-hk-card{padding:18px 14px 14px}
+  .rs-hk-card::before{left:14px;right:14px}
+  .rs-hk-card .rs-links{gap:4px 10px;justify-content:flex-start}
+  .rs-hk-card .rs-link{font-size:.76rem;letter-spacing:.04em}
   .rs-hk-card .rs-name{font-size:1.25rem}
   .rs-hk-card .rs-jp [lang="en"]{letter-spacing:.14em}
 }
+
+.eyebrow .nw{white-space:nowrap}
