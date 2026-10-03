@@ -1058,3 +1058,17 @@ button{cursor:pointer}
 }
 .brand{flex-shrink:0}
 @media (min-width:861px) and (max-width:1000px){.links{gap:12px}.links .nl-en{letter-spacing:.12em;margin-right:-.12em;font-size:.5rem}.nav-cta{padding:7px 16px 6px}}
+
+/* ===== back-to-top: stacked above the floating contact dock ===== */
+.to-top{position:fixed;right:20px;bottom:247px;z-index:49;display:grid;place-items:center;width:46px;height:46px;padding:0;border-radius:50%;border:1px solid rgba(226,230,235,.45);background:rgba(10,16,32,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:#E2E6EB;box-shadow:0 6px 16px rgba(0,0,0,.28);cursor:pointer;opacity:0;visibility:hidden;transform:translateY(10px);transition:opacity .25s,visibility .25s,transform .25s,bottom .25s,border-color .2s,background .2s}
+.to-top svg{width:20px;height:20px}
+.to-top.is-shown{opacity:1;visibility:visible;transform:none}
+.to-top:hover{border-color:#fff;background:rgba(17,28,52,.8)}
+.to-top:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.social-float.is-hidden ~ .to-top{bottom:24px}
+@media (max-width:768px){
+  .to-top{right:14px;bottom:70px;width:44px;height:44px}
+  .social-float.is-hidden ~ .to-top{bottom:16px}
+  .social-float.is-open ~ .to-top{opacity:0;visibility:hidden}
+}
+@media (prefers-reduced-motion:reduce){.to-top{transition:none}}

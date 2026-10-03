@@ -131,7 +131,7 @@
 
   /* ---------- skill levels (descriptions depend on 單板 / 雙板; submitted value = "Lv.N 描述") ---------- */
   const LEVELS = {
-    '單板': ['第一次滑雪，或學過但忘光光了', '能用後刃、前刃推落葉飄', '能在初級道連續轉彎，能自己搭纜車', '能在中級道穩定轉彎、控制速度', '能刻滑，開始挑戰陡坡、公園或粉雪'],
+    '單板': ['第一次滑雪，或學過但忘光光了', '能用後刃、前刃推坡與落葉飄', '能在初級道連續轉彎，能自己搭纜車', '能在中級道穩定轉彎、控制速度', '能刻滑，開始挑戰陡坡、公園或粉雪'],
     '雙板': ['第一次滑雪，或學過但忘光光了', '能用八字停下、轉彎', '能在初級道連續八字轉彎，開始平行式', '能在中級道平行式轉彎', '能刻滑，開始挑戰陡坡、蘑菇或粉雪']
   };
   function renderLevels(disc) {
@@ -877,5 +877,25 @@
       e.preventDefault();
       select(tabs[j], true);
     });
+  });
+})();
+
+// ===== back-to-top button: shows after ~1 viewport of scrolling =====
+(function () {
+  const btn = document.getElementById('to-top');
+  if (!btn) return;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  const sync = () => {
+    const show = scrollY > innerHeight;
+    btn.classList.toggle('is-shown', show);
+    btn.tabIndex = show ? 0 : -1;
+  };
+  addEventListener('scroll', sync, { passive: true });
+  addEventListener('resize', sync);
+  sync();
+  btn.addEventListener('click', () => {
+    scrollTo({ top: 0, behavior: reduce.matches ? 'auto' : 'smooth' });
+    const top = document.getElementById('top');
+    if (top) { top.setAttribute('tabindex', '-1'); top.focus({ preventScroll: true }); }
   });
 })();
