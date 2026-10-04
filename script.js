@@ -20,7 +20,7 @@
     priceLabel: '早鳥回饋價 2026–27',
     PRICE_TABLE: {
       half: [7000, 8000, 9000, 10000],
-      full: [12000, 14000, 15000, 16000]
+      full: [12000, 13000, 14000, 14000]
     },
     maxPricedPeople: 4,
     durations: { half: '半日（3 小時）', full: '全日（6 小時，含午休 1 小時）' },
