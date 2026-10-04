@@ -60,17 +60,20 @@
     const duration = !b.dates.length ? null : (halfDays && fullDays ? 'mixed' : (fullDays ? 'full' : 'half'));
     b.duration = duration;
     b.durationLabel = duration === 'mixed' ? `半日 ${halfDays} 天・全日 ${fullDays} 天` : (duration ? `${CONFIG.durations[duration]} × ${b.dates.length} 天` : '');
-    const overMax = people > CONFIG.maxPricedPeople;
+    // 北海道 resorts are quoted separately by the school; the price table only covers 越後湯澤
+    const hokkaido = String(b.resort || '').startsWith('北海道・');
+    const overMax = !hokkaido && people > CONFIG.maxPricedPeople;
     let amount = null;
-    if (!overMax && people >= 1 && b.dates.length) {
+    if (!hokkaido && !overMax && people >= 1 && b.dates.length) {
       amount = b.dates.reduce((sum, d) => sum + CONFIG.PRICE_TABLE[slotKey(d.slot)][people - 1], 0);
     }
     const deposit = amount == null ? null : Math.round(amount * b.depositRate);
     const balance = amount == null ? null : amount - deposit;
     b.deposit = deposit;
     b.balance = balance;
-    const quote = overMax ? '5 人以上請私訊報價' : '—';
+    const quote = hokkaido ? '北海道課程將由學校另行報價' : overMax ? '5 人以上請私訊報價' : '—';
     const show = value => value == null ? quote : ntd(value);
+    const later = hokkaido ? '另行報價' : overMax ? '私訊報價' : null;
     return {
       currency: CONFIG.currency,
       label: CONFIG.priceLabel,
@@ -78,9 +81,10 @@
       display: show(amount),
       deposit,
       balance,
-      depositDisplay: overMax ? '私訊報價' : show(deposit),
-      balanceDisplay: overMax ? '私訊報價' : show(balance),
-      quoteRequired: overMax,
+      depositDisplay: later || show(deposit),
+      balanceDisplay: later || show(balance),
+      quoteRequired: overMax || hokkaido,
+      hokkaido,
       duration,
       durationLabel: b.durationLabel,
       breakdown: { halfDays, fullDays, totalPeople: people }
@@ -322,6 +326,7 @@
     booking.price = computePrice(booking);
     const map = { discipline: booking.discipline || '尚未選擇', level: booking.level || '—', dates: datesText(true), people: `大人 ${booking.adults}・小孩 ${booking.children}（共 ${booking.totalPeople} 人）`, price: booking.price.display };
     $$('[data-live]').forEach(el => { el.textContent = map[el.dataset.live]; });
+    $$('[data-live="price"]').forEach(el => el.classList.toggle('is-quote', !!booking.price.hokkaido));
   }
 
   /* ---------- validation ---------- */
@@ -394,8 +399,11 @@
     rows.push(['備註', booking.notes || '（無）']);
     $('#summary').innerHTML = rows.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v || '—')}</dd>`).join('');
     $('#est-price').textContent = price.display;
+    $('#est-price').classList.toggle('is-quote', !!price.hokkaido);
     $('#est-deposit').textContent = price.depositDisplay;
     $('#est-balance').textContent = price.balanceDisplay;
+    const basis = $('#est-basis');
+    if (basis) basis.textContent = price.hokkaido ? '北海道課程費用依雪場與日期另行報價，歡迎私訊詢問' : '早鳥回饋價 2026–27，整組總價；實際費用以我們的回覆為準';
   }
   next.addEventListener('click', () => { if (validate(cur)) go(cur + 1); });
   back.addEventListener('click', () => go(cur - 1));

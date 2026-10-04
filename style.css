@@ -242,6 +242,8 @@ button{cursor:pointer}
 .est strong{font-family:var(--lat);font-size:1.6rem}
 .est small{font-size:.76rem;color:var(--mute)}
 .est small{flex-basis:100%}
+.est small .est-basis{font-weight:400}
+.est strong.is-quote,.live-price strong.is-quote{font-family:var(--sans);font-size:1.05rem;font-weight:700;line-height:1.5}
 .agree{display:flex;gap:10px;align-items:flex-start;margin-top:16px;font-size:.85rem;color:rgba(255,255,255,.85);cursor:pointer}
 .agree input{width:18px;height:18px;margin-top:3px;accent-color:var(--blue);flex:none}
 .wiz-msg{font-size:.86rem;min-height:1.4em;margin-top:14px;color:var(--warn)}
@@ -1072,3 +1074,5 @@ button{cursor:pointer}
   .social-float.is-open ~ .to-top{opacity:0;visibility:hidden}
 }
 @media (prefers-reduced-motion:reduce){.to-top{transition:none}}
+.pkg-price .pkg-area{display:block;font-family:var(--sans);font-weight:500;font-size:.8rem;letter-spacing:.12em;color:var(--blue-2);margin-bottom:6px}
+.pkg-price .pkg-from{font-family:var(--sans);font-weight:700;font-size:1.05rem;margin-left:4px}
