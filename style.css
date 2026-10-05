@@ -112,6 +112,29 @@ button{cursor:pointer}
 
 /* lessons */
 .lessons{background:linear-gradient(180deg,var(--night),var(--night-2))}
+.lesson-intro{margin-bottom:40px;max-width:920px}
+.lesson-lead{font-size:1.05rem;font-weight:300;line-height:1.9;color:rgba(255,255,255,.86);margin:0 0 28px;max-width:40em}
+.lesson-points{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:0 0 22px;padding:0;list-style:none}
+.lesson-points li{padding:22px 22px 20px;border-radius:var(--r);border:1px solid rgba(255,255,255,.12);background:linear-gradient(160deg,rgba(255,255,255,.07),rgba(255,255,255,.02))}
+.lesson-points h3{font-size:1.05rem;margin:0 0 10px;letter-spacing:.04em}
+.lesson-points p{margin:0;font-size:.92rem;line-height:1.75;color:rgba(255,255,255,.78)}
+.lesson-points b{color:#fff;font-weight:600}
+.lesson-scope{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:0 0 22px}
+.lesson-inc,.lesson-exc{padding:20px 22px;border-radius:var(--r);border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04)}
+.lesson-inc h3,.lesson-exc h3{font-size:.92rem;margin:0 0 12px;letter-spacing:.08em;color:var(--blue-2)}
+.lesson-inc ul,.lesson-exc ul{margin:0;padding:0;list-style:none;display:grid;gap:8px}
+.lesson-inc li,.lesson-exc li{position:relative;padding-left:16px;font-size:.9rem;line-height:1.55;color:rgba(255,255,255,.82)}
+.lesson-inc li::before,.lesson-exc li::before{content:"";position:absolute;left:0;top:.55em;width:7px;height:7px;border-radius:50%}
+.lesson-inc li::before{background:var(--blue-2)}
+.lesson-exc li::before{background:rgba(255,255,255,.35)}
+.lesson-next{font-size:.88rem;line-height:1.7;color:var(--mute);margin:0;max-width:42em}
+.lesson-next a{color:#fff;text-decoration:underline;text-underline-offset:3px}
+.lesson-next a:hover{color:var(--blue-2)}
+@media (max-width:720px){
+  .lesson-points,.lesson-scope{grid-template-columns:minmax(0,1fr)}
+  .lesson-lead{font-size:.98rem}
+  .lesson-points li{padding:18px 18px 16px}
+}
 /* ski/board switch (booking step 1) — styled after the silver c-carve logo (silver pill track + silver S-carve knob) */
 .disc-switch{display:flex;align-items:center;gap:14px;flex-wrap:nowrap;max-width:100%;padding:4px 0}
 .ds-label{display:inline-flex;align-items:baseline;gap:6px;font-size:.95rem;white-space:nowrap;color:rgba(255,255,255,.6);cursor:pointer;user-select:none;-webkit-user-select:none;transition:color .25s ease;padding:8px 0}
