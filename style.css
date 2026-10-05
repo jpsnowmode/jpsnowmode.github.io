@@ -170,6 +170,52 @@ button{cursor:pointer}
 .pt-note{font-size:.78rem;color:var(--mute);margin-top:14px}
 .pt-note code{font-family:var(--lat);color:var(--blue-2)}
 .prices tbody tr.pt-more td{font-family:var(--sans);font-weight:500;color:var(--blue-2)}
+.prices+.prices{margin-top:22px}
+.pt-tabs button small{font-size:.72rem;margin-left:4px;opacity:.72;font-weight:500}
+.pt-panel[hidden]{display:none!important}
+.prices table.hk{min-width:640px}
+.prices table.hk td,.prices table.hk th{white-space:nowrap}
+.prices table.hk thead th:not(:first-child){text-align:right}
+.prices table.hk tbody th{text-align:left;font-weight:500}
+.prices table.hk td{text-align:right;font-variant-numeric:tabular-nums;vertical-align:middle}
+.price-cell{display:inline-flex;flex-direction:column;align-items:flex-end;gap:2px;line-height:1.25}
+.price-cell .was{font-family:var(--lat);font-weight:500;font-size:.72rem;color:rgba(255,255,255,.42);text-decoration:line-through;text-decoration-thickness:1px;text-decoration-color:rgba(255,255,255,.45)}
+.price-cell .now{font-family:var(--lat);font-weight:700;font-size:.95rem;color:#fff}
+.hk-season{margin-top:18px;padding:16px 18px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.03);font-size:.82rem;color:rgba(255,255,255,.82);line-height:1.7}
+.hk-season strong{color:#fff;font-weight:600}
+.hk-season ul{margin:8px 0 0;padding:0}
+.hk-season li{display:flex;flex-wrap:wrap;gap:6px 14px;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.06)}
+.hk-season li:last-child{border-bottom:0}
+.hk-season .lab{min-width:5.5em;color:var(--blue-2);font-weight:500}
+.hk-season .dates{color:var(--mute);font-size:.78rem}
+.hk-season .fee{font-family:var(--lat);font-weight:600;color:#fff;margin-left:auto}
+.hk-season .hint{margin-top:10px;font-size:.76rem;color:var(--mute)}
+.eb-hero{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:space-between;gap:16px 28px;flex-wrap:nowrap;margin:0 0 22px;padding:26px 30px;border-radius:16px;border:1px solid rgba(143,176,255,.45);background:radial-gradient(120% 140% at 0% 0%,rgba(47,107,255,.38) 0%,rgba(47,107,255,0) 60%),linear-gradient(135deg,rgba(47,107,255,.22) 0%,rgba(14,22,44,.55) 70%);box-shadow:0 0 0 1px rgba(47,107,255,.18) inset,0 18px 50px rgba(47,107,255,.22)}
+.eb-hero::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 40%,rgba(255,255,255,.07) 50%,transparent 60%)}
+.eb-copy{display:flex;flex-direction:column;gap:8px;min-width:0;position:relative}
+.eb-kicker{font-family:var(--lat);font-size:.72rem;font-weight:600;letter-spacing:.38em;color:var(--blue-2)}
+.eb-title{margin:0;font-weight:700;line-height:1.1;letter-spacing:.08em;font-size:clamp(2rem,4.2vw,2.9rem);color:#fff;text-shadow:0 6px 30px rgba(47,107,255,.45)}
+.eb-sub{margin:0;font-size:1.02rem;font-weight:500;letter-spacing:.06em;color:var(--blue-3)}
+.eb-sub b,.eb-sub time{font-family:var(--lat);font-weight:700;color:#fff;letter-spacing:.04em}
+.eb-badge{position:relative;flex:none;display:flex;flex-direction:column;align-items:center;justify-content:center;width:128px;height:128px;border-radius:50%;background:radial-gradient(circle at 30% 25%,#5b8cff 0%,var(--blue) 55%,#1d4fd6 100%);box-shadow:0 0 0 6px rgba(47,107,255,.18),0 14px 36px rgba(47,107,255,.5);color:#fff;line-height:1}
+.eb-badge .n{font-family:var(--lat);font-weight:700;font-size:2.9rem;letter-spacing:-.02em}
+.eb-badge .n small{font-family:var(--sans);font-size:1.25rem;font-weight:700;margin-left:2px}
+.eb-badge .off{margin-top:6px;font-family:var(--lat);font-size:.7rem;font-weight:600;letter-spacing:.22em;opacity:.9}
+.eb-badge--text .n{font-family:var(--sans);font-size:2.1rem;letter-spacing:.04em}
+.eb-badge--text .off{font-size:.82rem;letter-spacing:.08em;margin-top:8px}
+.est-note{font-size:.78rem;font-weight:500;color:var(--mute)}
+@media (max-width:560px){
+  .eb-hero{padding:20px 18px}
+  .eb-title{font-size:1.9rem}
+  .eb-sub{font-size:.92rem}
+  .eb-badge{width:82px;height:82px;box-shadow:0 0 0 4px rgba(47,107,255,.18),0 10px 26px rgba(47,107,255,.5)}
+  .eb-badge .n{font-size:1.85rem}
+  .eb-badge .n small{font-size:.85rem}
+  .eb-badge .off{font-size:.55rem;letter-spacing:.14em;margin-top:4px}
+  .eb-badge--text .n{font-size:1.35rem}
+  .eb-badge--text .off{font-size:.62rem;letter-spacing:.04em;margin-top:5px}
+  .hk-season .fee{margin-left:0}
+}
 
 /* booking */
 .booking{background:radial-gradient(1000px 500px at 85% 20%,rgba(47,107,255,.16),transparent 60%),linear-gradient(180deg,var(--night-2),var(--night))}

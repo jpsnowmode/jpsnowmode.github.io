@@ -52,7 +52,193 @@
   };
 
   const ntd = v => 'NT$' + Math.round(v).toLocaleString('en-US');
-  const slotKey = slot => slot === '全日' ? 'full' : 'half';
+  // 夜滑 is priced as 半日 when that slot is present. Anything other than 全日 is half.
+  const slotKey = slot => (slot === '全日' || slot === 'full') ? 'full' : 'half';
+
+  /* ---------- 北海道課程費用（預估）：淡季底價 + 季節加價，再打早鳥 ---------- */
+  const HOKKAIDO_BASE = {
+    '手稻':     { full: [12800, 13800, 14800, 15800], half: [6900, 7900, 8900, 9900] },
+    '札幌國際': { full: [14800, 15800, 16800, 17800], half: [8900, 9900, 10900, 11900] },
+    '富良野':   { full: [13800, 14800, 15800, 16800], half: [9900, 10900, 11900, 12800] },
+    '二世古':   { full: [14800, 15200, 15600, 16000], half: [8900, 9300, 9700, 10100] },
+    '星野':     { full: [14800, 15800, 16800, 17800], half: [8900, 9900, 10900, 11900] }
+  };
+  const SEASON_SURCHARGE = {
+    low:  { full: 0, half: 0 },
+    peak: { full: 3000, half: 2000 }, // 旺季 1/3–3/2
+    super: { full: 4900, half: 4000 } // 超旺季 12/15–1/2
+  };
+  const EARLY_BIRD = { rate: 0.85, until: '2026-10-31', label: '早鳥 85 折' };
+  const SEASON_LABEL = { low: '淡季', peak: '旺季', super: '超旺季' };
+  const YUZAWA_BASIS = '早鳥回饋價 2026–27，整組總價；實際費用以我們的回覆為準';
+
+  function parseISODate(iso) {
+    const m = String(iso || '').match(/^(\d{4})-(\d{2})-(\d{2})/);
+    if (!m) return null;
+    return { y: +m[1], m: +m[2], d: +m[3], iso: `${m[1]}-${m[2]}-${m[3]}` };
+  }
+  function hkTodayISO() {
+    const n = new Date();
+    const p = x => String(x).padStart(2, '0');
+    return `${n.getFullYear()}-${p(n.getMonth() + 1)}-${p(n.getDate())}`;
+  }
+  /** 'low' | 'peak' | 'super' | null (outside the published season). Year is ignored. */
+  function seasonOf(iso) {
+    const p = parseISODate(iso);
+    if (!p) return null;
+    const md = p.m * 100 + p.d;
+    if (md >= 1215 || md <= 102) return 'super'; // 12/15–1/2
+    if (md >= 1201 && md <= 1214) return 'low';  // 12/1–12/14
+    if (md >= 103 && md <= 302) return 'peak';   // 1/3–3/2
+    if (md >= 303 && md <= 415) return 'low';    // 3/3–4/15
+    return null;
+  }
+  function resortKey(resort) {
+    const s = String(resort || '');
+    if (!s.startsWith('北海道・')) return null;
+    const key = s.slice('北海道・'.length);
+    return HOKKAIDO_BASE[key] ? key : null;
+  }
+  function isEarlyBirdOn(asOfISO) {
+    const asOf = parseISODate(asOfISO) || parseISODate(hkTodayISO());
+    const until = parseISODate(EARLY_BIRD.until);
+    return !!(asOf && until && asOf.iso <= until.iso);
+  }
+  function applyEarlyBird(raw) { return Math.round(raw * EARLY_BIRD.rate); }
+  function basisText(early, seasons) {
+    const bits = [];
+    if (early) bits.push('含早鳥 85 折（至 2026/10/31）');
+    if (seasons && seasons.length) bits.push('季節：' + seasons.join('・'));
+    bits.push('實際以確認為準');
+    return bits.join('；');
+  }
+  function quoteResult(reason, display, extra) {
+    const later = reason === 'over_max' ? '私訊報價' : '另行報價';
+    const basis = reason === 'out_of_season'
+      ? '所選日期不在公布季節內，請私訊報價'
+      : reason === 'over_max'
+        ? '5 人以上請私訊報價'
+        : '北海道課程費用依雪場與日期另行報價，歡迎私訊詢問';
+    return Object.assign({
+      ok: false,
+      quoteRequired: true,
+      hokkaido: true,
+      reason,
+      amount: null,
+      display,
+      deposit: null,
+      balance: null,
+      depositDisplay: later,
+      balanceDisplay: later,
+      basis,
+      days: [],
+      breakdown: null
+    }, extra || {});
+  }
+  function dayFee({ resort, people, slot, date, asOf }) {
+    const key = resortKey(resort) || (HOKKAIDO_BASE[resort] ? resort : null);
+    if (!key) return { ok: false, reason: 'unknown_resort' };
+    const n = Number(people);
+    if (!Number.isInteger(n) || n < 1) return { ok: false, reason: 'people' };
+    if (n > 4) return { ok: false, reason: 'over_max' };
+    const sk = slotKey(slot);
+    const season = seasonOf(date);
+    if (!season) return { ok: false, reason: 'out_of_season', date };
+    const base = HOKKAIDO_BASE[key][sk][n - 1];
+    const surcharge = SEASON_SURCHARGE[season][sk];
+    const raw = base + surcharge;
+    const early = isEarlyBirdOn(asOf);
+    return {
+      ok: true,
+      date: parseISODate(date)?.iso || date,
+      resort: key,
+      people: n,
+      slot: sk,
+      season,
+      seasonLabel: SEASON_LABEL[season],
+      base,
+      surcharge,
+      raw,
+      earlyBird: early,
+      amount: early ? applyEarlyBird(raw) : raw
+    };
+  }
+  /**
+   * Sum of per-day int(round((base + surcharge) × 0.85)) while early bird is on
+   * (through 2026-10-31 inclusive). 5+ people, unknown resort, or a date outside
+   * the published season stays a private quote.
+   */
+  function estimateHokkaido({ resort, people, dates, asOf, depositRate = 0.3 }) {
+    const n = Number(people) || 0;
+    const list = Array.isArray(dates) ? dates : [];
+    const key = resortKey(resort);
+    const early = isEarlyBirdOn(asOf);
+    if (!key) return quoteResult('unknown_resort', '北海道課程將由學校另行報價', { earlyBird: early });
+    if (n > 4) return quoteResult('over_max', '5 人以上請私訊報價', { earlyBird: early, resort: key, people: n });
+    if (n < 1 || !list.length) {
+      return {
+        ok: true,
+        quoteRequired: false,
+        hokkaido: true,
+        amount: null,
+        display: '—',
+        deposit: null,
+        balance: null,
+        depositDisplay: '—',
+        balanceDisplay: '—',
+        basis: basisText(early),
+        earlyBird: early,
+        resort: key,
+        people: n,
+        days: [],
+        breakdown: null
+      };
+    }
+    const days = [];
+    for (const d of list) {
+      const one = dayFee({ resort: key, people: n, slot: d.slot, date: d.date, asOf });
+      if (!one.ok) {
+        if (one.reason === 'out_of_season') {
+          return quoteResult('out_of_season', '所選日期不在公布季節內，請私訊報價', {
+            earlyBird: early, resort: key, people: n, badDate: one.date
+          });
+        }
+        return quoteResult(one.reason, '北海道課程將由學校另行報價', { earlyBird: early, resort: key, people: n });
+      }
+      days.push(one);
+    }
+    const amount = days.reduce((s, d) => s + d.amount, 0);
+    const deposit = Math.round(amount * depositRate);
+    const balance = amount - deposit;
+    const halfDays = days.filter(d => d.slot === 'half').length;
+    const fullDays = days.filter(d => d.slot === 'full').length;
+    const seasonsUsed = [...new Set(days.map(d => d.seasonLabel))];
+    return {
+      ok: true,
+      quoteRequired: false,
+      hokkaido: true,
+      amount,
+      display: ntd(amount),
+      deposit,
+      balance,
+      depositDisplay: ntd(deposit),
+      balanceDisplay: ntd(balance),
+      basis: basisText(early, seasonsUsed),
+      earlyBird: early,
+      earlyBirdRate: early ? EARLY_BIRD.rate : 1,
+      resort: key,
+      people: n,
+      days,
+      breakdown: { halfDays, fullDays, totalPeople: n, seasons: seasonsUsed }
+    };
+  }
+  function priceNote(price) {
+    if (price && price.hokkaido && price.amount != null && !price.quoteRequired) {
+      return price.earlyBird ? '含早鳥 85 折；實際以確認為準' : '實際以確認為準';
+    }
+    return '以我們的回覆為準';
+  }
+
   function computePrice(b) {
     const people = Number(b.totalPeople) || 0;
     const halfDays = b.dates.filter(d => slotKey(d.slot) === 'half').length;
@@ -60,20 +246,48 @@
     const duration = !b.dates.length ? null : (halfDays && fullDays ? 'mixed' : (fullDays ? 'full' : 'half'));
     b.duration = duration;
     b.durationLabel = duration === 'mixed' ? `半日 ${halfDays} 天・全日 ${fullDays} 天` : (duration ? `${CONFIG.durations[duration]} × ${b.dates.length} 天` : '');
-    // 北海道 resorts are quoted separately by the school; the price table only covers 越後湯澤
     const hokkaido = String(b.resort || '').startsWith('北海道・');
-    const overMax = !hokkaido && people > CONFIG.maxPricedPeople;
+    if (hokkaido) {
+      const hk = estimateHokkaido({
+        resort: b.resort,
+        people,
+        dates: b.dates,
+        asOf: hkTodayISO(),
+        depositRate: b.depositRate != null ? b.depositRate : 0.3
+      });
+      b.deposit = hk.deposit;
+      b.balance = hk.balance;
+      return {
+        currency: CONFIG.currency,
+        label: hk.quoteRequired ? CONFIG.priceLabel : (hk.earlyBird ? EARLY_BIRD.label : '北海道課程費用（預估）'),
+        amount: hk.amount,
+        display: hk.display,
+        deposit: hk.deposit,
+        balance: hk.balance,
+        depositDisplay: hk.depositDisplay,
+        balanceDisplay: hk.balanceDisplay,
+        quoteRequired: !!hk.quoteRequired,
+        hokkaido: true,
+        earlyBird: !!hk.earlyBird,
+        basis: hk.basis,
+        note: priceNote(hk),
+        duration,
+        durationLabel: b.durationLabel,
+        breakdown: hk.breakdown || { halfDays, fullDays, totalPeople: people }
+      };
+    }
+    const overMax = people > CONFIG.maxPricedPeople;
     let amount = null;
-    if (!hokkaido && !overMax && people >= 1 && b.dates.length) {
+    if (!overMax && people >= 1 && b.dates.length) {
       amount = b.dates.reduce((sum, d) => sum + CONFIG.PRICE_TABLE[slotKey(d.slot)][people - 1], 0);
     }
     const deposit = amount == null ? null : Math.round(amount * b.depositRate);
     const balance = amount == null ? null : amount - deposit;
     b.deposit = deposit;
     b.balance = balance;
-    const quote = hokkaido ? '北海道課程將由學校另行報價' : overMax ? '5 人以上請私訊報價' : '—';
+    const quote = overMax ? '5 人以上請私訊報價' : '—';
     const show = value => value == null ? quote : ntd(value);
-    const later = hokkaido ? '另行報價' : overMax ? '私訊報價' : null;
+    const later = overMax ? '私訊報價' : null;
     return {
       currency: CONFIG.currency,
       label: CONFIG.priceLabel,
@@ -83,8 +297,11 @@
       balance,
       depositDisplay: later || show(deposit),
       balanceDisplay: later || show(balance),
-      quoteRequired: overMax || hokkaido,
-      hokkaido,
+      quoteRequired: overMax,
+      hokkaido: false,
+      earlyBird: false,
+      basis: YUZAWA_BASIS,
+      note: '以我們的回覆為準',
       duration,
       durationLabel: b.durationLabel,
       breakdown: { halfDays, fullDays, totalPeople: people }
@@ -96,7 +313,7 @@
   }
 
   window.SNOWMODE = {
-    booking, CONFIG, computePrice, buildPayload,
+    booking, CONFIG, computePrice, buildPayload, estimateHokkaido, seasonOf,
     async submitBooking(payload) {
       // text/plain avoids a CORS preflight, which Apps Script doesn't support
       const r = await fetch(CONFIG.endpoint, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) });
@@ -326,7 +543,9 @@
     booking.price = computePrice(booking);
     const map = { discipline: booking.discipline || '尚未選擇', level: booking.level || '—', dates: datesText(true), people: `大人 ${booking.adults}・小孩 ${booking.children}（共 ${booking.totalPeople} 人）`, price: booking.price.display };
     $$('[data-live]').forEach(el => { el.textContent = map[el.dataset.live]; });
-    $$('[data-live="price"]').forEach(el => el.classList.toggle('is-quote', !!booking.price.hokkaido));
+    $$('[data-live="price"]').forEach(el => el.classList.toggle('is-quote', !!booking.price.quoteRequired));
+    const liveNote = $('#live-price-note');
+    if (liveNote) liveNote.textContent = booking.price.note || '以我們的回覆為準';
   }
 
   /* ---------- validation ---------- */
@@ -399,11 +618,17 @@
     rows.push(['備註', booking.notes || '（無）']);
     $('#summary').innerHTML = rows.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v || '—')}</dd>`).join('');
     $('#est-price').textContent = price.display;
-    $('#est-price').classList.toggle('is-quote', !!price.hokkaido);
+    $('#est-price').classList.toggle('is-quote', !!price.quoteRequired);
     $('#est-deposit').textContent = price.depositDisplay;
     $('#est-balance').textContent = price.balanceDisplay;
+    const estNote = $('#est-note');
+    if (estNote) {
+      const showNote = !!(price.hokkaido && price.amount != null && !price.quoteRequired);
+      estNote.hidden = !showNote;
+      estNote.textContent = showNote ? price.note : '';
+    }
     const basis = $('#est-basis');
-    if (basis) basis.textContent = price.hokkaido ? '北海道課程費用依雪場與日期另行報價，歡迎私訊詢問' : '早鳥回饋價 2026–27，整組總價；實際費用以我們的回覆為準';
+    if (basis) basis.textContent = price.basis || YUZAWA_BASIS;
   }
   next.addEventListener('click', () => { if (validate(cur)) go(cur + 1); });
   back.addEventListener('click', () => go(cur - 1));
@@ -849,6 +1074,42 @@
     e.preventDefault();
     target.scrollIntoView({ behavior: mqReduce.matches ? 'auto' : 'smooth', block: 'start' });
     if (history.replaceState) history.replaceState(null, '', '#booking');
+  });
+})();
+
+// ===== Hokkaido price table: 全日 / 半日 =====
+(function () {
+  const fullBtn = document.getElementById('hk-tab-full');
+  const halfBtn = document.getElementById('hk-tab-half');
+  const fullPanel = document.getElementById('hk-panel-full');
+  const halfPanel = document.getElementById('hk-panel-half');
+  if (!fullBtn || !halfBtn || !fullPanel || !halfPanel) return;
+  const tabs = [fullBtn, halfBtn];
+  function show(which, focus) {
+    const isFull = which === 'full';
+    fullBtn.classList.toggle('on', isFull);
+    halfBtn.classList.toggle('on', !isFull);
+    fullBtn.setAttribute('aria-selected', isFull ? 'true' : 'false');
+    halfBtn.setAttribute('aria-selected', isFull ? 'false' : 'true');
+    fullBtn.tabIndex = isFull ? 0 : -1;
+    halfBtn.tabIndex = isFull ? -1 : 0;
+    fullPanel.hidden = !isFull;
+    halfPanel.hidden = isFull;
+    if (focus) (isFull ? fullBtn : halfBtn).focus();
+  }
+  fullBtn.addEventListener('click', () => show('full', false));
+  halfBtn.addEventListener('click', () => show('half', false));
+  tabs.forEach((t, i) => {
+    t.addEventListener('keydown', e => {
+      let j = null;
+      if (e.key === 'ArrowRight') j = (i + 1) % tabs.length;
+      else if (e.key === 'ArrowLeft') j = (i - 1 + tabs.length) % tabs.length;
+      else if (e.key === 'Home') j = 0;
+      else if (e.key === 'End') j = tabs.length - 1;
+      if (j === null) return;
+      e.preventDefault();
+      show(j === 0 ? 'full' : 'half', true);
+    });
   });
 })();
 
