@@ -318,6 +318,7 @@ button{cursor:pointer}
 .wiz-msg{font-size:.86rem;min-height:1.4em;margin-top:14px;color:var(--warn)}
 .wiz-msg.ok{color:var(--ok)}
 .wiz-nav{display:flex;justify-content:flex-end;gap:10px;margin-top:10px;flex-wrap:wrap}
+.wiz-est{display:none}
 .sent{text-align:center;padding:40px 10px 20px}
 .sent:focus{outline:none}
 .done-ico{width:64px;height:64px;margin:0 auto 18px;border-radius:50%;display:grid;place-items:center;background:var(--blue);font-size:1.8rem;box-shadow:0 12px 40px rgba(47,107,255,.5)}
@@ -512,6 +513,11 @@ button{cursor:pointer}
   .book-grid,.method-grid,.yz-grid,.faq-grid,.ct-grid{grid-template-columns:minmax(0,1fr)}
   .book-intro,.after{position:static}
   .live{display:none}
+  .wiz-est{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-top:6px;padding:10px 16px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid var(--line)}
+  .wiz-est span{flex:none;font-size:.82rem;color:var(--mute)}
+  .wiz-est strong{font-family:var(--lat);font-size:1.15rem;color:#E2E6EB;text-align:right}
+  .wiz-est strong.is-quote{font-family:var(--sans);font-size:.92rem;font-weight:700;line-height:1.5}
+  .step[data-step="4"].on ~ .wiz-est{display:none}
   .method-grid{gap:40px}
   .method-photo{max-width:620px}
   .route{max-width:560px}
