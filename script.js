@@ -8,6 +8,8 @@
   const $$ = (q, c = document) => [...c.querySelectorAll(q)];
   const body = document.body;
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  // GA4 event (gtag is defined in <head>); silently does nothing if it's missing or blocked
+  const track = (name, params) => { try { if (typeof window.gtag === 'function') window.gtag('event', name, params || {}); } catch (_) {} };
 
   /* ---------- config / placeholders ---------- */
   const CONFIG = {
@@ -649,6 +651,19 @@
       $('#done-method').textContent = booking.contact.method;
       showDoneOrForm(true); done.focus();
       toast('預約需求已送出');
+      // GA4 conversion: lesson details only — never name, contact ID, email or notes
+      const resort = payload.resort || '';
+      const lead = {
+        resort,
+        area: resort.startsWith('北海道・') ? '北海道' : (resort && resort !== '由教練建議' ? '越後湯澤' : '未指定'),
+        discipline: payload.discipline || '',
+        lesson_duration: payload.duration || '',
+        lesson_days: (payload.dates || []).length,
+        party_size: Number(payload.totalPeople) || 0
+      };
+      const amount = payload.price && payload.price.amount;
+      if (typeof amount === 'number' && isFinite(amount)) { lead.currency = CONFIG.currency; lead.value = amount; }
+      track('generate_lead', lead);
     } catch (err) {
       msg('送出失敗，請稍後再試，或直接用 LINE 聯絡我們。');
     } finally { send.disabled = false; send.textContent = '送出預約需求'; }
@@ -761,6 +776,21 @@
     }
     addEventListener('pageshow', e => { if (e.persisted) goReset(); });
   }
+
+  /* ---------- GA4: contact clicks (LINE / WhatsApp / WeChat / Instagram / Email) ---------- */
+  document.addEventListener('click', e => {
+    const el = e.target.closest && e.target.closest('a[href], [data-wechat-toggle], [data-copy="#wechat-id"]');
+    if (!el) return;
+    const href = el.getAttribute('href') || '';
+    let method = '';
+    if (/line\.me\//.test(href)) method = 'LINE';
+    else if (/wa\.me\//.test(href)) method = 'WhatsApp';
+    else if (/instagram\.com\//.test(href)) method = 'Instagram';
+    else if (href.startsWith('mailto:')) method = 'Email';
+    else if (el.hasAttribute('data-copy')) method = 'WeChat';
+    else if (el.hasAttribute('data-wechat-toggle') && el.getAttribute('aria-expanded') === 'true') method = 'WeChat';
+    if (method) track('contact_click', { method });
+  });
 
   /* ---------- WeChat copy + floating contact dock ---------- */
   $$('[data-copy]').forEach(b => b.addEventListener('click', async () => {
