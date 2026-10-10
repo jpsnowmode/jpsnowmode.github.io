@@ -1176,3 +1176,7 @@ button{cursor:pointer}
   .hero-offer + .facts{margin-top:24px}
 }
 @media (prefers-reduced-motion:reduce){.hero-btn{transition:none}.hero-btn--main:hover{transform:none}}
+
+/* coach bio under the credentials list (Sky) — same small, muted body text as .coach-list, set off by a hairline */
+.coach-list + .coach-bio{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);line-height:1.75;letter-spacing:.02em}
+@media (max-width:640px){.coach-list + .coach-bio{margin-top:12px;padding-top:10px;line-height:1.7}}
