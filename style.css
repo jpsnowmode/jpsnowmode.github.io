@@ -1151,3 +1151,28 @@ button{cursor:pointer}
 @media (prefers-reduced-motion:reduce){.to-top{transition:none}}
 .pkg-price .pkg-area{display:block;font-family:var(--sans);font-weight:500;font-size:.8rem;letter-spacing:.12em;color:var(--blue-2);margin-bottom:6px}
 .pkg-price .pkg-from{font-family:var(--sans);font-weight:700;font-size:1.05rem;margin-left:4px}
+
+/* ===== Hero offer: what / where / price / deadline + 2 actions (first screen for ad visitors) ===== */
+.hero-offer{margin-top:26px}
+.hero-course{font-size:1rem;font-weight:500;letter-spacing:.08em;color:#fff;text-shadow:0 1px 10px rgba(0,0,0,.45)}
+.hero-eb{margin-top:4px;font-size:.95rem;font-weight:400;letter-spacing:.04em;color:var(--blue-3);text-shadow:0 1px 10px rgba(0,0,0,.45)}
+.hero-eb time{font-family:var(--lat);font-weight:600;letter-spacing:.04em;color:#fff}
+.hero-eb-sep{margin:0 .35em;color:rgba(207,220,255,.55)}
+.hero-eb-price{font-weight:500;color:#fff}
+.hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px}
+.hero-btn{display:inline-flex;align-items:center;justify-content:center;min-width:148px;padding:12px 28px;border-radius:999px;font-size:.95rem;font-weight:500;letter-spacing:.12em;line-height:1.4;text-decoration:none;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease,background-color .2s ease}
+.hero-btn--main{background:linear-gradient(180deg,#F2F4F7 0%,#C4CAD2 100%);color:var(--night);font-weight:700;box-shadow:0 8px 26px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.7)}
+.hero-btn--main:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.7)}
+.hero-btn--line{border:1px solid rgba(255,255,255,.55);color:#fff;background:rgba(10,16,32,.28);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.hero-btn--line:hover{border-color:#fff;background:rgba(10,16,32,.45)}
+.hero-btn:focus-visible{outline:2px solid var(--blue-2);outline-offset:3px}
+.hero-offer + .facts{margin-top:30px}
+@media (max-width:640px){
+  .hero-offer{margin-top:20px}
+  .hero-course{font-size:.95rem;letter-spacing:.04em}
+  .hero-eb{font-size:.9rem;letter-spacing:.02em}
+  .hero-cta{gap:10px;margin-top:16px}
+  .hero-btn{flex:1 1 0;min-width:0;padding:12px 10px;letter-spacing:.08em}
+  .hero-offer + .facts{margin-top:24px}
+}
+@media (prefers-reduced-motion:reduce){.hero-btn{transition:none}.hero-btn--main:hover{transform:none}}
