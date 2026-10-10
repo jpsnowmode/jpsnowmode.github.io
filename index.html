@@ -37,7 +37,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=coachsky3">
+<link rel="stylesheet" href="style.css?v=coachswipe1">
 <link rel="stylesheet" href="hero-snow.css?v=1">
 </head>
 <body>
@@ -597,8 +597,10 @@
     <div class="coaches">
       <div class="coaches-head">
         <h3>教練<span class="coaches-en" lang="en">COACHES</span></h3>
+        <p class="rv-swipe coach-swipe" aria-hidden="true">左右滑動查看更多教練</p>
       </div>
-      <ul class="coach-row is-trio">
+      <div class="coach-row is-trio">
+      <ul class="coach-track" aria-label="教練">
         <li class="coach"><div class="avatar avatar-photo"><img src="img/coach/jay.jpg" alt="Jay 教練在雪場上的照片" width="600" height="600" loading="lazy" decoding="async"></div><p class="coach-name">Jay</p><p class="coach-role">單板／雙板</p>
           <ul class="coach-list">
             <li>SBINZ Lv.1｜<span>紐西蘭滑雪指導員一級</span></li>
@@ -621,7 +623,8 @@
         <li class="coach"><div class="avatar" aria-hidden="true">C</div><p class="coach-name">教練 C（待填）</p><p class="coach-role">兒童教學・雙板</p><p class="coach-bio">兒童教學經驗待補。</p><p class="coach-lang">語言：中文（其他待補）</p></li>
         <li class="coach"><div class="avatar" aria-hidden="true">D</div><p class="coach-name">教練 D（待填）</p><p class="coach-role">單板・進階技巧</p><p class="coach-bio">擅長項目、證照待補。</p><p class="coach-lang">語言：中文（其他待補）</p></li>
         -->
-        <li class="coach-note" id="coach-note-jay" aria-labelledby="coach-note-jay-title">
+      </ul>
+        <div class="coach-note" id="coach-note-jay" role="region" aria-labelledby="coach-note-jay-title">
           <figure class="cn-inner">
             <figcaption class="cn-head">
               <span class="cn-mark" aria-hidden="true">“</span>
@@ -645,8 +648,8 @@
               <button type="button" class="cn-more" aria-expanded="true" aria-controls="coach-note-jay-text" hidden>繼續閱讀</button>
             </div>
           </figure>
-        </li>
-      </ul>
+        </div>
+      </div>
     </div>
   </div>
 </section>

@@ -1051,7 +1051,7 @@ button{cursor:pointer}
   .whatsapp-popover{display:none!important}
 }
 
-/* ===== coaches: Jay + 2 "Coming soon" placeholders — row of 3 on desktop, Jay full-width + 2-up below on tablet/mobile ===== */
+/* ===== coaches: Jay + Sky + "Coming soon" — row of 3 on desktop; on tablet/mobile the cards swipe (see "coaches swipe" below) ===== */
 .coach-row.is-trio{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
 .is-trio>.coach-note{--caret:calc((100% - 40px) / 6)}
 .coach-soon{display:flex;flex-direction:column}
@@ -1059,25 +1059,20 @@ button{cursor:pointer}
 .avatar-soon span{font-family:var(--lat);font-size:.7rem;font-weight:400;letter-spacing:.32em;text-transform:uppercase;color:rgba(226,230,235,.45);padding-left:.32em}
 .coach-soon:hover{border-color:var(--line);box-shadow:none;transform:none}
 @media (max-width:1100px){
-  .coach-row.is-trio{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .is-trio>.coach:not(.coach-soon){grid-column:1/-1;order:1;display:grid;grid-template-columns:200px minmax(0,1fr);column-gap:28px;align-items:center;padding:22px}
-  .is-trio>.coach:not(.coach-soon) .avatar{grid-row:1/span 3;margin:0}
-  .is-trio>.coach:not(.coach-soon) .coach-name{align-self:end;font-size:1.2rem}
-  .is-trio>.coach:not(.coach-soon) .coach-list{align-self:start}
-  .is-trio>.coach-note{order:2;margin-top:0;--caret:calc(22px + 100px)}
-  .is-trio>.coach:not(.coach-soon):not(:first-child){order:3}
-  .is-trio>.coach-soon{display:none}
-  .is-trio>.coach:not(.coach-soon) .coach-bio{grid-column:2;align-self:start}
+  .is-trio .coach-track>.coach:not(.coach-soon){display:grid;grid-template-columns:200px minmax(0,1fr);column-gap:28px;align-items:center;padding:22px}
+  .is-trio .coach-track>.coach:not(.coach-soon) .avatar{grid-row:1/span 3;margin:0}
+  .is-trio .coach-track>.coach:not(.coach-soon) .coach-name{align-self:end;font-size:1.2rem}
+  .is-trio .coach-track>.coach:not(.coach-soon) .coach-list{align-self:start}
+  .is-trio .coach-track>.coach-soon{display:none}
+  .is-trio .coach-track>.coach:not(.coach-soon) .coach-bio{grid-column:2;align-self:start}
 }
 @media (max-width:640px){
-  .coach-row.is-trio{gap:12px}
-  .is-trio>.coach:not(.coach-soon){grid-template-columns:104px minmax(0,1fr);grid-template-rows:auto 1fr auto;column-gap:16px;align-items:start;padding:16px}
-  .is-trio>.coach:not(.coach-soon) .coach-name{align-self:auto;font-size:1.1rem;margin-top:2px}
-  .is-trio>.coach:not(.coach-soon) .coach-role{margin:4px 0 0;align-self:start}
-  .is-trio>.coach:not(.coach-soon) .coach-list{grid-column:1/-1;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
-  .is-trio>.coach:not(.coach-soon) .avatar{grid-row:1/span 2}
-  .is-trio>.coach-note{margin-top:2px;--caret:calc(16px + 52px)}
-  .is-trio>.coach:not(.coach-soon) .coach-bio{grid-column:1/-1}
+  .is-trio .coach-track>.coach:not(.coach-soon){grid-template-columns:104px minmax(0,1fr);grid-template-rows:auto 1fr auto;column-gap:16px;align-items:start;padding:16px}
+  .is-trio .coach-track>.coach:not(.coach-soon) .coach-name{align-self:auto;font-size:1.1rem;margin-top:2px}
+  .is-trio .coach-track>.coach:not(.coach-soon) .coach-role{margin:4px 0 0;align-self:start}
+  .is-trio .coach-track>.coach:not(.coach-soon) .coach-list{grid-column:1/-1;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+  .is-trio .coach-track>.coach:not(.coach-soon) .avatar{grid-row:1/span 2}
+  .is-trio .coach-track>.coach:not(.coach-soon) .coach-bio{grid-column:1/-1}
   .avatar-soon span{font-size:.6rem;letter-spacing:.24em;padding-left:.24em}
 }
 
@@ -1183,3 +1178,22 @@ button{cursor:pointer}
 /* coach bio under the credentials list (Sky) — same small, muted body text as .coach-list, set off by a hairline */
 .coach-list + .coach-bio{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);line-height:1.75;letter-spacing:.02em}
 @media (max-width:640px){.coach-list + .coach-bio{margin-top:12px;padding-top:10px;line-height:1.7}}
+
+/* ===== coaches swipe (≤1100px): coach cards scroll sideways like 學員回饋 (.rv-row); 教練的話 sits below as its own block ===== */
+.coach-track{display:contents}
+@media (max-width:1100px){
+  .coach-row.is-trio{display:block}
+  .coaches-head .coach-swipe{display:block;flex-basis:100%;margin-top:-14px;font-family:var(--lat);font-size:.72rem;letter-spacing:.14em;color:#AFB6C0}
+  .coaches-head .coach-swipe::after{content:" →"}
+  .coach-track{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 calc(-1 * var(--pad));padding:4px var(--pad) 16px;scroll-padding:0 var(--pad);
+    -webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:rgba(226,230,235,.3) transparent}
+  .is-trio .coach-track>.coach:not(.coach-soon){flex:0 0 86%;min-width:0;scroll-snap-align:start;align-content:start}
+  .is-trio>.coach-note{margin-top:22px;--caret:0}
+  .is-trio>.coach-note::before{display:none}
+}
+@media (max-width:640px){
+  .coaches-head .coach-swipe{margin-top:-18px}
+  /* cards are stretched to equal height: no fr row (it would soak up the slack); row 1 is fixed to one line of the name so the photo span grows row 2 (role stays right under the name), and the slack stays below the content */
+  .is-trio .coach-track>.coach:not(.coach-soon){grid-template-rows:calc(1.1rem * 1.75 + 2px) auto auto auto;align-content:start}
+  .is-trio>.coach-note{margin-top:18px}
+}
