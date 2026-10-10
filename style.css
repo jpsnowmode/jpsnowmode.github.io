@@ -1065,7 +1065,7 @@ button{cursor:pointer}
   .is-trio>.coach:first-child .coach-name{align-self:end;font-size:1.2rem}
   .is-trio>.coach:first-child .coach-list{align-self:start}
   .is-trio>.coach-note{order:2;margin-top:0;--caret:calc(22px + 100px)}
-  .is-trio>.coach-soon{order:3}
+  .is-trio>.coach-soon,.is-trio>.coach:not(:first-child){order:3}
 }
 @media (max-width:640px){
   .coach-row.is-trio{gap:12px}
